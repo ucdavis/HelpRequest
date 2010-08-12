@@ -1,0 +1,114 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpRequest", "HelpRequest\HelpRequest.csproj", "{917E6AB4-3B1A-462C-87E3-7EB43914D6F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpRequest.Tests", "HelpRequest.Tests\HelpRequest.Tests.csproj", "{D407ECE6-D3D5-48E1-A2F4-31CACB0C855D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpRequest.Core", "HelpRequest.Core\HelpRequest.Core.csproj", "{C45D6382-FA5F-46B9-8333-51AE9DBBB2D0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bin", "Bin", "{ACBFC0F4-B018-4957-B200-79E8028FE7E3}"
+	ProjectSection(SolutionItems) = preProject
+		HelpRequest\bin\Castle.Core.dll = HelpRequest\bin\Castle.Core.dll
+		HelpRequest\bin\Castle.DynamicProxy2.dll = HelpRequest\bin\Castle.DynamicProxy2.dll
+		HelpRequest\bin\Castle.MicroKernel.dll = HelpRequest\bin\Castle.MicroKernel.dll
+		HelpRequest\bin\Castle.Windsor.dll = HelpRequest\bin\Castle.Windsor.dll
+		HelpRequest\bin\Common.Logging.dll = HelpRequest\bin\Common.Logging.dll
+		HelpRequest\bin\Elmah.dll = HelpRequest\bin\Elmah.dll
+		HelpRequest\bin\FluentNHibernate.dll = HelpRequest\bin\FluentNHibernate.dll
+		HelpRequest\bin\HibernatingRhinos.NHibernate.Profiler.Appender.dll = HelpRequest\bin\HibernatingRhinos.NHibernate.Profiler.Appender.dll
+		HelpRequest\bin\Iesi.Collections.dll = HelpRequest\bin\Iesi.Collections.dll
+		HelpRequest\bin\log4net.dll = HelpRequest\bin\log4net.dll
+		HelpRequest\bin\Microsoft.Practices.ServiceLocation.dll = HelpRequest\bin\Microsoft.Practices.ServiceLocation.dll
+		HelpRequest\bin\Microsoft.Web.Mvc.dll = HelpRequest\bin\Microsoft.Web.Mvc.dll
+		HelpRequest\bin\MvcContrib.Castle.dll = HelpRequest\bin\MvcContrib.Castle.dll
+		HelpRequest\bin\MvcContrib.dll = HelpRequest\bin\MvcContrib.dll
+		HelpRequest\bin\MvcContrib.FluentHtml.dll = HelpRequest\bin\MvcContrib.FluentHtml.dll
+		HelpRequest\bin\MvcContrib.TestHelper.dll = HelpRequest\bin\MvcContrib.TestHelper.dll
+		HelpRequest\bin\Newtonsoft.Json.dll = HelpRequest\bin\Newtonsoft.Json.dll
+		HelpRequest\bin\Newtonsoft.Json.Net20.dll = HelpRequest\bin\Newtonsoft.Json.Net20.dll
+		HelpRequest\bin\Newtonsoft.Json.Net20.pdb = HelpRequest\bin\Newtonsoft.Json.Net20.pdb
+		HelpRequest\bin\Newtonsoft.Json.Net20.xml = HelpRequest\bin\Newtonsoft.Json.Net20.xml
+		HelpRequest\bin\NHibernate.ByteCode.Spring.dll = HelpRequest\bin\NHibernate.ByteCode.Spring.dll
+		HelpRequest\bin\NHibernate.dll = HelpRequest\bin\NHibernate.dll
+		HelpRequest\bin\NHibernate.Linq.dll = HelpRequest\bin\NHibernate.Linq.dll
+		HelpRequest\bin\NHibernate.Validator.dll = HelpRequest\bin\NHibernate.Validator.dll
+		HelpRequest\bin\Recaptcha.dll = HelpRequest\bin\Recaptcha.dll
+		HelpRequest\bin\Recaptcha.pdb = HelpRequest\bin\Recaptcha.pdb
+		HelpRequest\bin\Rhino.Mocks.dll = HelpRequest\bin\Rhino.Mocks.dll
+		HelpRequest\bin\Telerik.Web.Mvc.dll = HelpRequest\bin\Telerik.Web.Mvc.dll
+		HelpRequest\bin\UCDArch.Core.dll = HelpRequest\bin\UCDArch.Core.dll
+		HelpRequest\bin\UCDArch.Core.NHibernateValidator.dll = HelpRequest\bin\UCDArch.Core.NHibernateValidator.dll
+		HelpRequest\bin\UCDArch.Data.dll = HelpRequest\bin\UCDArch.Data.dll
+		HelpRequest\bin\UCDArch.Testing.dll = HelpRequest\bin\UCDArch.Testing.dll
+		HelpRequest\bin\UCDArch.Web.dll = HelpRequest\bin\UCDArch.Web.dll
+		HelpRequest\bin\UCDArch.Web.Providers.dll = HelpRequest\bin\UCDArch.Web.Providers.dll
+		HelpRequest\bin\xVal.dll = HelpRequest\bin\xVal.dll
+	EndProjectSection
+EndProject
+Project("{4F174C21-8C12-11D0-8340-0000F80270F8}") = "HelpRequest.DB", "DB\HelpRequest.DB.dbp", "{DE02F2B0-8478-4FBC-9FD6-9FCA8F77C9B2}"
+EndProject
+Project("{2CFEAB61-6A3B-4EB8-B523-560B4BEEF521}") = "HelpRequest.Deploy", "HelpRequest.Deploy\HelpRequest.Deploy.wdproj", "{413C1FBA-FF4B-45FA-8BA5-517E12586DC6}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.caes.ucdavis.edu:8088/tfs
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = DB\\HelpRequest.DB.dbp
+		SccProjectName1 = DB
+		SccLocalPath1 = DB
+		SccProjectUniqueName2 = HelpRequest.Core\\HelpRequest.Core.csproj
+		SccProjectName2 = HelpRequest.Core
+		SccLocalPath2 = HelpRequest.Core
+		SccProjectUniqueName3 = HelpRequest.Deploy\\HelpRequest.Deploy.wdproj
+		SccProjectName3 = HelpRequest.Deploy
+		SccLocalPath3 = HelpRequest.Deploy
+		SccProjectUniqueName4 = HelpRequest.Tests\\HelpRequest.Tests.csproj
+		SccProjectName4 = HelpRequest.Tests
+		SccLocalPath4 = HelpRequest.Tests
+		SccProjectUniqueName5 = HelpRequest\\HelpRequest.csproj
+		SccProjectName5 = HelpRequest
+		SccLocalPath5 = HelpRequest
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Prod|Any CPU = Prod|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Test|Any CPU = Test|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{917E6AB4-3B1A-462C-87E3-7EB43914D6F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{917E6AB4-3B1A-462C-87E3-7EB43914D6F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{917E6AB4-3B1A-462C-87E3-7EB43914D6F7}.Prod|Any CPU.ActiveCfg = Prod|Any CPU
+		{917E6AB4-3B1A-462C-87E3-7EB43914D6F7}.Prod|Any CPU.Build.0 = Prod|Any CPU
+		{917E6AB4-3B1A-462C-87E3-7EB43914D6F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{917E6AB4-3B1A-462C-87E3-7EB43914D6F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{917E6AB4-3B1A-462C-87E3-7EB43914D6F7}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{917E6AB4-3B1A-462C-87E3-7EB43914D6F7}.Test|Any CPU.Build.0 = Test|Any CPU
+		{D407ECE6-D3D5-48E1-A2F4-31CACB0C855D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D407ECE6-D3D5-48E1-A2F4-31CACB0C855D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D407ECE6-D3D5-48E1-A2F4-31CACB0C855D}.Prod|Any CPU.ActiveCfg = Prod|Any CPU
+		{D407ECE6-D3D5-48E1-A2F4-31CACB0C855D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D407ECE6-D3D5-48E1-A2F4-31CACB0C855D}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{C45D6382-FA5F-46B9-8333-51AE9DBBB2D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C45D6382-FA5F-46B9-8333-51AE9DBBB2D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C45D6382-FA5F-46B9-8333-51AE9DBBB2D0}.Prod|Any CPU.ActiveCfg = Prod|Any CPU
+		{C45D6382-FA5F-46B9-8333-51AE9DBBB2D0}.Prod|Any CPU.Build.0 = Prod|Any CPU
+		{C45D6382-FA5F-46B9-8333-51AE9DBBB2D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C45D6382-FA5F-46B9-8333-51AE9DBBB2D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C45D6382-FA5F-46B9-8333-51AE9DBBB2D0}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{C45D6382-FA5F-46B9-8333-51AE9DBBB2D0}.Test|Any CPU.Build.0 = Test|Any CPU
+		{413C1FBA-FF4B-45FA-8BA5-517E12586DC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{413C1FBA-FF4B-45FA-8BA5-517E12586DC6}.Prod|Any CPU.ActiveCfg = Prod|Any CPU
+		{413C1FBA-FF4B-45FA-8BA5-517E12586DC6}.Prod|Any CPU.Build.0 = Prod|Any CPU
+		{413C1FBA-FF4B-45FA-8BA5-517E12586DC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{413C1FBA-FF4B-45FA-8BA5-517E12586DC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{413C1FBA-FF4B-45FA-8BA5-517E12586DC6}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{413C1FBA-FF4B-45FA-8BA5-517E12586DC6}.Test|Any CPU.Build.0 = Test|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

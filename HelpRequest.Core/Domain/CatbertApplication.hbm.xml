@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+    assembly="HelpRequest.Core" namespace="HelpRequest.Core.Domain">
+  <class
+    name="CatbertApplication"
+    table="vCatbertApplications" mutable="false" >
+    <id name="Id" column="ApplicationId" unsaved-value="0">
+      <generator class="identity" />
+    </id>
+
+    <property name="Name"></property>
+    <property name="Abbr"></property>
+    <property name="Location"></property>
+
+  </class>
+</hibernate-mapping>

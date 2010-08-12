@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+    assembly="HelpRequest.Core" namespace="HelpRequest.Core.Domain">
+  <class
+    name="Ticket"
+    table="DoesNotExist" >
+    <id name="Id" column="id">
+      <generator class="identity" />
+    </id>
+
+    <many-to-one name="User" class="HelpRequest.Core.Domain.User, HelpRequest.Core" column="UserId" cascade="none" not-null="true" />
+    <property name="FromEmail"/>
+    <property name="UrgencyChoice" />
+    <property name="SupportDepartment" />
+    <property name="SupportDepartmentOther" />
+    <property name="Subject" />
+    <property name="MessageBody" />
+    <property name="Availability" />
+    <property name="ForApplication" />
+    <property name="ForWebSite" />
+    <property name="EmailCCs" />
+    <property name="Attachments" />
+
+
+  </class>
+</hibernate-mapping>
