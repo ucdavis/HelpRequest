@@ -637,7 +637,145 @@ namespace HelpRequest.Tests.Repositories
         #endregion Valid Tests
         #endregion Contents Tests
         
-        
+        #region ContentType Tests
+
+        #region Valid Tests
+
+        [TestMethod]
+        public void TestContentTypeWithNullValueSaves()
+        {
+            #region Arrange
+            var attachment = GetValid(9);
+            attachment.ContentType = null;
+            #endregion Arrange
+
+            #region Act
+            AttachmentRepository.DbContext.BeginTransaction();
+            AttachmentRepository.EnsurePersistent(attachment);
+            AttachmentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(attachment.IsTransient());
+            Assert.IsTrue(attachment.IsValid());
+            #endregion Assert
+        }
+        /// <summary>
+        /// Tests the content type with empty string saves.
+        /// </summary>
+        [TestMethod]
+        public void TestContentTypeWithEmptyStringSaves()
+        {
+            #region Arrange
+            var attachment = GetValid(9);
+            attachment.ContentType = string.Empty;
+            #endregion Arrange
+
+            #region Act
+            AttachmentRepository.DbContext.BeginTransaction();
+            AttachmentRepository.EnsurePersistent(attachment);
+            AttachmentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(attachment.IsTransient());
+            Assert.IsTrue(attachment.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the content type with space only saves.
+        /// </summary>
+        [TestMethod]
+        public void TestContentTypeWithSpaceOnlySaves()
+        {
+            #region Arrange
+            var attachment = GetValid(9);
+            attachment.ContentType = " ";
+            #endregion Arrange
+
+            #region Act
+            AttachmentRepository.DbContext.BeginTransaction();
+            AttachmentRepository.EnsurePersistent(attachment);
+            AttachmentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(attachment.IsTransient());
+            Assert.IsTrue(attachment.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the ContentType with one character saves.
+        /// </summary>
+        [TestMethod]
+        public void TestContentTypeWithOneCharacterSaves()
+        {
+            #region Arrange
+            var attachment = GetValid(9);
+            attachment.ContentType = "x";
+            #endregion Arrange
+
+            #region Act
+            AttachmentRepository.DbContext.BeginTransaction();
+            AttachmentRepository.EnsurePersistent(attachment);
+            AttachmentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(attachment.IsTransient());
+            Assert.IsTrue(attachment.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the ContentType with long value saves.
+        /// </summary>
+        [TestMethod]
+        public void TestContentTypeWithLongValueSaves()
+        {
+            #region Arrange
+            var attachment = GetValid(9);
+            attachment.ContentType = "x".RepeatTimes(999);
+            #endregion Arrange
+
+            #region Act
+            AttachmentRepository.DbContext.BeginTransaction();
+            AttachmentRepository.EnsurePersistent(attachment);
+            AttachmentRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(999, attachment.ContentType.Length);
+            Assert.IsFalse(attachment.IsTransient());
+            Assert.IsTrue(attachment.IsValid());
+            #endregion Assert
+        }
+
+        #endregion Valid Tests
+        #endregion ContentType Tests
+
+        #region Constructor Tests
+
+        /// <summary>
+        /// Tests the constructor sets expected values.
+        /// </summary>
+        [TestMethod]
+        public void TestConstructorSetsExpectedValues()
+        {
+            #region Arrange
+            var attachment = new Attachment("Name-Test", "FileName-Test");
+            #endregion Arrange
+
+            #region Assert
+            Assert.AreEqual("Name-Test", attachment.Name);
+            Assert.AreEqual("FileName-Test", attachment.FileName);
+            Assert.AreEqual(DateTime.Now.Date, attachment.DateCreated.Date);
+            #endregion Assert		
+        }
+        #endregion Constructor Tests
+
         #region Reflection of Database.
 
         /// <summary>
@@ -649,6 +787,10 @@ namespace HelpRequest.Tests.Repositories
         {
             #region Arrange
             var expectedFields = new List<NameAndType>();
+            expectedFields.Add(new NameAndType("Contents", "System.Byte[]", new List<string>{
+                 "[NHibernate.Validator.Constraints.NotNullAttribute()]"
+            }));
+            expectedFields.Add(new NameAndType("ContentType", "System.String", new List<string>()));
             expectedFields.Add(new NameAndType("DateCreated", "System.DateTime", new List<string>()));
             expectedFields.Add(new NameAndType("FileName", "System.String", new List<string>
             {
@@ -656,10 +798,10 @@ namespace HelpRequest.Tests.Repositories
                  "[UCDArch.Core.NHibernateValidator.Extensions.RequiredAttribute()]"
             }));
             expectedFields.Add(new NameAndType("Id", "System.Int32", new List<string>
-                                                                         {
-                                                                             "[Newtonsoft.Json.JsonPropertyAttribute()]", 
-                                                                             "[System.Xml.Serialization.XmlIgnoreAttribute()]"
-                                                                         }));
+            {
+                "[Newtonsoft.Json.JsonPropertyAttribute()]", 
+                "[System.Xml.Serialization.XmlIgnoreAttribute()]"
+            }));
             expectedFields.Add(new NameAndType("Name", "System.String", new List<string>
             {
                  "[NHibernate.Validator.Constraints.LengthAttribute((Int32)100)]", 
