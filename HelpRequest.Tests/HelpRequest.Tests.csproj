@@ -133,6 +133,7 @@
     <Compile Include="Repositories\CatbertApplicationRepositoryTests.cs" />
     <Compile Include="Repositories\HelpTopicRepositoryTests.cs" />
     <Compile Include="Repositories\TicketRepositoryTests.cs" />
+    <Compile Include="Repositories\UserRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />
