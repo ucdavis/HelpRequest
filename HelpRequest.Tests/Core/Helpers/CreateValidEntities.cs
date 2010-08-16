@@ -23,6 +23,38 @@ namespace HelpRequest.Tests.Core.Helpers
             rtValue.Contents = new byte[]{0,1,1,0};
             return rtValue;
         }
+        
+
+        public static CatbertApplication CatbertApplication(int? counter)
+        {
+            var rtValue = new CatbertApplication();
+            rtValue.Name = "Name" + counter.Extra();
+            rtValue.Abbr = "Abbr" + counter.Extra();
+            rtValue.Location = "Location" + counter.Extra();
+
+            return rtValue;
+        }
+
+        public static Ticket Ticket(int? counter)
+        {
+            var rtValue = new Ticket();
+            rtValue.Subject = "Subject" + counter.Extra();
+            rtValue.UrgencyLevel = "UrgencyLevel" + counter.Extra();
+            rtValue.SupportDepartment = "SupportDepartment" + counter.Extra();
+            rtValue.MessageBody = "MessageBody" + counter.Extra();
+            rtValue.FromEmail = "FromEmail" + counter.Extra();
+            return rtValue;
+        }
+
+        public static User User(int? counter)
+        {
+            var rtValue = new User();
+            rtValue.Email = "Email" + counter.Extra();
+            rtValue.LoginId = "LoginId" + counter.Extra();
+            rtValue.FirstName = "FirstName" + counter.Extra();
+            rtValue.LastName = "LastName" + counter.Extra();
+            return rtValue;
+        }
 
         #region Helper Extension
 
@@ -38,6 +70,6 @@ namespace HelpRequest.Tests.Core.Helpers
 
         #endregion Helper Extension
 
-        
+
     }
 }

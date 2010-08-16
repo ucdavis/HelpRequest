@@ -35,12 +35,12 @@ namespace HelpRequest.Core.Domain
         public virtual string ForWebSite { get; set; }
         
         [Required(Message = "You must enter the Subject.")]
-        public string Subject { get; set; }
+        public virtual string Subject { get; set; }
         [Required(Message = "You must enter the Message Body.")]
-        public string MessageBody { get; set; }
-        public List<string> Availability { get; set; }
-        public List<string> EmailCCs { get; set; }
+        public virtual string MessageBody { get; set; }
+        public virtual List<string> Availability { get; set; }
+        public virtual List<string> EmailCCs { get; set; }
 
-        public List<Attachment> Attachments { get; set; }
+        public virtual ICollection<Attachment> Attachments { get; set; }
     }
 }

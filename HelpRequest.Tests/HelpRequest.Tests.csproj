@@ -134,7 +134,9 @@
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Controllers\AccountControllerTest.cs" />
     <Compile Include="Repositories\AttachmentRepositoryTests.cs" />
+    <Compile Include="Repositories\CatbertApplicationRepositoryTests.cs" />
     <Compile Include="Repositories\HelpTopicRepositoryTests.cs" />
+    <Compile Include="Repositories\TicketRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />

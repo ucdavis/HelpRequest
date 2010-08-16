@@ -4,13 +4,13 @@
   <class
     name="Ticket"
     table="DoesNotExist" >
-    <id name="Id" column="id">
+    <id name="Id" column="id" unsaved-value="0">
       <generator class="identity" />
     </id>
 
-    <many-to-one name="User" class="HelpRequest.Core.Domain.User, HelpRequest.Core" column="UserId" cascade="none" not-null="true" />
+    <many-to-one name="User" class="HelpRequest.Core.Domain.User, HelpRequest.Core" column="UserId" cascade="none" />
     <property name="FromEmail"/>
-    <property name="UrgencyChoice" />
+    <property name="UrgencyLevel" />
     <property name="SupportDepartment" />
     <property name="SupportDepartmentOther" />
     <property name="Subject" />
@@ -19,7 +19,10 @@
     <property name="ForApplication" />
     <property name="ForWebSite" />
     <property name="EmailCCs" />
-    <property name="Attachments" />
+    <bag name="Attachments" table="AttachmentDoesNotExist"  cascade="all-delete-orphan" inverse="true">
+      <key column="Id"/>
+      <one-to-many class="HelpRequest.Core.Domain.Attachment, HelpRequest.Core"/>
+    </bag>
 
 
   </class>

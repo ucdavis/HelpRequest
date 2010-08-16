@@ -358,18 +358,18 @@ namespace HelpRequest.Tests.Core
         #region Utilities
 
 
-        ///// <summary>
-        ///// Loads the users.
-        ///// </summary>
-        ///// <param name="entriesToAdd">The entries to add.</param>
-        //protected void LoadUsers(int entriesToAdd)
-        //{
-        //    for (int i = 0; i < entriesToAdd; i++)
-        //    {
-        //        var validEntity = CreateValidEntities.User(i + 1);
-        //        Repository.OfType<User>().EnsurePersistent(validEntity);
-        //    }
-        //}
+        /// <summary>
+        /// Loads the users.
+        /// </summary>
+        /// <param name="entriesToAdd">The entries to add.</param>
+        protected void LoadUsers(int entriesToAdd)
+        {
+            for (int i = 0; i < entriesToAdd; i++)
+            {
+                var validEntity = CreateValidEntities.User(i + 1);
+                Repository.OfType<User>().EnsurePersistent(validEntity);
+            }
+        }
 
 
         /// <summary>
