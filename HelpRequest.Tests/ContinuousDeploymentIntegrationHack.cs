@@ -6,6 +6,7 @@ namespace HelpRequest.Tests
     {
         public ContinuousIntegrationDeploymentHack()
         {
+            new log4net.Appender.AdoNetAppender();
             new NHibernate.ByteCode.Spring.ProxyFactoryFactory();
             new System.Data.SQLite.SQLiteException();
 
