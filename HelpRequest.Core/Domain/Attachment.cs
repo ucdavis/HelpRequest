@@ -5,6 +5,9 @@ using UCDArch.Core.NHibernateValidator.Extensions;
 
 namespace HelpRequest.Core.Domain
 {
+    /// <summary>
+    /// Note: This does not exist in the database and is never persisted.
+    /// </summary>
     public class Attachment : DomainObject 
     {
         public Attachment(string name, string fileName)

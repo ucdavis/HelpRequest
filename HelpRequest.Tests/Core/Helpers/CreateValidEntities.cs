@@ -17,6 +17,13 @@ namespace HelpRequest.Tests.Core.Helpers
             return rtValue;
         }
 
+        public static Attachment Attachment(int? counter)
+        {
+            var rtValue = new Attachment("Name"+ counter.Extra(), "FileName"+ counter.Extra());
+            rtValue.Contents = new byte[]{0,1,1,0};
+            return rtValue;
+        }
+
         #region Helper Extension
 
         private static string Extra(this int? counter)
@@ -30,5 +37,7 @@ namespace HelpRequest.Tests.Core.Helpers
         }
 
         #endregion Helper Extension
+
+        
     }
 }
