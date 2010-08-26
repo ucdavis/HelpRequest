@@ -57,9 +57,32 @@ namespace HelpRequest.Tests.Controllers
         {
             "~/Home/Index/?appName=Test".ShouldMapTo<HomeController>(a => a.Index("Test"), true);
         }
-        
+
+        /// <summary>
+        /// Tests the about mapping.
+        /// </summary>
+        [TestMethod]
+        public void TestAboutMapping()
+        {
+            "~/Home/About/?appName=Test".ShouldMapTo<HomeController>(a => a.About("Test"), true);
+        }
+
+        /// <summary>
+        /// Tests the return to calling application mapping.
+        /// </summary>
+        [TestMethod]
+        public void TestReturnToCallingApplicationMapping()
+        {
+            "~/Home/ReturnToCallingApplication/?url=Test".ShouldMapTo<HomeController>(a => a.ReturnToCallingApplication("Test"), true);
+        }
 
         #endregion Mapping Tests
+
+        #region Controller Reflection
+
+        //TODO:
+
+        #endregion Controller Reflection
         //[TestMethod]
         //public void Index()
         //{
