@@ -64,7 +64,10 @@ namespace HelpRequest.Core.Abstractions
 
            foreach (var emailCC in ticket.EmailCCs)
            {
-               message.CC.Add(emailCC);
+               if (!FilterCruEmail(emailCC))
+               {
+                   message.CC.Add(emailCC);
+               }
            }
            foreach (var attachment in ticket.Attachments)
            {
@@ -79,5 +82,22 @@ namespace HelpRequest.Core.Abstractions
            SmtpClient client = new SmtpClient("smtp.ucdavis.edu");
            client.Send(message);
        }
+
+        private bool FilterCruEmail(string emailCc)
+        {
+            var cruEmail = new List<string>(10);
+            cruEmail.Add("shuka@ucdavis.edu".ToLower());
+            cruEmail.Add("shuka@caes.ucdavis.edu".ToLower());
+            cruEmail.Add("smith@caes.ucdavis.edu".ToLower());
+            cruEmail.Add("ssmith@ucdavis.edu".ToLower());
+            cruEmail.Add("ssmith@caes.ucdavis.edu".ToLower());
+
+
+            if (cruEmail.Contains(emailCc.ToLower()))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

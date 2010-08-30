@@ -17,7 +17,7 @@
 	        //	        $("input#avDates").click(function(event) {
 	        //	            $(this).remove();
 	        //	        });
-	        $("input#availableDatesInput").bt('You must click the plus button to add this date. Double click the added item to remove it.');
+	        $("input#availableDatesInput").bt('You must click the plus button to add this date. Double click the added item to remove it.', {positions: 'top' });
 	        $("input#avDates").click(function(event) {
 	            $(this).remove();
 	        });
@@ -33,7 +33,7 @@
 	            $("input#emailCCsInput").val("");
 	        });
 
-	        $("input#emailCCsInput").bt('You must click the plus button to add this email CC. Double click the added item to remove it.');
+	        $("input#emailCCsInput").bt('You must click the plus button to add this email CC. Double click the added item to remove it.', {positions: 'top' });
 	        $("input#emailCCs").dblclick(function(event) {
 	            $(this).remove();
 	        });
