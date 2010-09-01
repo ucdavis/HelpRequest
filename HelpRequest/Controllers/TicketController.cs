@@ -81,7 +81,7 @@ namespace HelpRequest.Controllers
 
 
         [AcceptPost]
-        public ActionResult Submit(Ticket ticket, string[] avDates, string[] emailCCs, HttpPostedFileBase uploadAttachment, string appName)
+        public ActionResult Submit(Ticket ticket, string[] avDates, string[] emailCCs, HttpPostedFileBase uploadAttachment, string appName, string availableDatesInput, string emailCCsInput)
         {
             bool foundEmail = false;
             var useKerbEmail = false;
@@ -127,9 +127,9 @@ namespace HelpRequest.Controllers
                 return this.RedirectToAction(a => a.PublicSubmit(appName));
             }
 
-            
 
-            CommonSubmitValidationChecks(ticket, avDates, emailCCs);
+
+            CommonSubmitValidationChecks(ticket, avDates, emailCCs, availableDatesInput, emailCCsInput);
             LoadFileContents(ticket, uploadAttachment);
 
             MvcValidationAdapter.TransferValidationMessagesTo(ModelState, ticket.ValidationResults());
@@ -160,7 +160,7 @@ namespace HelpRequest.Controllers
             }
         }
 
-        private void CommonSubmitValidationChecks(Ticket ticket, string[] avDates, string[] emailCCs)
+        private void CommonSubmitValidationChecks(Ticket ticket, string[] avDates, string[] emailCCs, string availableDatesInput, string emailCCsInput)
         {
             if (ticket.SupportDepartment == "Web Site Support")
             {
@@ -181,6 +181,10 @@ namespace HelpRequest.Controllers
                     }
                 }
             }
+            if (!string.IsNullOrEmpty(availableDatesInput))
+            {
+                ticket.Availability.Add(availableDatesInput);
+            }
 
             if (avDates != null)
             {
@@ -194,6 +198,10 @@ namespace HelpRequest.Controllers
             }
 
             ticket.EmailCCs = new List<string>();
+            if (!string.IsNullOrEmpty(emailCCsInput))
+            {
+                ticket.EmailCCs.Add(emailCCsInput.ToLower());
+            }
             if (emailCCs != null)
             {
                 foreach (var emailCC in emailCCs)
@@ -271,7 +279,7 @@ namespace HelpRequest.Controllers
 
         [CaptchaValidator]
         [AcceptPost]
-        public ActionResult PublicSubmit(Ticket ticket, string[] avDates, string[] emailCCs, HttpPostedFileBase uploadAttachment, bool captchaValid, string appName)
+        public ActionResult PublicSubmit(Ticket ticket, string[] avDates, string[] emailCCs, HttpPostedFileBase uploadAttachment, bool captchaValid, string appName, string availableDatesInput, string emailCCsInput)
         {
             if(!captchaValid)
             {
@@ -292,7 +300,7 @@ namespace HelpRequest.Controllers
                 }
             }
 
-            CommonSubmitValidationChecks(ticket, avDates, emailCCs);
+            CommonSubmitValidationChecks(ticket, avDates, emailCCs, availableDatesInput, emailCCsInput);
             
             LoadFileContents(ticket, uploadAttachment);
 
