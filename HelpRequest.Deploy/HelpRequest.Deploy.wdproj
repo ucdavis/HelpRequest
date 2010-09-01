@@ -32,6 +32,7 @@
     <EnableUpdateable>true</EnableUpdateable>
     <UseMerge>true</UseMerge>
     <SingleAssemblyName>HelpRequest.Deploy</SingleAssemblyName>
+    <UseWebConfigReplacement>true</UseWebConfigReplacement>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -86,6 +87,14 @@
     <AssemblyAttributes Include="AssemblyVersion">
       <Value>1.0.0.0</Value>
     </AssemblyAttributes>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <WebConfigReplacementFiles Include="AppSettingsProd.config">
+      <Section>appSettings</Section>
+    </WebConfigReplacementFiles>
+    <WebConfigReplacementFiles Include="ConnectionStringProd.config">
+      <Section>connectionStrings</Section>
+    </WebConfigReplacementFiles>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WebDeployment\v9.0\Microsoft.WebDeployment.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
