@@ -1,11 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using HelpRequest.Controllers;
+using HelpRequest.Tests.Core.Extensions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MvcContrib.TestHelper;
+using UCDArch.Testing;
+using UCDArch.Web.Attributes;
 
 namespace HelpRequest.Tests.Controllers
 {
-    class HelpControllerTests
-    {
-    }
+    //class HelpControllerTests : ControllerTestBase<HelpController>
+    //{
+    //}
 }

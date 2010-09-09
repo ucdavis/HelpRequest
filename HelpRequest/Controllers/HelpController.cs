@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Mvc.Ajax;
+﻿using System.Web.Mvc;
 using HelpRequest.Controllers.Filters;
 using HelpRequest.Controllers.ViewModels;
 using HelpRequest.Core.Domain;
-//using HelpRequest.Core.Resources;
+using MvcContrib;
+using MvcContrib.Attributes;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Controller;
-using MvcContrib.Attributes;
 using UCDArch.Web.Helpers;
-using MvcContrib;
 
 namespace HelpRequest.Controllers
 {
@@ -69,7 +63,7 @@ namespace HelpRequest.Controllers
             {
                 HelpTopicRepository.EnsurePersistent(topic);
                 Message = "Help Topic created";
-                return this.RedirectToAction<HelpController>(a => a.Index(appName));
+                return this.RedirectToAction(a => a.Index(appName));
             }
             viewModel.HelpTopic = topic;
             return View(viewModel);
@@ -119,7 +113,7 @@ namespace HelpRequest.Controllers
             {
                 HelpTopicRepository.EnsurePersistent(topic);
                 Message = "Help Topic saved";
-                return this.RedirectToAction<HelpController>(a => a.Index(appName));
+                return this.RedirectToAction(a => a.Index(appName));
             }
 
             return View(topic);

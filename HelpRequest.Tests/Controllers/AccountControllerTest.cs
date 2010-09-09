@@ -79,10 +79,10 @@ namespace HelpRequest.Tests.Controllers
         }
 
         /// <summary>
-        /// Tests the controller has only three attributes.
+        /// Tests the controller has only two attributes.
         /// </summary>
         [TestMethod]
-        public void TestControllerHasOnlyThreeAttributes()
+        public void TestControllerHasOnlyTwoAttributes()
         {
             #region Arrange
             var controllerClass = _controllerClass;
