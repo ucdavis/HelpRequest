@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Principal;
 using HelpRequest.Controllers.Filters;
 using HelpRequest.Core.Domain;
+using HelpRequest.Core.Resources;
 using UCDArch.Core.PersistanceSupport;
 using Check = UCDArch.Core.Utils.Check;
 
@@ -37,13 +38,17 @@ namespace HelpRequest.Controllers.ViewModels
             viewModel.SupportDepartment = new List<string>();
             if (string.IsNullOrEmpty(viewModel.AppName))
             {
-                viewModel.SupportDepartment.Add("Computer Support");
-                viewModel.SupportDepartment.Add("Web Site Support");
-                viewModel.SupportDepartment.Add("Programming Support");
+                viewModel.SupportDepartment.Add(StaticValues.STR_ComputerSupport);
+                viewModel.SupportDepartment.Add(StaticValues.STR_WebSiteSupport);
+                viewModel.SupportDepartment.Add(StaticValues.STR_ProgrammingSupport);
+                //viewModel.SupportDepartment.Add("Computer Support");
+                //viewModel.SupportDepartment.Add("Web Site Support");
+                //viewModel.SupportDepartment.Add("Programming Support");
             }
             else
             {
-                viewModel.SupportDepartment.Add("Programming Support");  
+                viewModel.SupportDepartment.Add(StaticValues.STR_ProgrammingSupport);
+                //viewModel.SupportDepartment.Add("Programming Support");  
             }
 
             return viewModel;
