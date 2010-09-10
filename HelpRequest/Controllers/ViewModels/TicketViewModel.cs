@@ -1,11 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Security.Principal;
-using HelpRequest.Controllers.Filters;
 using HelpRequest.Core.Domain;
 using HelpRequest.Core.Resources;
-using UCDArch.Core.PersistanceSupport;
-using Check = UCDArch.Core.Utils.Check;
 
 
 namespace HelpRequest.Controllers.ViewModels

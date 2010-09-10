@@ -82,6 +82,7 @@ namespace HelpRequest.Controllers
 
 
         [AcceptPost]
+        [ValidateInput(false)]
         public ActionResult Submit(Ticket ticket, string[] avDates, string[] emailCCs, HttpPostedFileBase uploadAttachment, string appName, string availableDatesInput, string emailCCsInput)
         {
             bool foundEmail = false;
