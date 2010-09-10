@@ -11,6 +11,7 @@ using HelpRequest.Controllers.Helpers;
 using HelpRequest.Controllers.ViewModels;
 using HelpRequest.Core.Abstractions;
 using HelpRequest.Core.Domain;
+using HelpRequest.Core.Resources;
 using MvcContrib;
 using MvcContrib.Attributes;
 using UCDArch.Web.Controller;
@@ -138,7 +139,21 @@ namespace HelpRequest.Controllers
             {
                 try
                 {
-                    _emailProvider.SendHelpRequest(ticket, useKerbEmail, ConfigurationManager.AppSettings["HelpDeskEmail"]);
+                    var helpEmail = ConfigurationManager.AppSettings["HelpDeskEmail"];
+                    if(ticket.SupportDepartment == StaticValues.STR_ProgrammingSupport)
+                    {
+                        helpEmail = ConfigurationManager.AppSettings["AppHelpDeskEmail"];
+                    }
+                    else if (ticket.SupportDepartment == StaticValues.STR_WebSiteSupport)
+                    {
+                        helpEmail = ConfigurationManager.AppSettings["WebHelpDeskEmail"];
+                    }
+                    else
+                    {
+                        helpEmail = ConfigurationManager.AppSettings["HelpDeskEmail"];
+                    }
+                    //_emailProvider.SendHelpRequest(ticket, useKerbEmail, ConfigurationManager.AppSettings["HelpDeskEmail"]);
+                    _emailProvider.SendHelpRequest(ticket, useKerbEmail, helpEmail);
                     Message = "Help Ticket successfully sent";
                     return this.RedirectToAction<HomeController>(a => a.Index(appName));
                 }
@@ -310,7 +325,21 @@ namespace HelpRequest.Controllers
             {
                 try
                 {
-                    _emailProvider.SendHelpRequest(ticket, true, ConfigurationManager.AppSettings["HelpDeskEmail"]);
+                    var helpEmail = ConfigurationManager.AppSettings["HelpDeskEmail"];
+                    if (ticket.SupportDepartment == StaticValues.STR_ProgrammingSupport)
+                    {
+                        helpEmail = ConfigurationManager.AppSettings["AppHelpDeskEmail"];
+                    }
+                    else if (ticket.SupportDepartment == StaticValues.STR_WebSiteSupport)
+                    {
+                        helpEmail = ConfigurationManager.AppSettings["WebHelpDeskEmail"];
+                    }
+                    else
+                    {
+                        helpEmail = ConfigurationManager.AppSettings["HelpDeskEmail"];
+                    }
+                    //_emailProvider.SendHelpRequest(ticket, true, ConfigurationManager.AppSettings["HelpDeskEmail"]);
+                    _emailProvider.SendHelpRequest(ticket, true, helpEmail);
                     Message = "Help Ticket successfully sent";
                     return this.RedirectToAction<HomeController>(a => a.Index(appName));
                 }

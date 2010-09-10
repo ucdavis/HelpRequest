@@ -79,6 +79,51 @@ namespace HelpRequest.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Critical.
+        /// </summary>
+        public static string STR_UrgencyLevelCritical {
+            get {
+                return ResourceManager.GetString("STR_UrgencyLevelCritical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Non-Critical Issue.
+        /// </summary>
+        public static string STR_UrgencyLevelNonCritical {
+            get {
+                return ResourceManager.GetString("STR_UrgencyLevelNonCritical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scheduled Requests.
+        /// </summary>
+        public static string STR_UrgencyLevelScheduledRequests {
+            get {
+                return ResourceManager.GetString("STR_UrgencyLevelScheduledRequests", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Workaround Available.
+        /// </summary>
+        public static string STR_UrgencyLevelWorkaroundAvailable {
+            get {
+                return ResourceManager.GetString("STR_UrgencyLevelWorkaroundAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Work Stoppage.
+        /// </summary>
+        public static string STR_UrgencyLevelWorkStoppage {
+            get {
+                return ResourceManager.GetString("STR_UrgencyLevelWorkStoppage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Web Site Support.
         /// </summary>
         public static string STR_WebSiteSupport {

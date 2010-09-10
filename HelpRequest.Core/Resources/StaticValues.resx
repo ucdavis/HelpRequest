@@ -123,6 +123,21 @@
   <data name="STR_ProgrammingSupport" xml:space="preserve">
     <value>Programming Support</value>
   </data>
+  <data name="STR_UrgencyLevelCritical" xml:space="preserve">
+    <value>Critical</value>
+  </data>
+  <data name="STR_UrgencyLevelNonCritical" xml:space="preserve">
+    <value>Non-Critical Issue</value>
+  </data>
+  <data name="STR_UrgencyLevelScheduledRequests" xml:space="preserve">
+    <value>Scheduled Requests</value>
+  </data>
+  <data name="STR_UrgencyLevelWorkaroundAvailable" xml:space="preserve">
+    <value>Workaround Available</value>
+  </data>
+  <data name="STR_UrgencyLevelWorkStoppage" xml:space="preserve">
+    <value>Work Stoppage</value>
+  </data>
   <data name="STR_WebSiteSupport" xml:space="preserve">
     <value>Web Site Support</value>
   </data>

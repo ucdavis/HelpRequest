@@ -25,30 +25,23 @@ namespace HelpRequest.Controllers.ViewModels
             viewModel.Ticket = new Ticket();
 
             viewModel.Urgency = new List<string>(5);
-            viewModel.Urgency.Add("Non-Critical Issue");
-            viewModel.Urgency.Add("Scheduled Requests");
-            viewModel.Urgency.Add("Workaround Available");
-            viewModel.Urgency.Add("Work Stoppage");
-            viewModel.Urgency.Add("Critical");
+            viewModel.Urgency.Add(StaticValues.STR_UrgencyLevelNonCritical);
+            viewModel.Urgency.Add(StaticValues.STR_UrgencyLevelScheduledRequests);
+            viewModel.Urgency.Add(StaticValues.STR_UrgencyLevelWorkaroundAvailable);
+            viewModel.Urgency.Add(StaticValues.STR_UrgencyLevelWorkStoppage);
+            viewModel.Urgency.Add(StaticValues.STR_UrgencyLevelCritical);
             
             
-            
-            
-
             viewModel.SupportDepartment = new List<string>();
             if (string.IsNullOrEmpty(viewModel.AppName))
             {
                 viewModel.SupportDepartment.Add(StaticValues.STR_ComputerSupport);
                 viewModel.SupportDepartment.Add(StaticValues.STR_WebSiteSupport);
                 viewModel.SupportDepartment.Add(StaticValues.STR_ProgrammingSupport);
-                //viewModel.SupportDepartment.Add("Computer Support");
-                //viewModel.SupportDepartment.Add("Web Site Support");
-                //viewModel.SupportDepartment.Add("Programming Support");
             }
             else
             {
                 viewModel.SupportDepartment.Add(StaticValues.STR_ProgrammingSupport);
-                //viewModel.SupportDepartment.Add("Programming Support");  
             }
 
             return viewModel;
