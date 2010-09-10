@@ -295,6 +295,7 @@ namespace HelpRequest.Controllers
 
         [CaptchaValidator]
         [AcceptPost]
+        [ValidateInput(false)]
         public ActionResult PublicSubmit(Ticket ticket, string[] avDates, string[] emailCCs, HttpPostedFileBase uploadAttachment, bool captchaValid, string appName, string availableDatesInput, string emailCCsInput)
         {
             if(!captchaValid)
