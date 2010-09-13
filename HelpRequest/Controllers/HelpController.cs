@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using HelpRequest.Controllers.Filters;
+using HelpRequest.Controllers.Helpers;
 using HelpRequest.Controllers.ViewModels;
 using HelpRequest.Core.Domain;
 using MvcContrib;
@@ -19,16 +20,26 @@ namespace HelpRequest.Controllers
             HelpTopicRepository = helpTopicRepository;
         }
 
-        //
-        // GET: /Help/
+
+        /// <summary>
+        /// Index
+        /// #1
+        /// </summary>
+        /// <param name="appName">Name of the app.</param>
+        /// <returns></returns>
         public ActionResult Index(string appName)
         {
             HelpTopicViewModel viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName);
             return View(viewModel);
         }
 
-        //
-        // GET: /Help/Create
+
+        /// <summary>
+        /// Create Get /Help/Create
+        /// #2
+        /// </summary>
+        /// <param name="appName">Name of the app.</param>
+        /// <returns></returns>
         [AdminOnly]
         public ActionResult Create(string appName)
         {
@@ -39,23 +50,20 @@ namespace HelpRequest.Controllers
             return View(viewModel);
         }
 
-        //
-        // POST: /Help/Create
 
+        /// <summary>
+        /// POST: /Help/Create
+        /// #3
+        /// </summary>
+        /// <param name="viewModel">The view model.</param>
+        /// <param name="appName">Name of the app.</param>
+        /// <returns></returns>
         [AdminOnly]
         [AcceptPost]
         [ValidateInput(false)]
         public ActionResult Create(HelpTopicViewModel viewModel, string appName)
         {
-            var topic = new HelpTopic();
-            topic.Question = viewModel.HelpTopic.Question;
-            topic.Answer = viewModel.HelpTopic.Answer;
-            topic.IsActive = viewModel.HelpTopic.IsActive;
-            topic.NumberOfReads = viewModel.HelpTopic.NumberOfReads;
-            topic.IsVideo = viewModel.HelpTopic.IsVideo;
-            topic.VideoName = viewModel.HelpTopic.VideoName;
-            topic.AvailableToPublic = viewModel.HelpTopic.AvailableToPublic;
-            topic.AppFilter = viewModel.HelpTopic.AppFilter;
+            var topic = Copiers.HelpTopic(new HelpTopic(), viewModel.HelpTopic);
 
             topic.TransferValidationMessagesTo(ModelState);
 
@@ -95,18 +103,14 @@ namespace HelpRequest.Controllers
         public ActionResult Edit(int id, HelpTopic helpTopic, string appName)
         {
             var topic = HelpTopicRepository.GetNullableById(id);
-            if (helpTopic == null)
+            if (topic == null)
             {
+                Message = "Help Topic not found";
                 return this.RedirectToAction(a => a.Index(appName));
             }
-            topic.Question = helpTopic.Question;
-            topic.Answer = helpTopic.Answer;
-            topic.IsActive = helpTopic.IsActive;
-            topic.NumberOfReads = helpTopic.NumberOfReads;
-            topic.IsVideo = helpTopic.IsVideo;
-            topic.VideoName = helpTopic.VideoName;
-            topic.AvailableToPublic = helpTopic.AvailableToPublic;
-            topic.AppFilter = helpTopic.AppFilter;
+            topic = Copiers.HelpTopic(topic, helpTopic);
+
+
             topic.TransferValidationMessagesTo(ModelState);
 
             if (ModelState.IsValid)
@@ -116,7 +120,9 @@ namespace HelpRequest.Controllers
                 return this.RedirectToAction(a => a.Index(appName));
             }
 
-            return View(topic);
+            var viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName);
+            viewModel.HelpTopic = topic;
+            return View(viewModel);
         }
 
         //

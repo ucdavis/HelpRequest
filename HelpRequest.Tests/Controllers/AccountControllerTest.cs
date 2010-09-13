@@ -6,7 +6,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;
 using UCDArch.Testing;
 using UCDArch.Web.Attributes;
-using UCDArch.Web.Controller;
 
 namespace HelpRequest.Tests.Controllers
 {
