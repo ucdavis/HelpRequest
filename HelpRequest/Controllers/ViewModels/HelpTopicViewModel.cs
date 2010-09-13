@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Principal;
 using HelpRequest.Controllers.Filters;
 using HelpRequest.Core.Domain;
+using HelpRequest.Core.Resources;
 using UCDArch.Core.PersistanceSupport;
 using Check = UCDArch.Core.Utils.Check;
 
@@ -34,7 +35,7 @@ namespace HelpRequest.Controllers.ViewModels
                 if (string.IsNullOrEmpty(viewModel.AppName))
                 {
                     viewModel.HelpTopics = helpTopicRepository
-                        .Queryable.Where(a => a.IsActive && (a.AppFilter == null || a.AppFilter == string.Empty || a.AppFilter == "HelpRequest"));
+                        .Queryable.Where(a => a.IsActive && (a.AppFilter == null || a.AppFilter == string.Empty || a.AppFilter == StaticValues.STR_HelpRequest));
                 }
                 else
                 {
@@ -47,7 +48,7 @@ namespace HelpRequest.Controllers.ViewModels
                 if (string.IsNullOrEmpty(viewModel.AppName))
                 {
                     viewModel.HelpTopics = helpTopicRepository
-                        .Queryable.Where(a => a.AvailableToPublic && a.IsActive && (a.AppFilter == null || a.AppFilter == string.Empty || a.AppFilter == "HelpRequest"))
+                        .Queryable.Where(a => a.AvailableToPublic && a.IsActive && (a.AppFilter == null || a.AppFilter == string.Empty || a.AppFilter == StaticValues.STR_HelpRequest))
                         .OrderByDescending(a => a.NumberOfReads);                    
                 }
                 else

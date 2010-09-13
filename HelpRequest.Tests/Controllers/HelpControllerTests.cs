@@ -9,6 +9,7 @@ using HelpRequest.Controllers;
 using HelpRequest.Controllers.Filters;
 using HelpRequest.Controllers.ViewModels;
 using HelpRequest.Core.Domain;
+using HelpRequest.Core.Resources;
 using HelpRequest.Tests.Core.Extensions;
 using HelpRequest.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -89,6 +90,15 @@ namespace HelpRequest.Tests.Controllers
         public void TestEditPostMapping()
         {
             "~/Help/Edit/5?appName=Test".ShouldMapTo<HelpController>(a => a.Edit(5, new HelpTopic(), "Test"), true);
+        }
+
+        /// <summary>
+        /// Tests the details mapping.
+        /// </summary>
+        [TestMethod]
+        public void TestDetailsMapping()
+        {
+            "~/Help/Details/5?appName=Test".ShouldMapTo<HelpController>(a => a.Details(5, "Test"), true);
         }
         #endregion Mapping Tests
 
@@ -647,6 +657,60 @@ namespace HelpRequest.Tests.Controllers
         }
         #endregion Post Tests
         #endregion Edit Tests
+
+        #region Details Tests
+
+        /// <summary>
+        /// Tests the details redirects to index if help topic not found.
+        /// </summary>
+        [TestMethod]
+        public void TestDetailsRedirectsToIndexIfHelpTopicNotFound()
+        {
+            #region Arrange
+            var appName = "TestAppName";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Details(helpTopics.Count + 1, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert		
+        }
+
+
+        /// <summary>
+        /// Tests that details increments number of reads saves and returns view when help topic is found.
+        /// </summary>
+        [TestMethod]
+        public void TestDetailsIncrementsNumberOfReadsSavesAndReturnsViewWhenHelpTopicIsFound()
+        {
+            #region Arrange
+            var appName = "TestAppName";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            var saveNumberOfReads = helpTopics[3].NumberOfReads;
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Details(4, appName)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+
+            #endregion Assert		
+        }
+        #endregion Details Tests
 
         #region Reflection
         #region Controller Class Tests
@@ -1223,17 +1287,17 @@ namespace HelpRequest.Tests.Controllers
             helpTopics.Add(CreateValidEntities.HelpTopic(9));
             helpTopics[8].AvailableToPublic = false;
             helpTopics[8].IsActive = true;
-            helpTopics[8].AppFilter = "HelpRequest";
+            helpTopics[8].AppFilter = StaticValues.STR_HelpRequest;
 
             helpTopics.Add(CreateValidEntities.HelpTopic(10));
             helpTopics[9].AvailableToPublic = false;
             helpTopics[9].IsActive = false;
-            helpTopics[9].AppFilter = "HelpRequest";
+            helpTopics[9].AppFilter = StaticValues.STR_HelpRequest;
 
             helpTopics.Add(CreateValidEntities.HelpTopic(11));
             helpTopics[10].AvailableToPublic = true;
             helpTopics[10].IsActive = true;
-            helpTopics[10].AppFilter = "HelpRequest";
+            helpTopics[10].AppFilter = StaticValues.STR_HelpRequest;
         }
 
 

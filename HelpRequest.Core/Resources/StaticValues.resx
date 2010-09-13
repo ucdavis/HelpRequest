@@ -141,4 +141,7 @@
   <data name="STR_WebSiteSupport" xml:space="preserve">
     <value>Web Site Support</value>
   </data>
+  <data name="STR_HelpRequest" xml:space="preserve">
+    <value>HelpRequest</value>
+  </data>
 </root>

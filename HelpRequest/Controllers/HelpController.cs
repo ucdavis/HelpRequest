@@ -1,8 +1,11 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Security.Principal;
+using System.Web.Mvc;
 using HelpRequest.Controllers.Filters;
 using HelpRequest.Controllers.Helpers;
 using HelpRequest.Controllers.ViewModels;
 using HelpRequest.Core.Domain;
+using HelpRequest.Core.Resources;
 using MvcContrib;
 using MvcContrib.Attributes;
 using UCDArch.Core.PersistanceSupport;
@@ -139,12 +142,35 @@ namespace HelpRequest.Controllers
             {
                 return this.RedirectToAction(a => a.Index(appName));
             }
+            if(!CurrentUser.IsInRole(RoleNames.Admin))
+            {
+                if (string.IsNullOrEmpty(appName) || appName == StaticValues.STR_HelpRequest)
+                {
+                    if (!(string.IsNullOrEmpty(helpTopic.AppFilter) || helpTopic.AppFilter == StaticValues.STR_HelpRequest))
+                    {
+                        Message = "Warning. HelpTopic not associated with application name.";
+                    }
+                }
+                else
+                {
+                    if (!(string.IsNullOrEmpty(helpTopic.AppFilter) || helpTopic.AppFilter == appName))
+                    {
+                        Message = "Warning. HelpTopic not associated with application name.";
+                    }
+                }
+            }
+            if(!IsUserAuthorized(helpTopic, CurrentUser, appName))
+            {
+                Message = "Not Authorized to view that topic";
+                return this.RedirectToAction(a => a.Index(appName));
+            }
             helpTopic.NumberOfReads++;
             HelpTopicRepository.EnsurePersistent(helpTopic);
             HelpTopicViewModel viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName);
             viewModel.HelpTopic = helpTopic;
             return View(viewModel);
         }
+
 
         public ActionResult WatchVideo(int id, string appName)
         {
@@ -158,6 +184,55 @@ namespace HelpRequest.Controllers
             HelpTopicViewModel viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName);
             viewModel.HelpTopic = helpTopic;
             return View(viewModel);
+        }
+
+        /// <summary>
+        /// Determines whether [is user authorized] [the specified help topic].
+        /// </summary>
+        /// <param name="helpTopic">The help topic.</param>
+        /// <param name="currentUser">The current user.</param>
+        /// <param name="appName">Name of the app.</param>
+        /// <returns>
+        /// 	<c>true</c> if [is user authorized] [the specified help topic]; otherwise, <c>false</c>.
+        /// </returns>
+        private static bool IsUserAuthorized(HelpTopic helpTopic, IPrincipal currentUser, string appName)
+        {
+
+            var isUserAuthorized = currentUser.IsInRole(RoleNames.Admin) || currentUser.IsInRole(RoleNames.User);
+            var isUserAdmin = currentUser.IsInRole(RoleNames.Admin);
+
+            if (isUserAdmin)
+            {
+                return true;
+            }
+            else if (isUserAuthorized)
+            {
+                if (string.IsNullOrEmpty(appName))
+                {
+                    return helpTopic.IsActive &&
+                           (string.IsNullOrEmpty(helpTopic.AppFilter) || helpTopic.AppFilter == StaticValues.STR_HelpRequest);
+                }
+                else
+                {
+                    return helpTopic.IsActive &&
+                           (string.IsNullOrEmpty(helpTopic.AppFilter) || helpTopic.AppFilter == appName);
+                }
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(appName))
+                {
+                    return helpTopic.AvailableToPublic && helpTopic.IsActive &&
+                           (string.IsNullOrEmpty(helpTopic.AppFilter) ||
+                            helpTopic.AppFilter == StaticValues.STR_HelpRequest);
+                }
+                else
+                {
+                    return helpTopic.AvailableToPublic && helpTopic.IsActive &&
+                           (string.IsNullOrEmpty(helpTopic.AppFilter) ||
+                            helpTopic.AppFilter == appName);
+                }
+            }
         }
     }
 }

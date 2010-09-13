@@ -70,6 +70,15 @@ namespace HelpRequest.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to HelpRequest.
+        /// </summary>
+        public static string STR_HelpRequest {
+            get {
+                return ResourceManager.GetString("STR_HelpRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Programming Support.
         /// </summary>
         public static string STR_ProgrammingSupport {
