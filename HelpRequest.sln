@@ -36,7 +36,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bin", "Bin", "{ACBFC0F4-B01
 		HelpRequest\bin\Recaptcha.dll = HelpRequest\bin\Recaptcha.dll
 		HelpRequest\bin\Recaptcha.pdb = HelpRequest\bin\Recaptcha.pdb
 		HelpRequest\bin\Rhino.Mocks.dll = HelpRequest\bin\Rhino.Mocks.dll
-		HelpRequest\bin\System.Data.SQLite.DLL = HelpRequest\bin\System.Data.SQLite.DLL
 		HelpRequest\bin\Telerik.Web.Mvc.dll = HelpRequest\bin\Telerik.Web.Mvc.dll
 		HelpRequest\bin\UCDArch.Core.dll = HelpRequest\bin\UCDArch.Core.dll
 		HelpRequest\bin\UCDArch.Core.NHibernateValidator.dll = HelpRequest\bin\UCDArch.Core.NHibernateValidator.dll

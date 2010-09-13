@@ -94,9 +94,14 @@ namespace HelpRequest.Controllers
             return View(viewModel);
         }
 
-        //
-        // POST: /Help/Edit/5
-
+        /// <summary>
+        /// POST: /Help/Edit/5
+        /// #5
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="helpTopic">The help topic.</param>
+        /// <param name="appName">Name of the app.</param>
+        /// <returns></returns>
         [AdminOnly]
         [AcceptPost]
         [ValidateInput(false)]

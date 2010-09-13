@@ -642,6 +642,7 @@ namespace HelpRequest.Tests.Controllers
             Assert.IsNotNull(result);
             HelpTopicRepository.AssertWasNotCalled(a=>a.EnsurePersistent(Arg<HelpTopic>.Is.Anything));
             Controller.ModelState.AssertErrorsAre("IsVideoNeedsVideoName: VideoName required when IsVideo selected");
+            Assert.IsNull(Controller.Message);
             #endregion Assert		
         }
         #endregion Post Tests
@@ -747,7 +748,7 @@ namespace HelpRequest.Tests.Controllers
 
             #region Assert
             //Assert.AreEqual(1, result.Count(), "It looks like a method was added or removed from the controller.");
-            Assert.AreEqual(4, result.Count(), "Still need to add tests.");
+            Assert.AreEqual(5, result.Count(), "Still need to add tests.");
             #endregion Assert
         }
 
@@ -886,6 +887,78 @@ namespace HelpRequest.Tests.Controllers
             #region Assert
             Assert.AreEqual(1, expectedAttribute.Count(), "AdminOnlyAttribute not found");
             Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the controller method edit post contains expected attributes1.
+        /// #5
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodEditPostContainsExpectedAttributes1()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "Edit");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<AdminOnlyAttribute>();
+            var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "AdminOnlyAttribute not found");
+            Assert.AreEqual(3, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+
+        /// <summary>
+        /// Tests the controller method edit post contains expected attributes2.
+        /// #5
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodEditPostContainsExpectedAttributes2()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "Edit");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<AcceptPostAttribute>();
+            var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "AcceptPostAttribute not found");
+            Assert.AreEqual(3, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+
+        /// <summary>
+        /// Tests the controller method edit post contains expected attributes3.
+        /// #5
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodEditPostContainsExpectedAttributes3()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "Create");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<ValidateInputAttribute>();
+            var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "ValidateInputAttribute not found");
+            Assert.IsFalse(expectedAttribute.ElementAt(0).EnableValidation);
+            Assert.AreEqual(3, allAttributes.Count(), "More than expected custom attributes found.");
             #endregion Assert
         }
 

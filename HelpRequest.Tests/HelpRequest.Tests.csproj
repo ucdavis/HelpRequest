@@ -94,10 +94,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite, Version=1.0.61.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\HelpRequest\bin\System.Data.SQLite.DLL</HintPath>
-    </Reference>
+    <Reference Include="System.Data.SQLite, Version=1.0.61.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Abstractions" />
@@ -144,6 +141,7 @@
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />
     <Content Include="App.config" />
+    <Content Include="TestingBin\System.Data.SQLite.DLL" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HelpRequest.Core\HelpRequest.Core.csproj">
