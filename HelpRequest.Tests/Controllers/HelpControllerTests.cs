@@ -693,11 +693,12 @@ namespace HelpRequest.Tests.Controllers
         public void TestDetailsIncrementsNumberOfReadsSavesAndReturnsViewWhenHelpTopicIsFound()
         {
             #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
             var appName = "TestAppName";
             var helpTopics = new List<HelpTopic>();
             LoadHelpTopics(helpTopics, appName);
             ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
-            var saveNumberOfReads = helpTopics[3].NumberOfReads;
+            var saveNumberOfReads = helpTopics[3].NumberOfReads;            
             #endregion Arrange
 
             #region Act

@@ -141,6 +141,9 @@
   <data name="STR_WebSiteSupport" xml:space="preserve">
     <value>Web Site Support</value>
   </data>
+  <data name="EmailWarningRegEx" xml:space="preserve">
+    <value>/^[a-z0-9._%+-]+@[a-z0-9.-]+\.(?:[a-z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$/</value>
+  </data>
   <data name="STR_HelpRequest" xml:space="preserve">
     <value>HelpRequest</value>
   </data>

@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<HelpRequest.Controllers.ViewModels.TicketViewModel>" %>
+<%@ Import Namespace="HelpRequest.Core.Resources" %>
 
 	<script type="text/javascript">
 	    $(document).ready(function() {
@@ -72,6 +73,33 @@
 	                $("span#ForApplication").hide();
 	            }
 	        });
+	        
+//	        $("form").validate({
+//                errorElement:"span",            // set the tag for the item that contains the message
+//                errorClass:"field-validation-error",            // set the class on that tag of the notification tag
+//                success:function(label){        // function to execute on passing
+//                    label.addClass("passed");   // add the passed class
+//                }
+//            });
+
+//            // validate the controls on blur
+//            $("input").blur(function(){
+//                $("form").validate().element(this);
+//            });
+	        
+            $("input#Ticket_FromEmail").blur(function(event){
+                if($(this).hasClass("warning")){
+                    $(this).removeClass("warning");
+                    $("span.field-validation-warning").text("");
+                }
+                var emailVal = $(this).val().toLowerCase();                                    
+                if(emailVal != null && emailVal != "" && emailVal.match(<%=StaticValues.EmailWarningRegEx %>) == null){
+                    $(this).addClass("warning");
+                    $("span.field-validation-warning").text("This may be invalid");
+                }
+                    
+            });
+
 	    });
 	    
 	    

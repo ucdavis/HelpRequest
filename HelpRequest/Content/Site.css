@@ -291,6 +291,11 @@ div#title
     color: #ff0000;
 }
 
+.warning
+{
+	background-color:Orange
+}
+
 #nobullets ul { list-style-type: none; }
 
 #brand_bar_content, .page, #main {max-width:1000px; margin:0 auto;}

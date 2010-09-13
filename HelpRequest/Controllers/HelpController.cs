@@ -142,7 +142,7 @@ namespace HelpRequest.Controllers
             {
                 return this.RedirectToAction(a => a.Index(appName));
             }
-            if(!CurrentUser.IsInRole(RoleNames.Admin))
+            if(CurrentUser.IsInRole(RoleNames.Admin))
             {
                 if (string.IsNullOrEmpty(appName) || appName == StaticValues.STR_HelpRequest)
                 {
@@ -177,6 +177,33 @@ namespace HelpRequest.Controllers
             var helpTopic = HelpTopicRepository.GetNullableById(id);
             if (helpTopic == null)
             {
+                return this.RedirectToAction(a => a.Index(appName));
+            }
+            if (CurrentUser.IsInRole(RoleNames.Admin))
+            {
+                if (string.IsNullOrEmpty(appName) || appName == StaticValues.STR_HelpRequest)
+                {
+                    if (!(string.IsNullOrEmpty(helpTopic.AppFilter) || helpTopic.AppFilter == StaticValues.STR_HelpRequest))
+                    {
+                        Message = "Warning. HelpTopic not associated with application name.";
+                    }
+                }
+                else
+                {
+                    if (!(string.IsNullOrEmpty(helpTopic.AppFilter) || helpTopic.AppFilter == appName))
+                    {
+                        Message = "Warning. HelpTopic not associated with application name.";
+                    }
+                }
+            }
+            if (!IsUserAuthorized(helpTopic, CurrentUser, appName))
+            {
+                Message = "Not Authorized to watch that topic";
+                return this.RedirectToAction(a => a.Index(appName));
+            }
+            if(!helpTopic.IsVideo || string.IsNullOrEmpty(helpTopic.VideoName) || helpTopic.VideoName.Trim() == string.Empty)
+            {
+                Message = "Error. Help Topic is not a video.";
                 return this.RedirectToAction(a => a.Index(appName));
             }
             helpTopic.NumberOfReads++;

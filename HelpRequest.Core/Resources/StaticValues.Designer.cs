@@ -61,6 +61,15 @@ namespace HelpRequest.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to /^[a-z0-9._%+-]+@[a-z0-9.-]+\.(?:[a-z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$/.
+        /// </summary>
+        public static string EmailWarningRegEx {
+            get {
+                return ResourceManager.GetString("EmailWarningRegEx", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Computer Support.
         /// </summary>
         public static string STR_ComputerSupport {
