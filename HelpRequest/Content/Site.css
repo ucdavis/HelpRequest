@@ -272,17 +272,36 @@ div#title
     text-align:left;
 }
 
-
-
+.failed
+{
+    border: 1px solid #ff0000;    
+	color:Red;
+}
+.failed.valid
+{
+	border: none;    
+	color:inherit;
+}
 .field-validation-error
 {
-    color: #ff0000;
+	border: 1px solid #ff0000;    
+	color:Red;
 }
+.field-validation-error.valid
+{
+	border: none;    
+	color:inherit;
+}
+
 
 .input-validation-error
 {
     border: 1px solid #ff0000;
     background-color: #ffeeee;
+}
+.input-validation-error.valid
+{  
+	background-color:inherit;
 }
 
 .validation-summary-errors
@@ -290,8 +309,11 @@ div#title
     font-weight: bold;
     color: #ff0000;
 }
-
 .warning
+{
+	background-color:Orange
+}
+.input-validation-error.valid.warning
 {
 	background-color:Orange
 }

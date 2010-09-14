@@ -9,8 +9,8 @@
     <h2>Submit Help Ticket</h2>
     
     <%= Html.ValidationSummary("Create was unsuccessful. Please correct the errors and try again.") %>
-    
-    <% using (Html.BeginForm("Submit", "Ticket", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    <%= Html.ClientSideValidation<Ticket>("*") %>
+    <% using (Html.BeginForm("Submit", "Ticket", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "SubmitForm" }))
        {%>
         <%= Html.AntiForgeryToken() %>
         <fieldset>

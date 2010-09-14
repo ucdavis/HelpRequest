@@ -74,28 +74,29 @@
 	            }
 	        });
 	        
-//	        $("form").validate({
-//                errorElement:"span",            // set the tag for the item that contains the message
-//                errorClass:"field-validation-error",            // set the class on that tag of the notification tag
-//                success:function(label){        // function to execute on passing
-//                    label.addClass("passed");   // add the passed class
-//                }
-//            });
+            // do some client side validation on the dynamic fields
+            $("form#SubmitForm").validate({
+                errorElement:"span",            // set the tag for the item that contains the message
+                errorClass:"failed",            // set the class on that tag of the notification tag
+                success:function(label){        // function to execute on passing
+                    label.addClass("passed");   // add the passed class
+                }
+            });
 
-//            // validate the controls on blur
-//            $("input").blur(function(){
-//                $("form").validate().element(this);
-//            });
+            // validate the controls on blur
+            $("input").blur(function(){
+                $("form#SubmitForm").validate().element(this);
+            });
 	        
             $("input#Ticket_FromEmail").blur(function(event){
                 if($(this).hasClass("warning")){
                     $(this).removeClass("warning");
-                    $("span.field-validation-warning").text("");
+                    $("span.EmailWarning").text("");
                 }
                 var emailVal = $(this).val().toLowerCase();                                    
                 if(emailVal != null && emailVal != "" && emailVal.match(<%=StaticValues.EmailWarningRegEx %>) == null){
                     $(this).addClass("warning");
-                    $("span.field-validation-warning").text("This may be invalid");
+                    $("span.EmailWarning").text("This may be invalid");
                 }
                     
             });
@@ -104,19 +105,19 @@
 	    
 	    
 	</script>
-	
+	    
 	        <li>
                 <label for="Ticket.UrgencyLevel">Urgency Level:</label>  
                 <%= this.Select("Ticket.UrgencyLevel").Options(Model.Urgency).FirstOption("--Select a Urgency Level--")
                         .Selected(Model.Ticket != null ? Model.Ticket.UrgencyLevel : string.Empty)%>
-                <%= Html.ValidationMessage("Ticket.UrgencyLevel", "*")%>
+                <%= Html.ValidationMessage("Ticket.UrgencyLevel")%>
             </li>
             <%if(string.IsNullOrEmpty(Model.AppName)) {%>
             <li>
                 <label for="Ticket.SupportDepartment">Support Department:</label>  
                 <%= this.Select("Ticket.SupportDepartment").Options(Model.SupportDepartment).FirstOption("--Select a Support Department--")
                     .Selected(Model.Ticket != null ? Model.Ticket.SupportDepartment : string.Empty) %>
-                <%= Html.ValidationMessage("Ticket.SupportDepartment", "*")%>
+                <%= Html.ValidationMessage("Ticket.SupportDepartment")%>
             </li>
             <%} %>
             <%else {%>
@@ -124,21 +125,21 @@
                 <label for="Ticket.SupportDepartment">Support Department:</label>  
                 <%= this.Select("Ticket.SupportDepartment").Options(Model.SupportDepartment)
                                                                  .Selected("Application Support")%>
-                <%= Html.ValidationMessage("Ticket.SupportDepartment", "*")%>
+                <%= Html.ValidationMessage("Ticket.SupportDepartment")%>
             </li>            
             <%} %>
             <span id="ForWebSite" style="display: none">
                 <li>
                     <label for="Ticket.ForWebSite">Web Site Address:</label>
                     <%= Html.TextBox("Ticket.ForWebSite", string.Empty, new { style = "width: 500px" })%>
-                    <%= Html.ValidationMessage("Ticket.ForWebSite", "*")%>
+                    <%= Html.ValidationMessage("Ticket.ForWebSite")%>
                 </li>
             </span>
             <span id="ForApplication" style="display: none">
                 <li>
                     <label for="Ticket.ForApplication">For Application:</label>
                     <%= Html.TextBox("Ticket.ForApplication", Model.AppName, new { style = "width: 500px" })%>
-                    <%= Html.ValidationMessage("Ticket.ForApplication", "*")%>
+                    <%= Html.ValidationMessage("Ticket.ForApplication")%>
                 </li>
             </span>
             <li>
@@ -177,12 +178,13 @@
             <li>
                 <label for="Ticket.Subject">Subject:</label>
                 <%= Html.TextBox("Ticket.Subject",string.Empty, new { style = "width: 500px" })%>
-                <%= Html.ValidationMessage("Ticket.Subject", "*")%>
+                <%= Html.ValidationMessage("Ticket.Subject")%>
             </li>
             <li>
                 <label for="Ticket.MessageBody">MessageBody:</label>
                 <%= Html.TextArea("Ticket.MessageBody", new { style = "height:225px; width: 700px" })%>
-                <%= Html.ValidationMessage("Ticket.MessageBody", "*")%>
+                <br/>
+                <%= Html.ValidationMessage("Ticket.MessageBody")%>
             </li>
 
             

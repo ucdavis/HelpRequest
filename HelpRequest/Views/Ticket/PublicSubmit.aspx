@@ -10,8 +10,8 @@
     <h2>Submit Help Ticket</h2>
     
     <%= Html.ValidationSummary("Create was unsuccessful. Please correct the errors and try again.") %>
-    
-    <% using (Html.BeginForm("PublicSubmit", "Ticket", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    <%= Html.ClientSideValidation<Ticket>("*") %>
+    <% using (Html.BeginForm("PublicSubmit", "Ticket", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "SubmitForm" }))
        {%>
         <%= Html.AntiForgeryToken() %>
         <fieldset>
@@ -21,8 +21,8 @@
             <li>
                 <label for="Ticket.FromEmail">Your Email:</label>
                 <%= Html.TextBox("Ticket.FromEmail", string.Empty, new { style = "width: 300px" })%>
-                <%= Html.ValidationMessage("Ticket.FromEmail", "*")%>
-                <span class="field-validation-warning">&nbsp</span>
+                <%= Html.ValidationMessage("Ticket.FromEmail")%>
+                <span class="EmailWarning" style="color:Orange">&nbsp</span>
                 <%=Html.ActionLink<TicketController>(a => a.LogOnAndSubmit(Model.AppName), "Use Kerberos login to populate information.") %>
             </li>   
             <% Html.RenderPartial("~/Views/Shared/SubmitForm.ascx"); %>
