@@ -105,7 +105,6 @@
 	    
 	    
 	</script>
-	    
 	        <li>
                 <label for="Ticket.UrgencyLevel">Urgency Level:</label>  
                 <%= this.Select("Ticket.UrgencyLevel").Options(Model.Urgency).FirstOption("--Select a Urgency Level--")
@@ -177,7 +176,7 @@
             </li>
             <li>
                 <label for="Ticket.Subject">Subject:</label>
-                <%= Html.TextBox("Ticket.Subject",string.Empty, new { style = "width: 500px" })%>
+                <%=Html.TextBox("Ticket.Subject", string.Empty, new {style = "width: 500px"})%>
                 <%= Html.ValidationMessage("Ticket.Subject")%>
             </li>
             <li>
