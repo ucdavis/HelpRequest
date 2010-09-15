@@ -49,28 +49,37 @@
            }%>
 	        $("input#Ticket_ForWebSite").bt('You need the http:// or https:// at the start for a valid URL. For example: http://www.ucdavis.edu/index.html');
 	        $("input#uploadAttachment").bt('The maximum attachment size is 4 Meg.');
-
+            
 	        if ($("select#Ticket_SupportDepartment").val() == "Web Site Support") {
+	            $("input#Ticket_ForWebSite").addClass("required");
+	            //alert("1");
 	            $("span#ForWebSite").show();
 	        }
 	        if ($("select#Ticket_SupportDepartment").val() == "Programming Support") {
 	            $("span#ForApplication").show();
+	            $("input#Ticket_ForWebSite").removeClass("required");
+	            //alert("2");
 	        }
 
 	        $("select#Ticket_SupportDepartment").change(function(event) {
 	            if ($("select#Ticket_SupportDepartment").val() == "Web Site Support") {
 	                $("span#ForWebSite").show();
+	                $("input#Ticket_ForWebSite").addClass("required");
+	                //alert("3");
 	            }
 	            else {
-	                $("input#Ticket_ForWebSite").val("");
+//	                $("input#Ticket_ForWebSite").val("");
 	                $("span#ForWebSite").hide();
+	                $("input#Ticket_ForWebSite").removeClass("required");
+	                //alert("4");
 	            }
 	            if ($("select#Ticket_SupportDepartment").val() == "Programming Support") {
 	                $("span#ForApplication").show();
+	                $("input#Ticket_ForWebSite").removeClass("required");
 	            }
 	            else {
-	                $("input#ForApplication").val("");
-	                $("span#ForApplication").hide();
+//	                $("input#ForApplication").val("");
+	                $("span#ForApplication").hide();	                
 	            }
 	        });
 	        
@@ -88,18 +97,19 @@
                 $("form#SubmitForm").validate().element(this);
             });
 	        
-            $("input#Ticket_FromEmail").blur(function(event){
-                if($(this).hasClass("warning")){
-                    $(this).removeClass("warning");
-                    $("span.EmailWarning").text("");
+	        $("input#Ticket_ForWebSite").blur(function(event){
+	            if ($("select#Ticket_SupportDepartment").val() == "Web Site Support") {
+                    if($(this).hasClass("warning")){
+                        $(this).removeClass("warning");
+                        $("span.WebSiteWarning").text("");
+                    }
+                    var webVal = $(this).val().toLowerCase();                                
+                    if(webVal != null && webVal != "" && webVal.match(/<%=StaticValues.WebSiteRegEx %>/) == null){
+                        $(this).addClass("warning");
+                        $("span.WebSiteWarning").text("This may be invalid");
                 }
-                var emailVal = $(this).val().toLowerCase();                                    
-                if(emailVal != null && emailVal != "" && emailVal.match(<%=StaticValues.EmailWarningRegEx %>) == null){
-                    $(this).addClass("warning");
-                    $("span.EmailWarning").text("This may be invalid");
-                }
-                    
-            });
+            }                   
+	    });
 
 	    });
 	    
@@ -130,8 +140,9 @@
             <span id="ForWebSite" style="display: none">
                 <li>
                     <label for="Ticket.ForWebSite">Web Site Address:</label>
-                    <%= Html.TextBox("Ticket.ForWebSite", string.Empty, new { style = "width: 500px" })%>
+                    <%= Html.TextBox("Ticket.ForWebSite", string.Empty, new { style = "width: 500px" })%>                 
                     <%= Html.ValidationMessage("Ticket.ForWebSite")%>
+                    <span class="WebSiteWarning" style="color:Orange">&nbsp</span>
                 </li>
             </span>
             <span id="ForApplication" style="display: none">

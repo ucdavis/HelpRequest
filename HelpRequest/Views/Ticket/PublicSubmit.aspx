@@ -1,5 +1,6 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<HelpRequest.Controllers.ViewModels.TicketViewModel>" %>
 <%@ Import Namespace="HelpRequest.Controllers" %>
+<%@ Import Namespace="HelpRequest.Core.Resources" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Submit Help Ticket
@@ -22,7 +23,7 @@
             <ul>
             <li>
                 <label for="Ticket.FromEmail">Your Email:</label>
-                <%= Html.TextBox("Ticket.FromEmail", string.Empty, new { style = "width: 300px" })%>
+                <%= Html.TextBox("Ticket.FromEmail", string.Empty, new { style = "width: 300px", @class="required" })%>
                 <%= Html.ValidationMessage("Ticket.FromEmail")%>
                 <span class="EmailWarning" style="color:Orange">&nbsp</span>
                 <%=Html.ActionLink<TicketController>(a => a.LogOnAndSubmit(Model.AppName), "Use Kerberos login to populate information.") %>
@@ -44,6 +45,22 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeaderContent" runat="server">
+    <script type="text/javascript">
+	    $(document).ready(function() {
+	        $("input#Ticket_FromEmail").blur(function(event){
+                if($(this).hasClass("warning")){
+                    $(this).removeClass("warning");
+                    $("span.EmailWarning").text("");
+                }
+                var emailVal = $(this).val().toLowerCase();                                    
+                if(emailVal != null && emailVal != "" && emailVal.match(<%=StaticValues.EmailWarningRegEx %>) == null){
+                    $(this).addClass("warning");
+                    $("span.EmailWarning").text("This may be invalid");
+                }
+                    
+            });
+	    });
+	</script>
 </asp:Content>
 
 

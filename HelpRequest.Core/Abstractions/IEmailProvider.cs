@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using HelpRequest.Core.Domain;
+using HelpRequest.Core.Resources;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Core.Utils;
 using Attachment = System.Net.Mail.Attachment;
@@ -37,11 +38,11 @@ namespace HelpRequest.Core.Abstractions
            bodyBuilder.AppendLine("Original Subject     : " + ticket.Subject);
            bodyBuilder.AppendLine("Urgency Level        : " + ticket.UrgencyLevel);
            bodyBuilder.AppendLine("Support Department   : " + ticket.SupportDepartment);
-           if (!string.IsNullOrEmpty(ticket.ForApplication))
+           if (!string.IsNullOrEmpty(ticket.ForApplication) && ticket.SupportDepartment == StaticValues.STR_ProgrammingSupport)
            {
                bodyBuilder.AppendLine("For Application      : " + ticket.ForApplication);
            }
-           if (!string.IsNullOrEmpty(ticket.ForWebSite))
+           if (!string.IsNullOrEmpty(ticket.ForWebSite) && ticket.SupportDepartment == StaticValues.STR_WebSiteSupport)
            {
                bodyBuilder.AppendLine("For Web Site         : " + ticket.ForWebSite);
            }

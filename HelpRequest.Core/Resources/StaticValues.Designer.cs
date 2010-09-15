@@ -88,6 +88,15 @@ namespace HelpRequest.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your ticket has been successfully submitted, you will be receiving a confirmation email with a ticket # shortly (usually 5-10min)..
+        /// </summary>
+        public static string STR_HelpTicketSuccessfullySent {
+            get {
+                return ResourceManager.GetString("STR_HelpTicketSuccessfullySent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Programming Support.
         /// </summary>
         public static string STR_ProgrammingSupport {
@@ -147,6 +156,15 @@ namespace HelpRequest.Core.Resources {
         public static string STR_WebSiteSupport {
             get {
                 return ResourceManager.GetString("STR_WebSiteSupport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&amp;&apos;\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string WebSiteRegEx {
+            get {
+                return ResourceManager.GetString("WebSiteRegEx", resourceCulture);
             }
         }
     }

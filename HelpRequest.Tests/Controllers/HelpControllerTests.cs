@@ -708,8 +708,230 @@ namespace HelpRequest.Tests.Controllers
             #endregion Act
 
             #region Assert
-
+            Assert.IsNotNull(result);
+            Assert.AreSame(helpTopics[3], result.HelpTopic);
+            HelpTopicRepository.AssertWasCalled(a => a.EnsurePersistent(helpTopics[3]));
+            var args = (HelpTopic)HelpTopicRepository.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<HelpTopic>.Is.Anything))[0][0];
+            Assert.IsNotNull(args);
+            Assert.AreEqual(saveNumberOfReads + 1, args.NumberOfReads);
             #endregion Assert		
+        }
+
+
+        /// <summary>
+        /// Tests the warning message appears for admin user when app name is null but found topic is not.
+        /// </summary>
+        [TestMethod]
+        public void TestWarningMessageAppearsForAdminUserWhenAppNameIsNullButFoundTopicIsNot1()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            var appName = "TestAppName";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(appName, helpTopics[6].AppFilter);
+            #endregion Arrange
+
+            #region Act
+            Controller.Details(5, null)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            HelpTopicRepository.AssertWasCalled(a => a.EnsurePersistent(helpTopics[4]));
+            Assert.AreEqual("Warning. HelpTopic not associated with HelpRequest application name.", Controller.Message);
+            #endregion Assert		
+        }
+
+        /// <summary>
+        /// Tests the warning message appears for admin user when app name is null but found topic is not.
+        /// </summary>
+        [TestMethod]
+        public void TestWarningMessageAppearsForAdminUserWhenAppNameIsNullButFoundTopicIsNot2()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            var appName = "TestAppName";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(appName, helpTopics[6].AppFilter);
+            #endregion Arrange
+
+            #region Act
+            Controller.Details(5, string.Empty)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            HelpTopicRepository.AssertWasCalled(a => a.EnsurePersistent(helpTopics[4]));
+            Assert.AreEqual("Warning. HelpTopic not associated with HelpRequest application name.", Controller.Message);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the warning message appears for admin user when app name is null but found topic is not.
+        /// </summary>
+        [TestMethod]
+        public void TestWarningMessageAppearsForAdminUserWhenAppNameIsNullButFoundTopicIsNot3()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            var appName = "TestAppName";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(appName, helpTopics[6].AppFilter);
+            #endregion Arrange
+
+            #region Act
+            Controller.Details(5, "HelpRequest")
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            HelpTopicRepository.AssertWasCalled(a => a.EnsurePersistent(helpTopics[4]));
+            Assert.AreEqual("Warning. HelpTopic not associated with HelpRequest application name.", Controller.Message);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the warning message appears for admin user when app name is null but found topic is not.
+        /// </summary>
+        [TestMethod]
+        public void TestWarningMessageAppearsForAdminUserWhenAppNameIsNullButFoundTopicIsNot4()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            string appName = null;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(appName, helpTopics[6].AppFilter);
+            #endregion Arrange
+
+            #region Act
+            Controller.Details(5, "HelpRequest")
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            HelpTopicRepository.AssertWasCalled(a => a.EnsurePersistent(helpTopics[4]));
+            Assert.IsNull(Controller.Message);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the warning message appears for admin user when app name is null but found topic is not.
+        /// </summary>
+        [TestMethod]
+        public void TestWarningMessageAppearsForAdminUserWhenAppNameIsNullButFoundTopicIsNot5()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            string appName = string.Empty;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(appName, helpTopics[6].AppFilter);
+            #endregion Arrange
+
+            #region Act
+            Controller.Details(5, "HelpRequest")
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            HelpTopicRepository.AssertWasCalled(a => a.EnsurePersistent(helpTopics[4]));
+            Assert.IsNull(Controller.Message);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the warning message appears for admin user when app name is null but found topic is not.
+        /// </summary>
+        [TestMethod]
+        public void TestWarningMessageAppearsForAdminUserWhenAppNameIsNullButFoundTopicIsNot6()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            string appName = string.Empty;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(appName, helpTopics[6].AppFilter);
+            #endregion Arrange
+
+            #region Act
+            Controller.Details(5, null)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            HelpTopicRepository.AssertWasCalled(a => a.EnsurePersistent(helpTopics[4]));
+            Assert.IsNull(Controller.Message);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the warning message appears for admin user when app name is null but found topic is not.
+        /// </summary>
+        [TestMethod]
+        public void TestWarningMessageAppearsForAdminUserWhenAppNameIsNullButFoundTopicIsNot7()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            string appName = "HelpRequest";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(appName, helpTopics[6].AppFilter);
+            #endregion Arrange
+
+            #region Act
+            Controller.Details(5, "HelpRequest")
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            HelpTopicRepository.AssertWasCalled(a => a.EnsurePersistent(helpTopics[4]));
+            Assert.IsNull(Controller.Message);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the warning message appears for admin user when app name is null but found topic is not.
+        /// </summary>
+        [TestMethod]
+        public void TestWarningMessageAppearsForAdminUserWhenAppNameIsNullButFoundTopicIsNot8()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            var appName = "TestAppName";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(appName, helpTopics[6].AppFilter);
+            #endregion Arrange
+
+            #region Act
+            Controller.Details(5, "OtherApp")
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            HelpTopicRepository.AssertWasCalled(a => a.EnsurePersistent(helpTopics[4]));
+            Assert.AreEqual("Warning. HelpTopic not associated with OtherApp application name.", Controller.Message);
+            #endregion Assert
         }
         #endregion Details Tests
 

@@ -146,16 +146,19 @@ namespace HelpRequest.Controllers
             {
                 if (string.IsNullOrEmpty(appName) || appName == StaticValues.STR_HelpRequest)
                 {
-                    if (!(string.IsNullOrEmpty(helpTopic.AppFilter) || helpTopic.AppFilter == StaticValues.STR_HelpRequest))
+                    //Passed appName is null, empty, or HelpRequest
+                    if (!(string.IsNullOrEmpty(helpTopic.AppFilter) || helpTopic.AppFilter == appName))
                     {
-                        Message = "Warning. HelpTopic not associated with application name.";
+                        //found appFilter is NOT (is null, or is empty or is HelpRequest)  
+                        Message = string.Format("Warning. HelpTopic not associated with {0} application name.", StaticValues.STR_HelpRequest);
                     }
                 }
                 else
                 {
                     if (!(string.IsNullOrEmpty(helpTopic.AppFilter) || helpTopic.AppFilter == appName))
                     {
-                        Message = "Warning. HelpTopic not associated with application name.";
+                        //Note the NOT surrounding the condition
+                        Message = string.Format("Warning. HelpTopic not associated with {0} application name.", appName);
                     }
                 }
             }
