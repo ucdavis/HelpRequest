@@ -3,7 +3,6 @@
 
 	<script type="text/javascript">
 	    $(document).ready(function() {
-
 	        $("img#availableDatesAddButton").click(function(event) {
 	            var input = $("<input>").attr("id", "avDates").attr("name", "avDates").val($("input#availableDatesInput").val());
 	            input.attr("type", "text");
@@ -15,9 +14,6 @@
 	            $("input#availableDatesInput").val("");
 	        });
 
-	        //	        $("input#avDates").click(function(event) {
-	        //	            $(this).remove();
-	        //	        });
 	        $("input#availableDatesInput").bt('You must click the plus button to add more dates. Double click the added item to remove it.', {positions: 'top' });
 	        $("input#avDates").click(function(event) {
 	            $(this).remove();
@@ -42,43 +38,35 @@
 	        $("select#Ticket_UrgencyLevel").bt('<b>Non-Critical Issue:</b> Annoyances or other low priority requests.<br/><b>Scheduled Requests:</b> Heads up for future action.<br/><b>Workaround Available:</b> Alternative solutions exist to technical problem.<br/><b>Work Stoppages:</b> A technical problem preventing you from getting your job done.<br/><b>Critical:</b> A work stoppage for more than one person. ', { width: '550px' });
 	        <%if(string.IsNullOrEmpty(Model.AppName)) {%>
 	            $("select#Ticket_SupportDepartment").bt('<b>Computer Support:</b> (Tom Pomroy, Shuka Smith, Uwe Rossbach, Student Assistants)<br/><b>Web Site Support:</b> (Tyler Randles and Trish Ang)<br/><b>Programming Support:</b> (Scott Kirkland, Alan Lai, Ken Taylor, Jason Sylvestre)', { width: '550px' });
-	         <%} %>
+	        <%} %>
             <%else{%>
 	            $("select#Ticket_SupportDepartment").bt('<b>Programming Support:</b> (Scott Kirkland, Alan Lai, Ken Taylor, Jason Sylvestre)', { width: '550px' });
-	        <%
-           }%>
+	        <%}%>
 	        $("input#Ticket_ForWebSite").bt('You need the http:// or https:// at the start for a valid URL. For example: http://www.ucdavis.edu/index.html');
 	        $("input#uploadAttachment").bt('The maximum attachment size is 4 Meg.');
             
 	        if ($("select#Ticket_SupportDepartment").val() == "Web Site Support") {
 	            $("input#Ticket_ForWebSite").addClass("required");
-	            //alert("1");
 	            $("span#ForWebSite").show();
 	        }
 	        if ($("select#Ticket_SupportDepartment").val() == "Programming Support") {
 	            $("span#ForApplication").show();
 	            $("input#Ticket_ForWebSite").removeClass("required");
-	            //alert("2");
 	        }
-
 	        $("select#Ticket_SupportDepartment").change(function(event) {
 	            if ($("select#Ticket_SupportDepartment").val() == "Web Site Support") {
 	                $("span#ForWebSite").show();
 	                $("input#Ticket_ForWebSite").addClass("required");
-	                //alert("3");
 	            }
 	            else {
-//	                $("input#Ticket_ForWebSite").val("");
 	                $("span#ForWebSite").hide();
 	                $("input#Ticket_ForWebSite").removeClass("required");
-	                //alert("4");
 	            }
 	            if ($("select#Ticket_SupportDepartment").val() == "Programming Support") {
 	                $("span#ForApplication").show();
 	                $("input#Ticket_ForWebSite").removeClass("required");
 	            }
 	            else {
-//	                $("input#ForApplication").val("");
 	                $("span#ForApplication").hide();	                
 	            }
 	        });
@@ -110,10 +98,7 @@
                 }
             }                   
 	    });
-
-	    });
-	    
-	    
+	    });	   	    
 	</script>
 	        <li>
                 <label for="Ticket.UrgencyLevel">Urgency Level:</label>  

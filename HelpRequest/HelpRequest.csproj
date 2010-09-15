@@ -421,6 +421,7 @@
     <Content Include="AppSettingsTest.config" />
     <Content Include="ConnectionStringProd.config" />
     <Content Include="ConnectionStringTest.config" />
+    <Content Include="Scripts\jquery.enableTinyMce.js" />
     <None Include="Images\fonts\Quicksand_Bold.eot" />
     <None Include="Images\fonts\Quicksand_Bold.ttf" />
     <None Include="Images\fonts\Quicksand_Bold_Oblique.eot" />
