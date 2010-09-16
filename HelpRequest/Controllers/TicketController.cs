@@ -60,7 +60,7 @@ namespace HelpRequest.Controllers
                 //}
                 if(!foundEmail)
                 {
-                    var kerbUser = DirectoryServices.FindUser(CurrentUser.Identity.Name); 
+                    var kerbUser = _ticketControllerService.FindKerbUser(CurrentUser.Identity.Name);//DirectoryServices.FindUser(CurrentUser.Identity.Name); 
                     if(kerbUser != null)
                     {
                         if (!string.IsNullOrEmpty(kerbUser.EmailAddress))

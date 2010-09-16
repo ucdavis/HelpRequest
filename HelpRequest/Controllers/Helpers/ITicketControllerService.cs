@@ -18,6 +18,8 @@ namespace HelpRequest.Controllers.Helpers
         void LoadFileContents(Ticket ticket, HttpPostedFileBase uploadAttachment);
 
         void CasLogin();
+
+        DirectoryUser FindKerbUser(string identityName);
     }
 
 
@@ -42,10 +44,10 @@ namespace HelpRequest.Controllers.Helpers
                 modelState.AddModelError("Ticket.FromEmail", "Your Email can't be a support email.");
             }
             var i = 0;
-            foreach (var emailCC in ticket.EmailCCs)
+            foreach (var emailCc in ticket.EmailCCs)
             {
                 i++;
-                if (supportEmail.Contains(emailCC.ToLower()))
+                if (supportEmail.Contains(emailCc.ToLower()))
                 {
                     modelState.AddModelError("emailCCsContainer", string.Format("Carbon Copy Email {0} can't be a support email.", i));
                 }
@@ -97,11 +99,11 @@ namespace HelpRequest.Controllers.Helpers
             }
             if (emailCCs != null)
             {
-                foreach (var emailCC in emailCCs)
+                foreach (var emailCc in emailCCs)
                 {
-                    if (!string.IsNullOrEmpty(emailCC))
+                    if (!string.IsNullOrEmpty(emailCc))
                     {
-                        ticket.EmailCCs.Add(emailCC.ToLower());
+                        ticket.EmailCCs.Add(emailCc.ToLower());
                     }
                 }
             }
@@ -109,10 +111,10 @@ namespace HelpRequest.Controllers.Helpers
                 new Regex(
                     @"(^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$){1}|^$");
             var i = 0;
-            foreach (var emailCC in ticket.EmailCCs)
+            foreach (var emailCc in ticket.EmailCCs)
             {
                 i++;
-                if (!emailRegExVal.IsMatch(emailCC.ToLower()))
+                if (!emailRegExVal.IsMatch(emailCc.ToLower()))
                 {
                     modelState.AddModelError("emailCCsContainer", string.Format("Carbon Copy Email {0} is not valid", i));
                 }
@@ -138,6 +140,16 @@ namespace HelpRequest.Controllers.Helpers
         public void CasLogin()
         {
             CASHelper.Login();
+        }
+
+        /// <summary>
+        /// Finds the kerberos user.
+        /// </summary>
+        /// <param name="identityName">Name of the identity.</param>
+        /// <returns></returns>
+        public DirectoryUser FindKerbUser(string identityName)
+        {
+            return DirectoryServices.FindUser(identityName);
         }
     }
 }

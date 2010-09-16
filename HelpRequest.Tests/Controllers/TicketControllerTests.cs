@@ -60,6 +60,14 @@ namespace HelpRequest.Tests.Controllers
             "~/Ticket/LogOnAndSubmit/?appName=Test".ShouldMapTo<TicketController>(a => a.LogOnAndSubmit("Test"), true);
         }
 
+        /// <summary>
+        /// Tests the submit redirect mapping.
+        /// </summary>
+        [TestMethod]
+        public void TestSubmitRedirectMapping()
+        {
+            "~/Ticket/SubmitRedirect/?appName=Test".ShouldMapTo<TicketController>(a => a.SubmitRedirect("Test"), true);
+        }
         #endregion Mapping Tests
 
         #region LogOnAndSubmit Tests
@@ -111,6 +119,28 @@ namespace HelpRequest.Tests.Controllers
         }
 
         #endregion LogOnAndSubmit Tests
+
+        #region SubmitRedirect Tests
+
+        [TestMethod]
+        public void TestAddTest()
+        {
+            #region Arrange
+
+            Assert.Inconclusive("Need to add these tests");
+
+            #endregion Arrange
+
+            #region Act
+
+            #endregion Act
+
+            #region Assert
+
+            #endregion Assert		
+        }
+
+        #endregion SubmitRedirect Tests
 
         #region Reflection
         #region Controller Class Tests
