@@ -121,6 +121,7 @@
   <ItemGroup>
     <Compile Include="ContinuousDeploymentIntegrationHack.cs" />
     <Compile Include="Controllers\HelpControllerTests.cs" />
+    <Compile Include="Controllers\TicketControllerTests.cs" />
     <Compile Include="Core\AbstractRepositoryTests.cs" />
     <Compile Include="Core\Extensions\AssertExtensions.cs" />
     <Compile Include="Core\Extensions\RouteTestingExtensions.cs" />
@@ -152,6 +153,9 @@
       <Project>{917E6AB4-3B1A-462C-87E3-7EB43914D6F7}</Project>
       <Name>HelpRequest</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
