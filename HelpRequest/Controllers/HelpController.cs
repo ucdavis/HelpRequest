@@ -133,8 +133,13 @@ namespace HelpRequest.Controllers
             return View(viewModel);
         }
 
-        //
-        // GET: /Help/Details/5
+        /// <summary>
+        /// GET: /Help/Details/5
+        /// #6
+        /// </summary>
+        /// <param name="id">The id of the Help topic.</param>
+        /// <param name="appName">Filter to App Name</param>
+        /// <returns></returns>
         public ActionResult Details(int id, string appName)
         {
             var helpTopic = HelpTopicRepository.GetNullableById(id);
@@ -175,6 +180,13 @@ namespace HelpRequest.Controllers
         }
 
 
+        /// <summary>
+        /// Watches the video.
+        /// #7
+        /// </summary>
+        /// <param name="id">The id of the Help topic.</param>
+        /// <param name="appName">Filter to App Name</param>
+        /// <returns></returns>
         public ActionResult WatchVideo(int id, string appName)
         {
             var helpTopic = HelpTopicRepository.GetNullableById(id);
@@ -188,14 +200,14 @@ namespace HelpRequest.Controllers
                 {
                     if (!(string.IsNullOrEmpty(helpTopic.AppFilter) || helpTopic.AppFilter == StaticValues.STR_HelpRequest))
                     {
-                        Message = "Warning. HelpTopic not associated with application name.";
+                        Message = string.Format("Warning. HelpTopic not associated with {0} application name.", StaticValues.STR_HelpRequest);
                     }
                 }
                 else
                 {
                     if (!(string.IsNullOrEmpty(helpTopic.AppFilter) || helpTopic.AppFilter == appName))
                     {
-                        Message = "Warning. HelpTopic not associated with application name.";
+                        Message = string.Format("Warning. HelpTopic not associated with {0} application name.", appName);
                     }
                 }
             }

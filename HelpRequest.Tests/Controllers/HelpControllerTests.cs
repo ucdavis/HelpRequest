@@ -99,6 +99,15 @@ namespace HelpRequest.Tests.Controllers
         {
             "~/Help/Details/5?appName=Test".ShouldMapTo<HelpController>(a => a.Details(5, "Test"), true);
         }
+
+        /// <summary>
+        /// Tests the watch video mapping.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoMapping()
+        {
+            "~/Help/WatchVideo/5?appName=Test".ShouldMapTo<HelpController>(a => a.WatchVideo(5, "Test"), true);
+        }
         #endregion Mapping Tests
 
         #region Index Tests
@@ -1689,6 +1698,1203 @@ namespace HelpRequest.Tests.Controllers
         }
         #endregion Details Tests
 
+        #region WatchVideo Tests
+
+        /// <summary>
+        /// Tests the WatchVideo redirects to index if help topic not found.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIfHelpTopicNotFound()
+        {
+            #region Arrange
+            var appName = "TestAppName";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(helpTopics.Count + 1, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+
+        /// <summary>
+        /// Tests that WatchVideo increments number of reads saves and returns view when help topic is found.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoIncrementsNumberOfReadsSavesAndReturnsViewWhenHelpTopicIsFound()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            var appName = "TestAppName";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            var saveNumberOfReads = helpTopics[3].NumberOfReads;
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, appName)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreSame(helpTopics[3], result.HelpTopic);
+            HelpTopicRepository.AssertWasCalled(a => a.EnsurePersistent(helpTopics[3]));
+            var args = (HelpTopic)HelpTopicRepository.GetArgumentsForCallsMadeOn(a => a.EnsurePersistent(Arg<HelpTopic>.Is.Anything))[0][0];
+            Assert.IsNotNull(args);
+            Assert.AreEqual(saveNumberOfReads + 1, args.NumberOfReads);
+            #endregion Assert
+        }
+
+
+
+        /// <summary>
+        /// Tests the warning message appears for admin user when app name is null but found topic is not.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoWarningMessageAppearsForAdminUserWhenAppNameIsNullButFoundTopicIsNot1()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            var appName = "TestAppName";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(appName, helpTopics[6].AppFilter);
+            #endregion Arrange
+
+            #region Act
+            Controller.WatchVideo(5, null)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            HelpTopicRepository.AssertWasCalled(a => a.EnsurePersistent(helpTopics[4]));
+            Assert.AreEqual("Warning. HelpTopic not associated with HelpRequest application name.", Controller.Message);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the warning message appears for admin user when app name is null but found topic is not.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoWarningMessageAppearsForAdminUserWhenAppNameIsNullButFoundTopicIsNot2()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            var appName = "TestAppName";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(appName, helpTopics[6].AppFilter);
+            #endregion Arrange
+
+            #region Act
+            Controller.WatchVideo(5, string.Empty)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            HelpTopicRepository.AssertWasCalled(a => a.EnsurePersistent(helpTopics[4]));
+            Assert.AreEqual("Warning. HelpTopic not associated with HelpRequest application name.", Controller.Message);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the warning message appears for admin user when app name is null but found topic is not.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoWarningMessageAppearsForAdminUserWhenAppNameIsNullButFoundTopicIsNot3()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            var appName = "TestAppName";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(appName, helpTopics[6].AppFilter);
+            #endregion Arrange
+
+            #region Act
+            Controller.WatchVideo(5, "HelpRequest")
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            HelpTopicRepository.AssertWasCalled(a => a.EnsurePersistent(helpTopics[4]));
+            Assert.AreEqual("Warning. HelpTopic not associated with HelpRequest application name.", Controller.Message);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the warning message appears for admin user when app name is null but found topic is not.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoWarningMessageAppearsForAdminUserWhenAppNameIsNullButFoundTopicIsNot4()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            string appName = null;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(appName, helpTopics[6].AppFilter);
+            #endregion Arrange
+
+            #region Act
+            Controller.WatchVideo(5, "HelpRequest")
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            HelpTopicRepository.AssertWasCalled(a => a.EnsurePersistent(helpTopics[4]));
+            Assert.IsNull(Controller.Message);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo warning message appears for admin user when app name is null but found topic is not.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoWarningMessageAppearsForAdminUserWhenAppNameIsNullButFoundTopicIsNot5()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            string appName = string.Empty;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(appName, helpTopics[6].AppFilter);
+            #endregion Arrange
+
+            #region Act
+            Controller.WatchVideo(5, "HelpRequest")
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            HelpTopicRepository.AssertWasCalled(a => a.EnsurePersistent(helpTopics[4]));
+            Assert.IsNull(Controller.Message);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the warning message appears for admin user when app name is null but found topic is not.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoWarningMessageAppearsForAdminUserWhenAppNameIsNullButFoundTopicIsNot6()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            string appName = string.Empty;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(appName, helpTopics[6].AppFilter);
+            #endregion Arrange
+
+            #region Act
+            Controller.WatchVideo(5, null)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            HelpTopicRepository.AssertWasCalled(a => a.EnsurePersistent(helpTopics[4]));
+            Assert.IsNull(Controller.Message);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the warning message appears for admin user when app name is null but found topic is not.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoWarningMessageAppearsForAdminUserWhenAppNameIsNullButFoundTopicIsNot7()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            string appName = "HelpRequest";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(appName, helpTopics[6].AppFilter);
+            #endregion Arrange
+
+            #region Act
+            Controller.WatchVideo(5, "HelpRequest")
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            HelpTopicRepository.AssertWasCalled(a => a.EnsurePersistent(helpTopics[4]));
+            Assert.IsNull(Controller.Message);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the warning message appears for admin user when app name is null but found topic is not.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoWarningMessageAppearsForAdminUserWhenAppNameIsNullButFoundTopicIsNot8()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            var appName = "TestAppName";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(appName, helpTopics[6].AppFilter);
+            #endregion Arrange
+
+            #region Act
+            Controller.WatchVideo(5, "OtherApp")
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            HelpTopicRepository.AssertWasCalled(a => a.EnsurePersistent(helpTopics[4]));
+            Assert.AreEqual("Warning. HelpTopic not associated with OtherApp application name.", Controller.Message);
+            #endregion Assert
+        }
+
+
+        /// <summary>
+        /// Tests the WatchVideo redirects to index if user is not authorized.
+        /// Fails when is Not Active
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIfUserIsNotAuthorized1()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.User });
+            var appName = "HelpRequest";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(appName, helpTopics[6].AppFilter);
+            Assert.IsFalse(helpTopics[6].IsActive);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(7, null)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(null));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to watch that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo redirects to index if user is not authorized.
+        /// Fails when is Not Active
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIfUserIsNotAuthorized2()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.User });
+            var appName = "HelpRequest";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(null, helpTopics[7].AppFilter);
+            Assert.IsFalse(helpTopics[7].IsActive);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(8, null)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(null));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to watch that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo redirects to index if user is not authorized.
+        /// Fails when is Not Active
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIfUserIsNotAuthorized3()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.User });
+            var appName = "HelpRequest";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[7].AppFilter = string.Empty;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(string.Empty, helpTopics[7].AppFilter);
+            Assert.IsFalse(helpTopics[7].IsActive);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(8, null)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(null));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to watch that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo redirects to index if user is not authorized.
+        /// Fails when is appName Is Not null
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIfUserIsNotAuthorized4()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.User });
+            var appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreNotEqual(appName, helpTopics[3].AppFilter);
+            Assert.IsTrue(helpTopics[3].IsActive);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, null)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(null));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to watch that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo redirects to index if user is not authorized.
+        /// Fails when is appName Is Not null
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIfUserIsNotAuthorized5()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.User });
+            var appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreNotEqual(appName, helpTopics[3].AppFilter);
+            Assert.IsTrue(helpTopics[3].IsActive);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, string.Empty)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(null));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to watch that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(string.Empty, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo redirects to index if user is not authorized.
+        /// Fails when is appName isn't a match
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIfUserIsNotAuthorized6()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.User });
+            var appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.IsNull(helpTopics[7].AppFilter);
+            Assert.IsFalse(helpTopics[7].IsActive);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(8, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to watch that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo redirects to index if user is not authorized.
+        /// Fails when is appName isn't a match
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIfUserIsNotAuthorized7()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.User });
+            var appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreNotEqual(appName, helpTopics[3].AppFilter);
+            Assert.IsTrue(helpTopics[3].IsActive);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to watch that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo returns view if user is authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoReturnsViewIfUserIsAuthorized1()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.User });
+            var appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[9].AppFilter = null;
+            helpTopics[9].AvailableToPublic = false;
+            helpTopics[9].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.IsNull(helpTopics[9].AppFilter);
+            Assert.IsTrue(helpTopics[9].IsActive);
+            #endregion Arrange
+
+            #region Act
+            Controller.WatchVideo(10, null)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(Controller.Message);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo returns view if user is authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoReturnsViewIfUserIsAuthorized2()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.User });
+            var appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[9].AppFilter = string.Empty;
+            helpTopics[9].AvailableToPublic = false;
+            helpTopics[9].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(string.Empty, helpTopics[9].AppFilter);
+            Assert.IsTrue(helpTopics[9].IsActive);
+            #endregion Arrange
+
+            #region Act
+            Controller.WatchVideo(10, null)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(Controller.Message);
+            #endregion Assert
+        }
+        /// <summary>
+        /// Tests the WatchVideo returns view if user is authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoReturnsViewIfUserIsAuthorized3()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.User });
+            var appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[9].AppFilter = "HelpRequest";
+            helpTopics[9].AvailableToPublic = false;
+            helpTopics[9].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual("HelpRequest", helpTopics[9].AppFilter);
+            Assert.IsTrue(helpTopics[9].IsActive);
+            #endregion Arrange
+
+            #region Act
+            Controller.WatchVideo(10, null)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(Controller.Message);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo returns view if user is authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoReturnsViewIfUserIsAuthorized4()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.User });
+            var appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[9].AppFilter = null;
+            helpTopics[9].AvailableToPublic = false;
+            helpTopics[9].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.IsNull(helpTopics[9].AppFilter);
+            Assert.IsTrue(helpTopics[9].IsActive);
+            #endregion Arrange
+
+            #region Act
+            Controller.WatchVideo(10, appName)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(Controller.Message);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo returns view if user is authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoReturnsViewIfUserIsAuthorized5()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.User });
+            var appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[9].AppFilter = string.Empty;
+            helpTopics[9].AvailableToPublic = false;
+            helpTopics[9].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(string.Empty, helpTopics[9].AppFilter);
+            Assert.IsTrue(helpTopics[9].IsActive);
+            #endregion Arrange
+
+            #region Act
+            Controller.WatchVideo(10, appName)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(Controller.Message);
+            #endregion Assert
+        }
+        /// <summary>
+        /// Tests the WatchVideo returns view if user is authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoReturnsViewIfUserIsAuthorized6()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.User });
+            var appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[9].AppFilter = appName;
+            helpTopics[9].AvailableToPublic = false;
+            helpTopics[9].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            Assert.AreEqual(appName, helpTopics[9].AppFilter);
+            Assert.IsTrue(helpTopics[9].IsActive);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(10, appName)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreSame(helpTopics[9], result.HelpTopic);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo redirects to index if user is not authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIfUserIsNotAuthorized8()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = null;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = false;
+            helpTopics[3].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to watch that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo redirects to index if user is not authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIfUserIsNotAuthorized9()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = null;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = false;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to watch that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo redirects to index if user is not authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIfUserIsNotAuthorized9A()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = null;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = false;
+            helpTopics[3].IsActive = false;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to watch that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo redirects to index if user is not authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIfUserIsNotAuthorized10()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = null;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[3].AppFilter = "NotSame";
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to watch that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo redirects to index if user is not authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIfUserIsNotAuthorized11()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = false;
+            helpTopics[3].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to watch that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo redirects to index if user is not authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIfUserIsNotAuthorized12()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = false;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to watch that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo redirects to index if user is not authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIfUserIsNotAuthorized13()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = false;
+            helpTopics[3].IsActive = false;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to watch that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo redirects to index if user is not authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIfUserIsNotAuthorized14()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[3].AppFilter = "HelpRequest";
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to watch that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo returns view if user is authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoReturnsViewIfUserIsAuthorized7()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = null;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, appName)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreSame(helpTopics[3], result.HelpTopic);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo returns view if user is authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoReturnsViewIfUserIsAuthorized8()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = null;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[3].AppFilter = string.Empty;
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, appName)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreSame(helpTopics[3], result.HelpTopic);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo returns view if user is authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoReturnsViewIfUserIsAuthorized9()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = null;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[3].AppFilter = "HelpRequest";
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, appName)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreSame(helpTopics[3], result.HelpTopic);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the WatchVideo returns view if user is authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoReturnsViewIfUserIsAuthorized10()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, appName)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreSame(helpTopics[3], result.HelpTopic);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the watch video redirects to index is not A video.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIsNotAVideo1()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            string appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = true;
+            helpTopics[3].IsVideo = false;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Error. Help Topic is not a video.", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the watch video redirects to index is not A video.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIsNotAVideo2()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            string appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = true;
+            helpTopics[3].VideoName = null;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Error. Help Topic is not a video.", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the watch video redirects to index is not A video.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIsNotAVideo3()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            string appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = true;
+            helpTopics[3].VideoName = string.Empty;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Error. Help Topic is not a video.", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the watch video redirects to index is not A video.
+        /// </summary>
+        [TestMethod]
+        public void TestWatchVideoRedirectsToIndexIsNotAVideo4()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { RoleNames.Admin });
+            string appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            ChangeHelpTopicsToVideo(helpTopics);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = true;
+            helpTopics[3].VideoName = "  ";
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.WatchVideo(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Error. Help Topic is not a video.", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+        #endregion WatchVideo Tests
+
         #region Reflection
         #region Controller Class Tests
 
@@ -1788,8 +2994,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Act
 
             #region Assert
-            //Assert.AreEqual(1, result.Count(), "It looks like a method was added or removed from the controller.");
-            Assert.AreEqual(5, result.Count(), "Still need to add tests.");
+            Assert.AreEqual(7, result.Count(), "It looks like a method was added or removed from the controller.");
             #endregion Assert
         }
 
@@ -2000,6 +3205,52 @@ namespace HelpRequest.Tests.Controllers
             Assert.AreEqual(1, expectedAttribute.Count(), "ValidateInputAttribute not found");
             Assert.IsFalse(expectedAttribute.ElementAt(0).EnableValidation);
             Assert.AreEqual(3, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the controller method details contains expected attributes.
+        /// #6
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodDetailsContainsExpectedAttributes()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "Details");
+            #endregion Arrange
+
+            #region Act
+            //var expectedAttribute = controllerMethod.ElementAt(0).GetCustomAttributes(true).OfType<AdminOnlyAttribute>();
+            var allAttributes = controllerMethod.ElementAt(0).GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            //Assert.AreEqual(1, expectedAttribute.Count(), "AdminOnlyAttribute not found");
+            Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the controller method watch video contains expected attributes.
+        /// #7
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodWatchVideoContainsExpectedAttributes()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "WatchVideo");
+            #endregion Arrange
+
+            #region Act
+            //var expectedAttribute = controllerMethod.ElementAt(0).GetCustomAttributes(true).OfType<AdminOnlyAttribute>();
+            var allAttributes = controllerMethod.ElementAt(0).GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            //Assert.AreEqual(1, expectedAttribute.Count(), "AdminOnlyAttribute not found");
+            Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
             #endregion Assert
         }
 
@@ -2218,6 +3469,15 @@ namespace HelpRequest.Tests.Controllers
         #endregion
 
         #region Helpers
+        private void ChangeHelpTopicsToVideo(List<HelpTopic> helpTopics)
+        {
+            foreach (var helpTopic in helpTopics)
+            {
+                helpTopic.IsVideo = true;
+                helpTopic.VideoName = "VideoName";
+            }
+
+        }
 
         private void LoadHelpTopics(List<HelpTopic> helpTopics, string appName)
         {
