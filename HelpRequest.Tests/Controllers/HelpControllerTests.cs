@@ -1323,6 +1323,370 @@ namespace HelpRequest.Tests.Controllers
             Assert.AreSame(helpTopics[9], result.HelpTopic);
             #endregion Assert
         }
+
+        /// <summary>
+        /// Tests the details redirects to index if user is not authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestDetailsRedirectsToIndexIfUserIsNotAuthorized8()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = null;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = false;
+            helpTopics[3].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Details(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to view that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the details redirects to index if user is not authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestDetailsRedirectsToIndexIfUserIsNotAuthorized9()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = null;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = false;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Details(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to view that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the details redirects to index if user is not authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestDetailsRedirectsToIndexIfUserIsNotAuthorized9A()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = null;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = false;
+            helpTopics[3].IsActive = false;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Details(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to view that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the details redirects to index if user is not authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestDetailsRedirectsToIndexIfUserIsNotAuthorized10()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = null;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            helpTopics[3].AppFilter = "NotSame";
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Details(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to view that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the details redirects to index if user is not authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestDetailsRedirectsToIndexIfUserIsNotAuthorized11()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = false;
+            helpTopics[3].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Details(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to view that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the details redirects to index if user is not authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestDetailsRedirectsToIndexIfUserIsNotAuthorized12()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = false;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Details(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to view that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the details redirects to index if user is not authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestDetailsRedirectsToIndexIfUserIsNotAuthorized13()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = false;
+            helpTopics[3].IsActive = false;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Details(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to view that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the details redirects to index if user is not authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestDetailsRedirectsToIndexIfUserIsNotAuthorized14()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            helpTopics[3].AppFilter = "HelpRequest";
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Details(4, appName)
+                .AssertActionRedirect()
+                .ToAction<HelpController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Not Authorized to view that topic", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the details returns view if user is authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestDetailsReturnsViewIfUserIsAuthorized7()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = null;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Details(4, appName)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreSame(helpTopics[3], result.HelpTopic);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the details returns view if user is authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestDetailsReturnsViewIfUserIsAuthorized8()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = null;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            helpTopics[3].AppFilter = string.Empty;
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Details(4, appName)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreSame(helpTopics[3], result.HelpTopic);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the details returns view if user is authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestDetailsReturnsViewIfUserIsAuthorized9()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = null;
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            helpTopics[3].AppFilter = "HelpRequest";
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Details(4, appName)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreSame(helpTopics[3], result.HelpTopic);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the details returns view if user is authorized.
+        /// </summary>
+        [TestMethod]
+        public void TestDetailsReturnsViewIfUserIsAuthorized10()
+        {
+            #region Arrange
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            string appName = "MAAPS";
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            helpTopics[3].AppFilter = appName;
+            helpTopics[3].AvailableToPublic = true;
+            helpTopics[3].IsActive = true;
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Details(4, appName)
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNull(Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreSame(helpTopics[3], result.HelpTopic);
+            #endregion Assert
+        }
         #endregion Details Tests
 
         #region Reflection
