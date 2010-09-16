@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using HelpRequest.Controllers.ViewModels;
 using HelpRequest.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
@@ -18,6 +14,12 @@ namespace HelpRequest.Controllers
         {
             CatbertApplicationRepository = catbertApplicationRepository;
         }
+        /// <summary>
+        /// Index
+        /// #1
+        /// </summary>
+        /// <param name="appName">Name of the app.</param>
+        /// <returns></returns>
         public ActionResult Index(string appName)
         {
             if (string.IsNullOrEmpty(appName))
@@ -31,11 +33,23 @@ namespace HelpRequest.Controllers
             return View(HomeViewModel.Create(CatbertApplicationRepository, appName));
         }
 
+        /// <summary>
+        /// About.
+        /// #2
+        /// </summary>
+        /// <param name="appName">Name of the app.</param>
+        /// <returns></returns>
         public ActionResult About(string appName)
         {
             return View(GenericViewModel.Create(appName));
         }
 
+        /// <summary>
+        /// Returns to calling application.
+        /// #3
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <returns></returns>
         public ActionResult ReturnToCallingApplication(string url)
         {
             return Redirect(url);

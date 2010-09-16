@@ -57,6 +57,45 @@ namespace HelpRequest.Tests.Core.Helpers
             helpTopicRepository.Expect(a => a.GetNullableById(totalCount + 1)).Return(null).Repeat.Any();
             helpTopicRepository.Expect(a => a.Queryable).Return(helpTopics.AsQueryable()).Repeat.Any();
             helpTopicRepository.Expect(a => a.GetAll()).Return(helpTopics).Repeat.Any();
-        }               
+        }
+
+        public static void FakeCatbert(int count, IRepository<CatbertApplication> catbertApplicationRepository)
+        {
+            var catBertApplications = new List<CatbertApplication>();
+            FakeCatbert(count, catbertApplicationRepository, catBertApplications);
+        }
+        public static void FakeCatbert(int count, IRepository<CatbertApplication> catbertApplicationRepository, List<CatbertApplication> specificCatBertApplications)
+        {
+            var catBertApplications = new List<CatbertApplication>();
+            var specificCatBertApplicationsCount = 0;
+            if (specificCatBertApplications != null)
+            {
+                specificCatBertApplicationsCount = specificCatBertApplications.Count;
+                for (int i = 0; i < specificCatBertApplicationsCount; i++)
+                {
+                    catBertApplications.Add(specificCatBertApplications[i]);
+                }
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                catBertApplications.Add(CreateValidEntities.CatbertApplication(i + specificCatBertApplicationsCount + 1));
+            }
+
+            var totalCount = catBertApplications.Count;
+            for (int i = 0; i < totalCount; i++)
+            {
+                catBertApplications[i].SetIdTo(i + 1);
+                int i1 = i;
+                catbertApplicationRepository
+                    .Expect(a => a.GetNullableById(i1 + 1))
+                    .Return(catBertApplications[i])
+                    .Repeat
+                    .Any();
+            }
+            catbertApplicationRepository.Expect(a => a.GetNullableById(totalCount + 1)).Return(null).Repeat.Any();
+            catbertApplicationRepository.Expect(a => a.Queryable).Return(catBertApplications.AsQueryable()).Repeat.Any();
+            catbertApplicationRepository.Expect(a => a.GetAll()).Return(catBertApplications).Repeat.Any();
+        }
     }
 }
