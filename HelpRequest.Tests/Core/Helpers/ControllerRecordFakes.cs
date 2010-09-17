@@ -97,5 +97,45 @@ namespace HelpRequest.Tests.Core.Helpers
             catbertApplicationRepository.Expect(a => a.Queryable).Return(catBertApplications.AsQueryable()).Repeat.Any();
             catbertApplicationRepository.Expect(a => a.GetAll()).Return(catBertApplications).Repeat.Any();
         }
+
+
+        public static void FakeUsers(int count, IRepository<User> userRepository)
+        {
+            var users = new List<User>();
+            FakeUsers(count, userRepository, users);
+        }
+        public static void FakeUsers(int count, IRepository<User> userRepository, List<User> specificUsers)
+        {
+            var users = new List<User>();
+            var specificUsersCount = 0;
+            if (specificUsers != null)
+            {
+                specificUsersCount = specificUsers.Count;
+                for (int i = 0; i < specificUsersCount; i++)
+                {
+                    users.Add(specificUsers[i]);
+                }
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                users.Add(CreateValidEntities.User(i + specificUsersCount + 1));
+            }
+
+            var totalCount = users.Count;
+            for (int i = 0; i < totalCount; i++)
+            {
+                users[i].SetIdTo(i + 1);
+                int i1 = i;
+                userRepository
+                    .Expect(a => a.GetNullableById(i1 + 1))
+                    .Return(users[i])
+                    .Repeat
+                    .Any();
+            }
+            userRepository.Expect(a => a.GetNullableById(totalCount + 1)).Return(null).Repeat.Any();
+            userRepository.Expect(a => a.Queryable).Return(users.AsQueryable()).Repeat.Any();
+            userRepository.Expect(a => a.GetAll()).Return(users).Repeat.Any();
+        }
     }
 }

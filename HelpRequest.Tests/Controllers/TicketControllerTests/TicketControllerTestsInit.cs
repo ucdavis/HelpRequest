@@ -20,17 +20,27 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
     {
         protected readonly Type ControllerClass = typeof(TicketController);
         public IRepository<Ticket> TicketRepository;
+        public IRepository<User> UserRepository;
         protected IEmailProvider EmailProvider;
         protected ITicketControllerService TicketControllerService;
 
         #region Init
 
+        public TicketControllerTests()
+        {
+            UserRepository = FakeRepository<User>();
+            Controller.Repository.Expect(a => a.OfType<User>()).Return(UserRepository).Repeat.Any();
+
+        }
+
         protected override void SetupController()
         {
             TicketRepository = FakeRepository<Ticket>();
+            
             EmailProvider = MockRepository.GenerateStub<IEmailProvider>();
             TicketControllerService = MockRepository.GenerateStub<ITicketControllerService>();
             Controller = new TestControllerBuilder().CreateController<TicketController>(EmailProvider, TicketControllerService);
+
         }
         /// <summary>
         /// Registers the routes.
