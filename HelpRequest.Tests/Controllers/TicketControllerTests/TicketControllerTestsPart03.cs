@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using HelpRequest.Controllers;
 using HelpRequest.Controllers.Helpers;
 using HelpRequest.Controllers.ViewModels;
@@ -377,7 +378,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
         /// Tests the common validation checks is called.
         /// </summary>
         [TestMethod]
-        public void TestCommonValidationChecksIsCalled()
+        public void TestSubmitWhenCommonValidationChecksIsCalled()
         {
             #region Arrange
             var ticket = CreateValidEntities.Ticket(1);
@@ -405,6 +406,8 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             TicketControllerService.AssertWasCalled(a => a.CommonSubmitValidationChecks(Controller.ModelState, ticket, null, null, null, null));
             Assert.IsFalse(Controller.ModelState.IsValid);
             Controller.ModelState.AssertErrorsAre("Subject: You must enter the Subject.");
+            Assert.IsNotNull(result);
+            Assert.AreSame(ticket, result.Ticket);
             #endregion Assert		
         }
 
@@ -412,7 +415,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
         /// Tests the common validation checks is called with expected parameters.
         /// </summary>
         [TestMethod]
-        public void TestCommonValidationChecksIsCalledWithExpectedParameters()
+        public void TestSubmitWhenCommonValidationChecksIsCalledWithExpectedParameters()
         {
             #region Arrange
             var ticket = CreateValidEntities.Ticket(1);
@@ -445,6 +448,8 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             TicketControllerService.AssertWasCalled(a => a.CommonSubmitValidationChecks(Controller.ModelState, ticket, avDates, emailCcs, availableDates, anotherEmailCc));
             Assert.IsFalse(Controller.ModelState.IsValid);
             Controller.ModelState.AssertErrorsAre("Subject: You must enter the Subject.");
+            Assert.IsNotNull(result);
+            Assert.AreSame(ticket, result.Ticket);
             #endregion Assert
         }
 
@@ -452,7 +457,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
         /// Tests the load file contents is called.
         /// </summary>
         [TestMethod]
-        public void TestLoadFileContentsIsCalled()
+        public void TestSubmitWhenLoadFileContentsIsCalled()
         {
             #region Arrange
             var ticket = CreateValidEntities.Ticket(1);
@@ -479,13 +484,15 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             TicketControllerService.AssertWasCalled(a => a.LoadFileContents(ticket, null));
             Assert.IsFalse(Controller.ModelState.IsValid);
             Controller.ModelState.AssertErrorsAre("Subject: You must enter the Subject.");
+            Assert.IsNotNull(result);
+            Assert.AreSame(ticket, result.Ticket);
             #endregion Assert
         }
         /// <summary>
         /// Tests the load file contents is called with expected parameters.
         /// </summary>
         [TestMethod]
-        public void TestLoadFileContentsIsCalledWithExpectedParameters()
+        public void TestSubmitWhenLoadFileContentsIsCalledWithExpectedParameters()
         {
             #region Arrange
             var ticket = CreateValidEntities.Ticket(1);
@@ -522,22 +529,251 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #endregion Assert
         }
 
-
+        /// <summary>
+        /// Tests the expected email is sent with valid values.
+        /// </summary>
         [TestMethod]
-        public void TestMoreTests()
+        public void TestSubmitWhenExpectedEmailIsSentWithValidValues1()
         {
             #region Arrange
-
-            Assert.Inconclusive("Still need to test inside when it is valid");
-
+            var ticket = CreateValidEntities.Ticket(1);
+            var avDates = new[] { "Today", "Tomorrow" };
+            var emailCcs = new[] { "test@testy.com", "test@tester.edu" };
+            var upload = new MockHttpPostedFileBase();
+            var availableDates = "Hah";
+            var anotherEmailCc = "test@icle.com";
+            string appName = "MAAPS";
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            var users = new List<User>();
+            users.Add(CreateValidEntities.User(9));
+            users[0].LoginId = "UserName";
+            users[0].Email = null;
+            ControllerRecordFakes.FakeUsers(3, UserRepository, users);
+            var directory = new DirectoryUser();
+            directory.EmailAddress = "kerb@test.edu";
+            TicketControllerService.Expect(a => a.FindKerbUser("UserName")).Return(directory).Repeat.Any();
+            ticket.SupportDepartment = StaticValues.STR_ComputerSupport;
             #endregion Arrange
 
             #region Act
-
+            var result = Controller.Submit(ticket, avDates, emailCcs, upload, appName, availableDates, anotherEmailCc)
+                .AssertActionRedirect()
+                .ToAction<HomeController>(a => a.Index(appName));
             #endregion Act
 
             #region Assert
+            Assert.AreEqual("Your ticket has been successfully submitted, you will be receiving a confirmation email with a ticket # shortly (usually 5-10min).", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test1@ucdavis.edu"));
+            #endregion Assert		
+        }
 
+        /// <summary>
+        /// Tests the expected email is sent with valid values.
+        /// </summary>
+        [TestMethod]
+        public void TestSubmitWhenExpectedEmailIsSentWithValidValues2()
+        {
+            #region Arrange
+            var ticket = CreateValidEntities.Ticket(1);
+            var avDates = new[] { "Today", "Tomorrow" };
+            var emailCcs = new[] { "test@testy.com", "test@tester.edu" };
+            var upload = new MockHttpPostedFileBase();
+            var availableDates = "Hah";
+            var anotherEmailCc = "test@icle.com";
+            string appName = "MAAPS";
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            var users = new List<User>();
+            users.Add(CreateValidEntities.User(9));
+            users[0].LoginId = "UserName";
+            users[0].Email = "test@email.com";
+            ControllerRecordFakes.FakeUsers(3, UserRepository, users);
+            //var directory = new DirectoryUser();
+            //directory.EmailAddress = "kerb@test.edu";
+            //TicketControllerService.Expect(a => a.FindKerbUser("UserName")).Return(directory).Repeat.Any();
+            ticket.SupportDepartment = StaticValues.STR_ComputerSupport;
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Submit(ticket, avDates, emailCcs, upload, appName, availableDates, anotherEmailCc)
+                .AssertActionRedirect()
+                .ToAction<HomeController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Your ticket has been successfully submitted, you will be receiving a confirmation email with a ticket # shortly (usually 5-10min).", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, false, "test1@ucdavis.edu"));
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the expected email is sent with valid values.
+        /// </summary>
+        [TestMethod]
+        public void TestSubmitWhenExpectedEmailIsSentWithValidValues3()
+        {
+            #region Arrange
+            var ticket = CreateValidEntities.Ticket(1);
+            var avDates = new[] { "Today", "Tomorrow" };
+            var emailCcs = new[] { "test@testy.com", "test@tester.edu" };
+            var upload = new MockHttpPostedFileBase();
+            var availableDates = "Hah";
+            var anotherEmailCc = "test@icle.com";
+            string appName = "MAAPS";
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            var users = new List<User>();
+            users.Add(CreateValidEntities.User(9));
+            users[0].LoginId = "UserName";
+            users[0].Email = null;
+            ControllerRecordFakes.FakeUsers(3, UserRepository, users);
+            var directory = new DirectoryUser();
+            directory.EmailAddress = "kerb@test.edu";
+            TicketControllerService.Expect(a => a.FindKerbUser("UserName")).Return(directory).Repeat.Any();
+            ticket.SupportDepartment = "UnKnown";
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Submit(ticket, avDates, emailCcs, upload, appName, availableDates, anotherEmailCc)
+                .AssertActionRedirect()
+                .ToAction<HomeController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Your ticket has been successfully submitted, you will be receiving a confirmation email with a ticket # shortly (usually 5-10min).", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test1@ucdavis.edu"));
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the expected email is sent with valid values.
+        /// </summary>
+        [TestMethod]
+        public void TestSubmitWhenExpectedEmailIsSentWithValidValues4()
+        {
+            #region Arrange
+            var ticket = CreateValidEntities.Ticket(1);
+            var avDates = new[] { "Today", "Tomorrow" };
+            var emailCcs = new[] { "test@testy.com", "test@tester.edu" };
+            var upload = new MockHttpPostedFileBase();
+            var availableDates = "Hah";
+            var anotherEmailCc = "test@icle.com";
+            string appName = "MAAPS";
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            var users = new List<User>();
+            users.Add(CreateValidEntities.User(9));
+            users[0].LoginId = "UserName";
+            users[0].Email = null;
+            ControllerRecordFakes.FakeUsers(3, UserRepository, users);
+            var directory = new DirectoryUser();
+            directory.EmailAddress = "kerb@test.edu";
+            TicketControllerService.Expect(a => a.FindKerbUser("UserName")).Return(directory).Repeat.Any();
+            ticket.SupportDepartment = StaticValues.STR_WebSiteSupport;
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Submit(ticket, avDates, emailCcs, upload, appName, availableDates, anotherEmailCc)
+                .AssertActionRedirect()
+                .ToAction<HomeController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Your ticket has been successfully submitted, you will be receiving a confirmation email with a ticket # shortly (usually 5-10min).", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test3@ucdavis.edu"));
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the expected email is sent with valid values.
+        /// </summary>
+        [TestMethod]
+        public void TestSubmitWhenExpectedEmailIsSentWithValidValues5()
+        {
+            #region Arrange
+            var ticket = CreateValidEntities.Ticket(1);
+            var avDates = new[] { "Today", "Tomorrow" };
+            var emailCcs = new[] { "test@testy.com", "test@tester.edu" };
+            var upload = new MockHttpPostedFileBase();
+            var availableDates = "Hah";
+            var anotherEmailCc = "test@icle.com";
+            string appName = "MAAPS";
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            var users = new List<User>();
+            users.Add(CreateValidEntities.User(9));
+            users[0].LoginId = "UserName";
+            users[0].Email = null;
+            ControllerRecordFakes.FakeUsers(3, UserRepository, users);
+            var directory = new DirectoryUser();
+            directory.EmailAddress = "kerb@test.edu";
+            TicketControllerService.Expect(a => a.FindKerbUser("UserName")).Return(directory).Repeat.Any();
+            ticket.SupportDepartment = StaticValues.STR_ProgrammingSupport;
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Submit(ticket, avDates, emailCcs, upload, appName, availableDates, anotherEmailCc)
+                .AssertActionRedirect()
+                .ToAction<HomeController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual("Your ticket has been successfully submitted, you will be receiving a confirmation email with a ticket # shortly (usually 5-10min).", Controller.Message);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test2@ucdavis.edu"));
+            #endregion Assert
+        }
+
+
+        /// <summary>
+        /// Tests the submit when email throws an exception.
+        /// </summary>
+        [TestMethod]
+        public void TestSubmitWhenEmailThrowsAnException()
+        {
+            #region Arrange
+            var ticket = CreateValidEntities.Ticket(1);
+            var avDates = new[] { "Today", "Tomorrow" };
+            var emailCcs = new[] { "test@testy.com", "test@tester.edu" };
+            var upload = new MockHttpPostedFileBase();
+            var availableDates = "Hah";
+            var anotherEmailCc = "test@icle.com";
+            string appName = "MAAPS";
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            var users = new List<User>();
+            users.Add(CreateValidEntities.User(9));
+            users[0].LoginId = "UserName";
+            users[0].Email = null;
+            ControllerRecordFakes.FakeUsers(3, UserRepository, users);
+            var directory = new DirectoryUser();
+            directory.EmailAddress = "kerb@test.edu";
+            TicketControllerService.Expect(a => a.FindKerbUser("UserName")).Return(directory).Repeat.Any();
+            ticket.SupportDepartment = StaticValues.STR_ProgrammingSupport;
+
+            EmailProvider.Expect(a => a.SendHelpRequest(
+                Arg<Ticket>.Is.Anything, 
+                Arg<bool>.Is.Anything, 
+                Arg<string>.Is.Anything))
+                .Throw(new Exception("Oops, my bad."));
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Submit(ticket, avDates, emailCcs, upload, appName, availableDates, anotherEmailCc)
+                .AssertViewRendered()
+                .WithViewData<TicketViewModel>();
+            #endregion Act
+
+            #region Assert
+            TicketControllerService.AssertWasCalled(a => a.LoadFileContents(ticket, upload));
+            Assert.IsFalse(Controller.ModelState.IsValid);
+            Controller.ModelState.AssertErrorsAre("Application Exception sending email: Oops, my bad.");
+            Assert.IsNotNull(result);
+            Assert.AreSame(ticket, result.Ticket);
             #endregion Assert		
         }
         #endregion Submit Post Tests

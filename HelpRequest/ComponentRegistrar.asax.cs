@@ -1,5 +1,6 @@
 ﻿using Castle.Windsor;
 using HelpRequest.Controllers.Helpers;
+using HelpRequest.Controllers.Services;
 using HelpRequest.Core.Abstractions;
 using UCDArch.Core.CommonValidator;
 using UCDArch.Core.NHibernateValidator.CommonValidatorAdapter;

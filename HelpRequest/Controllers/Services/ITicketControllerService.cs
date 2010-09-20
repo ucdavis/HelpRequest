@@ -3,10 +3,11 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using HelpRequest.Controllers.Helpers;
 using HelpRequest.Core.Domain;
 using HelpRequest.Core.Resources;
 
-namespace HelpRequest.Controllers.Helpers
+namespace HelpRequest.Controllers.Services
 {
     public interface ITicketControllerService
     {

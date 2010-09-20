@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using HelpRequest.Controllers.Filters;
 using HelpRequest.Controllers.Helpers;
+using HelpRequest.Controllers.Services;
 using HelpRequest.Controllers.ViewModels;
 using HelpRequest.Core.Abstractions;
 using HelpRequest.Core.Domain;
@@ -90,7 +91,7 @@ namespace HelpRequest.Controllers
         }
 
         /// <summary>
-        /// Submit Ticket
+        /// Submit Ticket Get
         /// #3
         /// </summary>
         /// <param name="appName">Name of the app.</param>
@@ -103,6 +104,17 @@ namespace HelpRequest.Controllers
         }
 
 
+        /// <summary>
+        /// Submit Ticket Post
+        /// </summary>
+        /// <param name="ticket">The ticket.</param>
+        /// <param name="avDates">Array of available dates as strings.</param>
+        /// <param name="emailCCs">Array of email Carbon Copy.</param>
+        /// <param name="uploadAttachment">The upload attachment.</param>
+        /// <param name="appName">Name of the app.</param>
+        /// <param name="availableDatesInput">Non-Array available dates as strings.</param>
+        /// <param name="emailCCsInput">Non-Array email Carbon Copy</param>
+        /// <returns></returns>
         [AcceptPost]
         [ValidateInput(false)]
         [Authorize]

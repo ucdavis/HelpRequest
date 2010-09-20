@@ -112,7 +112,7 @@
     <Compile Include="Controllers\Helpers\CustomGridBuilder.cs" />
     <Compile Include="Controllers\Helpers\DirectoryServices.cs" />
     <Compile Include="Controllers\Helpers\HtmlHelperExtensions.cs" />
-    <Compile Include="Controllers\Helpers\ITicketControllerService.cs" />
+    <Compile Include="Controllers\Services\ITicketControllerService.cs" />
     <Compile Include="Controllers\Helpers\ReturnUrlGenerator.cs" />
     <Compile Include="Controllers\Helpers\StringExtension.cs" />
     <Compile Include="Controllers\HomeController.cs" />
