@@ -1,13 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using HelpRequest.Controllers.Filters;
-using HelpRequest.Controllers.Helpers;
 using HelpRequest.Controllers.Services;
 using HelpRequest.Controllers.ViewModels;
 using HelpRequest.Core.Abstractions;
@@ -175,21 +172,8 @@ namespace HelpRequest.Controllers
             {
                 try
                 {
-                    var helpEmail = ConfigurationManager.AppSettings["HelpDeskEmail"];
-                    if(ticket.SupportDepartment == StaticValues.STR_ProgrammingSupport)
-                    {
-                        helpEmail = ConfigurationManager.AppSettings["AppHelpDeskEmail"];
-                    }
-                    else if (ticket.SupportDepartment == StaticValues.STR_WebSiteSupport)
-                    {
-                        helpEmail = ConfigurationManager.AppSettings["WebHelpDeskEmail"];
-                    }
-                    else
-                    {
-                        helpEmail = ConfigurationManager.AppSettings["HelpDeskEmail"];
-                    }
                     //_emailProvider.SendHelpRequest(ticket, useKerbEmail, ConfigurationManager.AppSettings["HelpDeskEmail"]);
-                    _emailProvider.SendHelpRequest(ticket, useKerbEmail, helpEmail);
+                    _emailProvider.SendHelpRequest(ticket, useKerbEmail, GetHelpEmail(ticket));
                     Message = StaticValues.STR_HelpTicketSuccessfullySent;//"Help Ticket successfully sent";
                     return this.RedirectToAction<HomeController>(a => a.Index(appName));
                 }
@@ -212,6 +196,12 @@ namespace HelpRequest.Controllers
         }
 
 
+        /// <summary>
+        /// Public submit get.
+        /// #5
+        /// </summary>
+        /// <param name="appName">Name of the app.</param>
+        /// <returns></returns>
         public ActionResult PublicSubmit(string appName)
         {
             //return View(TicketViewModel.Create(Repository, CurrentUser, appName));
@@ -219,6 +209,19 @@ namespace HelpRequest.Controllers
         }
 
 
+        /// <summary>
+        /// Public submit post.
+        /// #6
+        /// </summary>
+        /// <param name="ticket">The ticket.</param>
+        /// <param name="avDates">Array of available dates as strings.</param>
+        /// <param name="emailCCs">Array of email Carbon Copy.</param>
+        /// <param name="uploadAttachment">The upload attachment.</param>
+        /// <param name="captchaValid">true/false</param>
+        /// <param name="appName">Name of the app.</param>
+        /// <param name="availableDatesInput">Non-Array available dates as strings.</param>
+        /// <param name="emailCCsInput">Non-Array email Carbon Copy</param>
+        /// <returns></returns>
         [CaptchaValidator]
         [AcceptPost]
         [ValidateInput(false)]
@@ -234,8 +237,8 @@ namespace HelpRequest.Controllers
                 ModelState.AddModelError("Ticket.FromEmail", "Your email address is required.");
             }
             else
-            {
-                var regExVal = new Regex(@"(^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$){1}|^$");
+            {                
+                var regExVal = new Regex(StaticValues.EmailErrorRegEx);
    
                 if (!regExVal.IsMatch(ticket.FromEmail.ToLower()))
                 {
@@ -252,22 +255,9 @@ namespace HelpRequest.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {
-                    var helpEmail = ConfigurationManager.AppSettings["HelpDeskEmail"];
-                    if (ticket.SupportDepartment == StaticValues.STR_ProgrammingSupport)
-                    {
-                        helpEmail = ConfigurationManager.AppSettings["AppHelpDeskEmail"];
-                    }
-                    else if (ticket.SupportDepartment == StaticValues.STR_WebSiteSupport)
-                    {
-                        helpEmail = ConfigurationManager.AppSettings["WebHelpDeskEmail"];
-                    }
-                    else
-                    {
-                        helpEmail = ConfigurationManager.AppSettings["HelpDeskEmail"];
-                    }
+                {                    
                     //_emailProvider.SendHelpRequest(ticket, true, ConfigurationManager.AppSettings["HelpDeskEmail"]);
-                    _emailProvider.SendHelpRequest(ticket, true, helpEmail);
+                    _emailProvider.SendHelpRequest(ticket, true, GetHelpEmail(ticket));
                     Message = StaticValues.STR_HelpTicketSuccessfullySent;
                     return this.RedirectToAction<HomeController>(a => a.Index(appName));
                 }
@@ -287,6 +277,24 @@ namespace HelpRequest.Controllers
                 viewModel.Ticket = ticket;
                 return View(viewModel);
             }
+        }
+
+        private string GetHelpEmail(Ticket ticket)
+        {
+            string helpEmail;
+            if (ticket.SupportDepartment == StaticValues.STR_ProgrammingSupport)
+            {
+                helpEmail = ConfigurationManager.AppSettings["AppHelpDeskEmail"];
+            }
+            else if (ticket.SupportDepartment == StaticValues.STR_WebSiteSupport)
+            {
+                helpEmail = ConfigurationManager.AppSettings["WebHelpDeskEmail"];
+            }
+            else
+            {
+                helpEmail = ConfigurationManager.AppSettings["HelpDeskEmail"];
+            }
+            return helpEmail;
         }
     }
 }

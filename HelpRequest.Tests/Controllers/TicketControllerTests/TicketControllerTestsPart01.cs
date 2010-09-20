@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using HelpRequest.Controllers;
+using HelpRequest.Controllers.Filters;
 using HelpRequest.Core.Domain;
 using HelpRequest.Tests.Core.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -55,6 +56,15 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
         public void TestPublicSubmitGetMapping()
         {
             "~/Ticket/PublicSubmit/?appName=Test".ShouldMapTo<TicketController>(a => a.PublicSubmit("Test"), true);
+        }
+
+        /// <summary>
+        /// Tests the public submit post mapping.
+        /// </summary>
+        [TestMethod]
+        public void TestPublicSubmitPostMapping()
+        {
+            "~/Ticket/PublicSubmit/?appName=Test".ShouldMapTo<TicketController>(a => a.PublicSubmit(new Ticket(), null,null,null,true,null,null,null), true);
         }
         #endregion Mapping Tests
 
@@ -157,7 +167,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(3, result.Count(), "It looks like a method was added or removed from the controller.");
+            Assert.AreEqual(6, result.Count(), "It looks like a method was added or removed from the controller.");
             #endregion Assert
         }
 
@@ -314,6 +324,76 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #region Assert
             //Assert.AreEqual(1, expectedAttribute.Count(), "AuthorizeAttribute not found");
             Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the controller method public submit post contains expected attributes.
+        /// #6
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodPublicSubmitPostContainsExpectedAttributes1()
+        {
+            #region Arrange
+            var controllerClass = ControllerClass;
+            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "PublicSubmit");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<ValidateInputAttribute>();
+            var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "ValidateInputAttribute not found");
+            Assert.IsFalse(expectedAttribute.ElementAt(0).EnableValidation);
+            Assert.AreEqual(3, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the controller method public submit post contains expected attributes.
+        /// #6
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodPublicSubmitPostContainsExpectedAttributes2()
+        {
+            #region Arrange
+            var controllerClass = ControllerClass;
+            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "PublicSubmit");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<AcceptPostAttribute>();
+            var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "AcceptPostAttribute not found");
+            Assert.AreEqual(3, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the controller method public submit post contains expected attributes.
+        /// #6
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodPublicSubmitPostContainsExpectedAttributes3()
+        {
+            #region Arrange
+            var controllerClass = ControllerClass;
+            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "PublicSubmit");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<CaptchaValidatorAttribute>();
+            var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "CaptchaValidatorAttribute not found");
+            Assert.AreEqual(3, allAttributes.Count(), "More than expected custom attributes found.");
             #endregion Assert
         }
         #endregion Controller Method Tests
