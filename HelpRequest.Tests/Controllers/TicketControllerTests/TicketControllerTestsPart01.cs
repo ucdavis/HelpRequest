@@ -47,6 +47,15 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
         {
             "~/Ticket/Submit/?appName=Test".ShouldMapTo<TicketController>(a => a.Submit(new Ticket(), null, null, null, "Test", null, null), true);
         }
+
+        /// <summary>
+        /// Tests the public submit get mapping.
+        /// </summary>
+        [TestMethod]
+        public void TestPublicSubmitGetMapping()
+        {
+            "~/Ticket/PublicSubmit/?appName=Test".ShouldMapTo<TicketController>(a => a.PublicSubmit("Test"), true);
+        }
         #endregion Mapping Tests
 
         #region Reflection
@@ -285,6 +294,28 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #endregion Assert
         }
 
+        /// <summary>
+        /// Tests the controller method public submit get contains expected attributes.
+        /// #5
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodPublicSubmitGetContainsExpectedAttributes()
+        {
+            #region Arrange
+            var controllerClass = ControllerClass;
+            var controllerMethod = controllerClass.GetMethods().Where(a => a.Name == "PublicSubmit");
+            #endregion Arrange
+
+            #region Act
+            //var expectedAttribute = controllerMethod.ElementAt(0).GetCustomAttributes(true).OfType<AuthorizeAttribute>();
+            var allAttributes = controllerMethod.ElementAt(0).GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            //Assert.AreEqual(1, expectedAttribute.Count(), "AuthorizeAttribute not found");
+            Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
         #endregion Controller Method Tests
 
         #endregion Reflection
