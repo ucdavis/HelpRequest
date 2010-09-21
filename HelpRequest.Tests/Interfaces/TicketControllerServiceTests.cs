@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Web;
 using System.Web.Mvc;
 using HelpRequest.Controllers.Services;
+using HelpRequest.Core.Abstractions;
 using HelpRequest.Core.Domain;
 using HelpRequest.Core.Resources;
 using HelpRequest.Tests.Core.Extensions;
 using HelpRequest.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Rhino.Mocks;
+using Attachment = HelpRequest.Core.Domain.Attachment;
 
 namespace HelpRequest.Tests.Interfaces
 {
@@ -19,10 +25,12 @@ namespace HelpRequest.Tests.Interfaces
         protected readonly Type ServiceClass = typeof(TicketControllerService);
         protected readonly Type InterfaceClass = typeof(ITicketControllerService);
         protected TicketControllerService TicketControllerService;
+        protected IEmailProvider EmailProvider;
 
         public TicketControllerServiceTests()
         {
             TicketControllerService = new TicketControllerService();
+            EmailProvider = MockRepository.GenerateStub<IEmailProvider>();
         }
 
         #region CheckForSupportEmailAddresses Tests
@@ -731,6 +739,437 @@ namespace HelpRequest.Tests.Interfaces
         //I don't want to test this because that means multiple calls to this.
         #endregion FindKerbUser Tests
 
+        #region SendHelpRequest Tests
+
+        /// <summary>
+        /// Tests the send help request throws exception if the ticket is null.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(UCDArch.Core.Utils.PreconditionException))]
+        public void TestSendHelpRequestThrowsExceptionIfTheTicketIsNull()
+        {
+            try
+            {
+                #region Arrange
+                Ticket ticket = null;
+                #endregion Arrange
+
+                #region Act
+                TicketControllerService.SendHelpRequest(ticket, true, EmailProvider);
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("Details are missing.", ex.Message);
+                throw;
+            }	
+        }
+
+        /// <summary>
+        /// Tests the send help request throws exception if it is not A public email and user is null.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(UCDArch.Core.Utils.PreconditionException))]
+        public void TestSendHelpRequestThrowsExceptionIfItIsNotAPublicEmailAndUserIsNull()
+        {
+            try
+            {
+                #region Arrange
+                Ticket ticket = CreateValidEntities.Ticket(1);
+                ticket.User = null;
+                #endregion Arrange
+
+                #region Act
+                TicketControllerService.SendHelpRequest(ticket, false, EmailProvider);
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("Login Details missing.", ex.Message);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Tests the send help request throws exception if it is A public email and from email is null.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(UCDArch.Core.Utils.PreconditionException))]
+        public void TestSendHelpRequestThrowsExceptionIfItIsAPublicEmailAndFromEmailIsNull()
+        {
+            try
+            {
+                #region Arrange
+                Ticket ticket = CreateValidEntities.Ticket(1);
+                ticket.User = CreateValidEntities.User(1);
+                ticket.FromEmail = null;
+                #endregion Arrange
+
+                #region Act
+                TicketControllerService.SendHelpRequest(ticket, true, EmailProvider);
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("Email details missing.", ex.Message);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Tests the send help request throws exception if it is A public email and from email is empty.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(UCDArch.Core.Utils.PreconditionException))]
+        public void TestSendHelpRequestThrowsExceptionIfItIsAPublicEmailAndFromEmailIsEmpty()
+        {
+            try
+            {
+                #region Arrange
+                Ticket ticket = CreateValidEntities.Ticket(1);
+                ticket.User = CreateValidEntities.User(1);
+                ticket.FromEmail = string.Empty;
+                #endregion Arrange
+
+                #region Act
+                TicketControllerService.SendHelpRequest(ticket, true, EmailProvider);
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("Email details missing.", ex.Message);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Tests the send help request throws exception if it is not A public email and user email is null.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(UCDArch.Core.Utils.PreconditionException))]
+        public void TestSendHelpRequestThrowsExceptionIfItIsNotAPublicEmailAndUserEmailIsNull()
+        {
+            try
+            {
+                #region Arrange
+                Ticket ticket = CreateValidEntities.Ticket(1);
+                ticket.User = CreateValidEntities.User(1);
+                ticket.User.Email = null;
+                #endregion Arrange
+
+                #region Act
+                TicketControllerService.SendHelpRequest(ticket, false, EmailProvider);
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("Email details missing.", ex.Message);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Tests the send help request throws exception support email is null.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(UCDArch.Core.Utils.PreconditionException))]
+        public void TestSendHelpRequestThrowsExceptionSupportEmailIsNull()
+        {
+            var saveAppHelpDeskEmail = ConfigurationManager.AppSettings["AppHelpDeskEmail"];
+            try
+            {
+                #region Arrange
+                Ticket ticket = CreateValidEntities.Ticket(1);
+                ticket.User = CreateValidEntities.User(1);
+                ticket.FromEmail = "test@testy.com";
+                ticket.SupportDepartment = StaticValues.STR_ProgrammingSupport;
+                ConfigurationManager.AppSettings["AppHelpDeskEmail"] = null;
+                #endregion Arrange
+
+                #region Act
+                TicketControllerService.SendHelpRequest(ticket, true, EmailProvider);
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("Help Desk Email address not supplied.", ex.Message);
+                throw;
+            }
+            finally
+            {
+                ConfigurationManager.AppSettings["AppHelpDeskEmail"] = saveAppHelpDeskEmail;
+            }
+        }
+
+        /// <summary>
+        /// Tests the send help request throws exception support email is empty.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(UCDArch.Core.Utils.PreconditionException))]
+        public void TestSendHelpRequestThrowsExceptionSupportEmailIsEmpty()
+        {
+            var saveAppHelpDeskEmail = ConfigurationManager.AppSettings["AppHelpDeskEmail"];
+            try
+            {
+                #region Arrange
+                Ticket ticket = CreateValidEntities.Ticket(1);
+                ticket.User = CreateValidEntities.User(1);
+                ticket.FromEmail = "test@testy.com";
+                ticket.SupportDepartment = StaticValues.STR_ProgrammingSupport;
+                ConfigurationManager.AppSettings["AppHelpDeskEmail"] = string.Empty;
+                #endregion Arrange
+
+                #region Act
+                TicketControllerService.SendHelpRequest(ticket, true, EmailProvider);
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("Help Desk Email address not supplied.", ex.Message);
+                throw;
+            }
+            finally
+            {
+                ConfigurationManager.AppSettings["AppHelpDeskEmail"] = saveAppHelpDeskEmail;
+            }
+        }
+
+        /// <summary>
+        /// Tests the send help request throws exception if it is not A public email and user email is empty.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(UCDArch.Core.Utils.PreconditionException))]
+        public void TestSendHelpRequestThrowsExceptionIfItIsNotAPublicEmailAndUserEmailIsEmpty()
+        {
+            try
+            {
+                #region Arrange
+                Ticket ticket = CreateValidEntities.Ticket(1);
+                ticket.User = CreateValidEntities.User(1);
+                ticket.User.Email = string.Empty;
+                #endregion Arrange
+
+                #region Act
+                TicketControllerService.SendHelpRequest(ticket, false, EmailProvider);
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("Email details missing.", ex.Message);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Tests the send help request throws exception if from email is not an email format.
+        /// Note, thrown by MailMessage
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void TestSendHelpRequestThrowsExceptionIfFromEmailIsNotAnEmailFormat()
+        {
+            try
+            {
+                #region Arrange
+                Ticket ticket = CreateValidEntities.Ticket(1);
+                ticket.User = CreateValidEntities.User(1);
+                ticket.FromEmail = "NotValid";
+                #endregion Arrange
+
+                #region Act
+                TicketControllerService.SendHelpRequest(ticket, true, EmailProvider);
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("The specified string is not in the form required for an e-mail address.", ex.Message);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Tests the send help request throws exception if to email is not an email format.
+        /// Note, thrown by MailMessage
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void TestSendHelpRequestThrowsExceptionIfToEmailIsNotAnEmailFormat()
+        {
+            var saveAppHelpDeskEmail = ConfigurationManager.AppSettings["AppHelpDeskEmail"];
+            try
+            {
+                #region Arrange
+                Ticket ticket = CreateValidEntities.Ticket(1);
+                ticket.SupportDepartment = StaticValues.STR_ProgrammingSupport;
+                ticket.FromEmail = "test@testy.com";
+                ConfigurationManager.AppSettings["AppHelpDeskEmail"] = "notvalid";
+                #endregion Arrange
+
+                #region Act
+                TicketControllerService.SendHelpRequest(ticket, true, EmailProvider);
+                #endregion Act
+            }
+            catch (Exception ex)
+            {
+                Assert.IsNotNull(ex);
+                Assert.AreEqual("The specified string is not in the form required for an e-mail address.", ex.Message);
+                throw;
+            }
+            finally
+            {
+                ConfigurationManager.AppSettings["AppHelpDeskEmail"] = saveAppHelpDeskEmail;
+            }
+        }
+
+
+        /// <summary>
+        /// Tests the send help request filters some emails from carbon copy.
+        /// </summary>
+        [TestMethod]
+        public void TestSendHelpRequestFiltersSomeEmailsFromCarbonCopy()
+        {
+            #region Arrange
+            var ticket = CreateValidEntities.Ticket(1);
+            ticket.FromEmail = "test@testy.com";
+            ticket.EmailCCs.Add("jason@test.com");
+            ticket.EmailCCs.Add("smith@caes.ucdavis.edu");
+            ticket.EmailCCs.Add("Jason2@test.com");           
+            #endregion Arrange
+
+            #region Act
+            TicketControllerService.SendHelpRequest(ticket, true, EmailProvider);
+            #endregion Act
+
+            #region Assert
+            EmailProvider.AssertWasCalled(a => a.SendEmail(Arg<MailMessage>.Is.Anything));
+            var args = (MailMessage)EmailProvider.GetArgumentsForCallsMadeOn(a => a.SendEmail(Arg<MailMessage>.Is.Anything))[0][0];
+            Assert.IsNotNull(args);
+            Assert.AreEqual(2, args.CC.Count);
+            foreach (var carbonCopy in args.CC)
+            {
+                Assert.AreNotEqual("smith@caes.ucdavis.edu", carbonCopy);
+            }
+            #endregion Assert		
+        }
+
+        /// <summary>
+        /// Tests the send help request adds all attachments in the ticket.
+        /// </summary>
+        [TestMethod]
+        public void TestSendHelpRequestAddsAllAttachmentsInTheTicket()
+        {
+            #region Arrange           
+            var ticket = CreateValidEntities.Ticket(1);
+            ticket.FromEmail = "test@testy.com";
+            ticket.Attachments.Add(CreateValidEntities.Attachment(1));
+            ticket.Attachments.Add(CreateValidEntities.Attachment(2));
+            ticket.Attachments.Add(CreateValidEntities.Attachment(3));
+            foreach (var attachment in ticket.Attachments)
+            {
+                attachment.ContentType = MediaTypeNames.Application.Octet;
+            }
+            ticket.Attachments.ElementAt(0).Contents = new byte[] { 0, 1, 1, 0 };
+            ticket.Attachments.ElementAt(1).Contents = new byte[] { 0, 1, 1, 1, 0 };
+            ticket.Attachments.ElementAt(2).Contents = new byte[] { 0, 1, 1, 1, 1, 0 };
+            #endregion Arrange
+
+            #region Act
+            TicketControllerService.SendHelpRequest(ticket, true, EmailProvider);
+            #endregion Act
+
+            #region Assert
+            EmailProvider.AssertWasCalled(a => a.SendEmail(Arg<MailMessage>.Is.Anything));
+            var args = (MailMessage)EmailProvider.GetArgumentsForCallsMadeOn(a => a.SendEmail(Arg<MailMessage>.Is.Anything))[0][0];
+            Assert.IsNotNull(args);
+            Assert.AreEqual(3, args.Attachments.Count);
+            Assert.AreEqual("FileName1", args.Attachments.ElementAt(0).Name);
+            Assert.AreEqual("FileName2", args.Attachments.ElementAt(1).Name);
+            Assert.AreEqual("FileName3", args.Attachments.ElementAt(2).Name);
+            Assert.AreEqual(4, args.Attachments.ElementAt(0).ContentStream.Length);
+            Assert.AreEqual(5, args.Attachments.ElementAt(1).ContentStream.Length);
+            Assert.AreEqual(6, args.Attachments.ElementAt(2).ContentStream.Length);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the send help request has plain text body.
+        /// </summary>
+        [TestMethod]
+        public void TestSendHelpRequestHasPlainTextBody()
+        {
+            #region Arrange
+            var ticket = CreateValidEntities.Ticket(1);
+            ticket.FromEmail = "test@testy.com";
+            #endregion Arrange
+
+            #region Act
+            TicketControllerService.SendHelpRequest(ticket, true, EmailProvider);
+            #endregion Act
+
+            #region Assert
+            EmailProvider.AssertWasCalled(a => a.SendEmail(Arg<MailMessage>.Is.Anything));
+            var args = (MailMessage)EmailProvider.GetArgumentsForCallsMadeOn(a => a.SendEmail(Arg<MailMessage>.Is.Anything))[0][0];
+            Assert.IsNotNull(args);
+            Assert.IsFalse(args.IsBodyHtml);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the send help request has formatted body body.
+        /// </summary>
+        [TestMethod]
+        public void TestSendHelpRequestHasFormattedBodyBody()
+        {
+            #region Arrange
+            var ticket = CreateValidEntities.Ticket(1);
+            ticket.FromEmail = "test@testy.com";
+            #endregion Arrange
+
+            #region Act
+            TicketControllerService.SendHelpRequest(ticket, true, EmailProvider);
+            #endregion Act
+
+            #region Assert
+            EmailProvider.AssertWasCalled(a => a.SendEmail(Arg<MailMessage>.Is.Anything));
+            var args = (MailMessage)EmailProvider.GetArgumentsForCallsMadeOn(a => a.SendEmail(Arg<MailMessage>.Is.Anything))[0][0];
+            Assert.IsNotNull(args);
+            Assert.IsTrue(args.Body.StartsWith("Original Subject     : Subject1"));
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the send help request has formatted expected subject.
+        /// </summary>
+        [TestMethod]
+        public void TestSendHelpRequestHasFormattedExpectedSubject()
+        {
+            #region Arrange
+            var ticket = CreateValidEntities.Ticket(1);
+            ticket.FromEmail = "test@testy.com";
+            #endregion Arrange
+
+            #region Act
+            TicketControllerService.SendHelpRequest(ticket, true, EmailProvider);
+            #endregion Act
+
+            #region Assert
+            EmailProvider.AssertWasCalled(a => a.SendEmail(Arg<MailMessage>.Is.Anything));
+            var args = (MailMessage)EmailProvider.GetArgumentsForCallsMadeOn(a => a.SendEmail(Arg<MailMessage>.Is.Anything))[0][0];
+            Assert.IsNotNull(args);
+            Assert.AreEqual("Subject1", args.Subject);
+            #endregion Assert
+        }
+
+        #endregion SendHelpRequest Tests
 
         #region Reflection
         #region Service Class Tests
@@ -786,7 +1225,7 @@ namespace HelpRequest.Tests.Interfaces
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(5, result.Count(), "It looks like a method was added or removed from the Service.");
+            Assert.AreEqual(6, result.Count(), "It looks like a method was added or removed from the Service.");
             #endregion Assert
         }
 
@@ -809,7 +1248,7 @@ namespace HelpRequest.Tests.Interfaces
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(5, result.Count(), "It looks like a method was added or removed from the Service.");
+            Assert.AreEqual(6, result.Count(), "It looks like a method was added or removed from the Service.");
             #endregion Assert
         }
                
@@ -907,6 +1346,27 @@ namespace HelpRequest.Tests.Interfaces
             #region Arrange
             var serviceClass = ServiceClass;
             var serviceMethod = serviceClass.GetMethod("FindKerbUser");
+            #endregion Arrange
+
+            #region Act
+            var allAttributes = serviceMethod.GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the service method send help request contains expected attributes.
+        /// #6
+        /// </summary>
+        [TestMethod]
+        public void TestServiceMethodSendHelpRequestContainsExpectedAttributes()
+        {
+            #region Arrange
+            var serviceClass = ServiceClass;
+            var serviceMethod = serviceClass.GetMethod("SendHelpRequest");
             #endregion Arrange
 
             #region Act

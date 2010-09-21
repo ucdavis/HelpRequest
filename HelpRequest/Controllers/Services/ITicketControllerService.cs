@@ -183,6 +183,13 @@ namespace HelpRequest.Controllers.Services
             return DirectoryServices.FindUser(identityName);
         }
 
+        /// <summary>
+        /// Sends the help request.
+        /// #6
+        /// </summary>
+        /// <param name="ticket">The ticket.</param>
+        /// <param name="isPublicEmail">if set to <c>true</c> [is public email or if Kerb email].</param>
+        /// <param name="emailProvider">The email provider.</param>
         public void SendHelpRequest(Ticket ticket, bool isPublicEmail, IEmailProvider emailProvider)
         {
             Check.Require(ticket != null, "Details are missing.");
