@@ -1,11 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
+using System.Net.Mail;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using HelpRequest.Controllers.Helpers;
+using HelpRequest.Core.Abstractions;
 using HelpRequest.Core.Domain;
 using HelpRequest.Core.Resources;
+using UCDArch.Core.Utils;
+using Attachment = System.Net.Mail.Attachment;
 
 namespace HelpRequest.Controllers.Services
 {
@@ -21,6 +27,8 @@ namespace HelpRequest.Controllers.Services
         void CasLogin();
 
         DirectoryUser FindKerbUser(string identityName);
+
+        void SendHelpRequest(Ticket ticket, bool isPublicEmail, IEmailProvider emailProvider);
     }
 
 
@@ -143,11 +151,11 @@ namespace HelpRequest.Controllers.Services
         /// <param name="uploadAttachment">The upload attachment.</param>
         public void LoadFileContents(Ticket ticket, HttpPostedFileBase uploadAttachment)
         {
-            ticket.Attachments = new List<Attachment>();
+            ticket.Attachments = new List<Core.Domain.Attachment>();
             if (uploadAttachment != null && uploadAttachment.ContentLength != 0)
             {
                 var reader = new BinaryReader(uploadAttachment.InputStream);
-                var attachment = new Attachment(uploadAttachment.FileName, uploadAttachment.FileName);
+                var attachment = new Core.Domain.Attachment(uploadAttachment.FileName, uploadAttachment.FileName);
                 attachment.Contents = reader.ReadBytes(uploadAttachment.ContentLength);
                 attachment.FileName = uploadAttachment.FileName;
                 attachment.ContentType = uploadAttachment.ContentType;
@@ -173,6 +181,133 @@ namespace HelpRequest.Controllers.Services
         public DirectoryUser FindKerbUser(string identityName)
         {
             return DirectoryServices.FindUser(identityName);
+        }
+
+        public void SendHelpRequest(Ticket ticket, bool isPublicEmail, IEmailProvider emailProvider)
+        {
+            Check.Require(ticket != null, "Details are missing.");
+
+            var supportEmail = GetHelpEmail(ticket);
+            var fromEmail = "";
+            if (isPublicEmail)
+            {
+                fromEmail = ticket.FromEmail;
+            }
+            else
+            {
+                Check.Require(ticket.User != null, "Login Details missing.");
+                fromEmail = ticket.User.Email;
+            }
+            Check.Require(!string.IsNullOrEmpty(fromEmail), "Email details missing.");
+            Check.Require(!string.IsNullOrEmpty(supportEmail), "Help Desk Email address not supplied.");
+
+            MailMessage message = new MailMessage(fromEmail, supportEmail,
+                                                   ticket.Subject,
+                                                   BuildBody(ticket));
+
+            foreach (var emailCC in ticket.EmailCCs)
+            {
+                if (!FilterCruEmail(emailCC))
+                {
+                    message.CC.Add(emailCC);
+                }
+            }
+            foreach (var attachment in ticket.Attachments)
+            {
+                var messStream = new MemoryStream(attachment.Contents);
+                var messAttach = new Attachment(messStream, attachment.FileName, attachment.ContentType);
+                message.Attachments.Add(messAttach);
+            }
+
+
+            message.IsBodyHtml = false;
+
+            emailProvider.SendEmail(message);
+
+        }
+
+        /// <summary>
+        /// Builds the body of the email.
+        /// </summary>
+        /// <param name="ticket">The ticket.</param>
+        /// <returns></returns>
+        public string BuildBody(Ticket ticket)
+        {
+            var bodyBuilder = new StringBuilder();
+            bodyBuilder.AppendLine("Original Subject     : " + ticket.Subject);
+            bodyBuilder.AppendLine("Urgency Level        : " + ticket.UrgencyLevel);
+            bodyBuilder.AppendLine("Support Department   : " + ticket.SupportDepartment);
+            if (!string.IsNullOrEmpty(ticket.ForApplication) && ticket.SupportDepartment == StaticValues.STR_ProgrammingSupport)
+            {
+                bodyBuilder.AppendLine("For Application      : " + ticket.ForApplication);
+            }
+            if (!string.IsNullOrEmpty(ticket.ForWebSite) && ticket.SupportDepartment == StaticValues.STR_WebSiteSupport)
+            {
+                bodyBuilder.AppendLine("For Web Site         : " + ticket.ForWebSite);
+            }
+            if (ticket.Availability != null && ticket.Availability.Count > 0)
+            {
+                bodyBuilder.AppendLine("Available Times      : ");
+                foreach (var availableDate in ticket.Availability)
+                {
+                    bodyBuilder.AppendLine("   " + availableDate);
+                }
+            }
+            bodyBuilder.AppendLine("");
+            bodyBuilder.AppendLine("");
+            bodyBuilder.AppendLine("Supplied Message Body :");
+            bodyBuilder.AppendLine(ticket.MessageBody);
+
+            return bodyBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Filters the cru email.
+        /// </summary>
+        /// <param name="emailCc">The email cc.</param>
+        /// <returns></returns>
+        public bool FilterCruEmail(string emailCc)
+        {
+            var cruEmail = new List<string>(10);
+            #region Shuka
+            cruEmail.Add("shuka@ucdavis.edu".ToLower());
+            cruEmail.Add("shuka@caes.ucdavis.edu".ToLower());
+            cruEmail.Add("smith@caes.ucdavis.edu".ToLower());
+            cruEmail.Add("ssmith@ucdavis.edu".ToLower());
+            cruEmail.Add("ssmith@caes.ucdavis.edu".ToLower());
+            #endregion Shuka
+            #region Uwe
+            cruEmail.Add("urossbach@ucdavis.edu".ToLower());
+            cruEmail.Add("hi@caes.ucdavis.edu".ToLower());
+            cruEmail.Add("rossbach@caes.ucdavis.edu".ToLower());
+            #endregion Uwe
+            if (cruEmail.Contains(emailCc.ToLower()))
+            {
+                return true;
+            }
+            return false;
+        }
+        /// <summary>
+        /// Gets the help email.
+        /// </summary>
+        /// <param name="ticket">The ticket.</param>
+        /// <returns></returns>
+        public string GetHelpEmail(Ticket ticket)
+        {
+            string helpEmail;
+            if (ticket.SupportDepartment == StaticValues.STR_ProgrammingSupport)
+            {
+                helpEmail = ConfigurationManager.AppSettings["AppHelpDeskEmail"];
+            }
+            else if (ticket.SupportDepartment == StaticValues.STR_WebSiteSupport)
+            {
+                helpEmail = ConfigurationManager.AppSettings["WebHelpDeskEmail"];
+            }
+            else
+            {
+                helpEmail = ConfigurationManager.AppSettings["HelpDeskEmail"];
+            }
+            return helpEmail;
         }
     }
 }

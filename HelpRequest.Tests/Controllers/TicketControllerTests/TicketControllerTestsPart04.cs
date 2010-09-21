@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Mail;
 using HelpRequest.Controllers;
 using HelpRequest.Controllers.ViewModels;
 using HelpRequest.Core.Resources;
@@ -522,7 +523,8 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #region Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(appName, result.RouteValues["appName"]);
-            EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test3@ucdavis.edu"));
+            //EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test3@ucdavis.edu"));
+            TicketControllerService.AssertWasCalled(a => a.SendHelpRequest(ticket, true, EmailProvider));
             #endregion Assert		
         }
 
@@ -555,7 +557,8 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #region Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(appName, result.RouteValues["appName"]);
-            EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test1@ucdavis.edu"));
+            //EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test1@ucdavis.edu"));
+            TicketControllerService.AssertWasCalled(a => a.SendHelpRequest(ticket, true, EmailProvider));
             #endregion Assert
         }
 
@@ -588,7 +591,8 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #region Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(appName, result.RouteValues["appName"]);
-            EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test2@ucdavis.edu"));
+            //EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test2@ucdavis.edu"));
+            TicketControllerService.AssertWasCalled(a => a.SendHelpRequest(ticket, true, EmailProvider));
             #endregion Assert
         }
 
@@ -621,7 +625,8 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #region Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(appName, result.RouteValues["appName"]);
-            EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test1@ucdavis.edu"));
+            //EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test1@ucdavis.edu"));
+            TicketControllerService.AssertWasCalled(a => a.SendHelpRequest(ticket, true, EmailProvider));
             #endregion Assert
         }
 
@@ -643,12 +648,13 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             ticket.FromEmail = "test@test.edu";
             Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
             ticket.SupportDepartment = "Huh?";
-            EmailProvider
-                .Expect(a => a.SendHelpRequest(
-                    ticket, 
-                    true, 
-                    "test1@ucdavis.edu"))
-                        .Throw(new Exception("Opps, another exception.")).Repeat.Any();
+            //EmailProvider
+            //    .Expect(a => a.SendHelpRequest(
+            //        ticket, 
+            //        true, 
+            //        "test1@ucdavis.edu"))
+            //            .Throw(new Exception("Opps, another exception.")).Repeat.Any();
+            TicketControllerService.Expect(a => a.SendHelpRequest(ticket, true, EmailProvider)).Throw(new Exception("Opps, another exception.")).Repeat.Any();            
             #endregion Arrange
 
             #region Act

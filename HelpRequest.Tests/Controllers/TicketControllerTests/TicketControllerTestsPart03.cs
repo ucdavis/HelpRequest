@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Mail;
 using HelpRequest.Controllers;
 using HelpRequest.Controllers.Helpers;
 using HelpRequest.Controllers.ViewModels;
@@ -565,7 +566,8 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             Assert.AreEqual("Your ticket has been successfully submitted, you will be receiving a confirmation email with a ticket # shortly (usually 5-10min).", Controller.Message);
             Assert.IsNotNull(result);
             Assert.AreEqual(appName, result.RouteValues["appName"]);
-            EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test1@ucdavis.edu"));
+            //EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test1@ucdavis.edu"));
+            TicketControllerService.AssertWasCalled(a => a.SendHelpRequest(ticket, true, EmailProvider));
             #endregion Assert		
         }
 
@@ -605,7 +607,8 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             Assert.AreEqual("Your ticket has been successfully submitted, you will be receiving a confirmation email with a ticket # shortly (usually 5-10min).", Controller.Message);
             Assert.IsNotNull(result);
             Assert.AreEqual(appName, result.RouteValues["appName"]);
-            EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, false, "test1@ucdavis.edu"));
+            //EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, false, "test1@ucdavis.edu"));
+            TicketControllerService.AssertWasCalled(a => a.SendHelpRequest(ticket, false, EmailProvider));
             #endregion Assert
         }
 
@@ -645,7 +648,8 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             Assert.AreEqual("Your ticket has been successfully submitted, you will be receiving a confirmation email with a ticket # shortly (usually 5-10min).", Controller.Message);
             Assert.IsNotNull(result);
             Assert.AreEqual(appName, result.RouteValues["appName"]);
-            EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test1@ucdavis.edu"));
+            //EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test1@ucdavis.edu"));
+            TicketControllerService.AssertWasCalled(a => a.SendHelpRequest(ticket, true, EmailProvider));
             #endregion Assert
         }
 
@@ -685,7 +689,8 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             Assert.AreEqual("Your ticket has been successfully submitted, you will be receiving a confirmation email with a ticket # shortly (usually 5-10min).", Controller.Message);
             Assert.IsNotNull(result);
             Assert.AreEqual(appName, result.RouteValues["appName"]);
-            EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test3@ucdavis.edu"));
+            //EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test3@ucdavis.edu"));
+            TicketControllerService.AssertWasCalled(a => a.SendHelpRequest(ticket, true, EmailProvider));
             #endregion Assert
         }
 
@@ -725,7 +730,8 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             Assert.AreEqual("Your ticket has been successfully submitted, you will be receiving a confirmation email with a ticket # shortly (usually 5-10min).", Controller.Message);
             Assert.IsNotNull(result);
             Assert.AreEqual(appName, result.RouteValues["appName"]);
-            EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test2@ucdavis.edu"));
+            //EmailProvider.AssertWasCalled(a => a.SendHelpRequest(ticket, true, "test2@ucdavis.edu"));
+            TicketControllerService.AssertWasCalled(a => a.SendHelpRequest(ticket, true, EmailProvider));
             #endregion Assert
         }
 
@@ -755,11 +761,12 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             TicketControllerService.Expect(a => a.FindKerbUser("UserName")).Return(directory).Repeat.Any();
             ticket.SupportDepartment = StaticValues.STR_ProgrammingSupport;
 
-            EmailProvider.Expect(a => a.SendHelpRequest(
-                Arg<Ticket>.Is.Anything, 
-                Arg<bool>.Is.Anything, 
-                Arg<string>.Is.Anything))
-                .Throw(new Exception("Oops, my bad."));
+            //EmailProvider.Expect(a => a.SendHelpRequest(
+            //    Arg<Ticket>.Is.Anything, 
+            //    Arg<bool>.Is.Anything, 
+            //    Arg<string>.Is.Anything))
+            //    .Throw(new Exception("Oops, my bad."));
+            TicketControllerService.Expect(a => a.SendHelpRequest(ticket, true, EmailProvider)).Throw(new Exception("Oops, my bad.")).Repeat.Any();
             #endregion Arrange
 
             #region Act

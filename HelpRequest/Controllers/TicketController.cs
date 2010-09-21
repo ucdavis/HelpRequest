@@ -172,8 +172,8 @@ namespace HelpRequest.Controllers
             {
                 try
                 {
-                    //_emailProvider.SendHelpRequest(ticket, useKerbEmail, ConfigurationManager.AppSettings["HelpDeskEmail"]);
-                    _emailProvider.SendHelpRequest(ticket, useKerbEmail, GetHelpEmail(ticket));
+                    //_emailProvider.SendHelpRequest(ticket, useKerbEmail, GetHelpEmail(ticket));
+                    _ticketControllerService.SendHelpRequest(ticket, useKerbEmail, _emailProvider);
                     Message = StaticValues.STR_HelpTicketSuccessfullySent;//"Help Ticket successfully sent";
                     return this.RedirectToAction<HomeController>(a => a.Index(appName));
                 }
@@ -256,15 +256,14 @@ namespace HelpRequest.Controllers
             {
                 try
                 {                    
-                    //_emailProvider.SendHelpRequest(ticket, true, ConfigurationManager.AppSettings["HelpDeskEmail"]);
-                    _emailProvider.SendHelpRequest(ticket, true, GetHelpEmail(ticket));
+                    //_emailProvider.SendHelpRequest(ticket, true, GetHelpEmail(ticket));
+                    _ticketControllerService.SendHelpRequest(ticket, true, _emailProvider);
                     Message = StaticValues.STR_HelpTicketSuccessfullySent;
                     return this.RedirectToAction<HomeController>(a => a.Index(appName));
                 }
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("Exception", "Application Exception sending email: " + ex.Message);
-                    //var viewModel = TicketViewModel.Create(Repository, CurrentUser, appName);
                     var viewModel = TicketViewModel.Create(CurrentUser, appName);
                     viewModel.Ticket = ticket;
                     return View(viewModel);
@@ -272,29 +271,28 @@ namespace HelpRequest.Controllers
             }
             else
             {
-                //var viewModel = TicketViewModel.Create(Repository, CurrentUser, appName);
                 var viewModel = TicketViewModel.Create(CurrentUser, appName);
                 viewModel.Ticket = ticket;
                 return View(viewModel);
             }
         }
 
-        private string GetHelpEmail(Ticket ticket)
-        {
-            string helpEmail;
-            if (ticket.SupportDepartment == StaticValues.STR_ProgrammingSupport)
-            {
-                helpEmail = ConfigurationManager.AppSettings["AppHelpDeskEmail"];
-            }
-            else if (ticket.SupportDepartment == StaticValues.STR_WebSiteSupport)
-            {
-                helpEmail = ConfigurationManager.AppSettings["WebHelpDeskEmail"];
-            }
-            else
-            {
-                helpEmail = ConfigurationManager.AppSettings["HelpDeskEmail"];
-            }
-            return helpEmail;
-        }
+        //private string GetHelpEmail(Ticket ticket)
+        //{
+        //    string helpEmail;
+        //    if (ticket.SupportDepartment == StaticValues.STR_ProgrammingSupport)
+        //    {
+        //        helpEmail = ConfigurationManager.AppSettings["AppHelpDeskEmail"];
+        //    }
+        //    else if (ticket.SupportDepartment == StaticValues.STR_WebSiteSupport)
+        //    {
+        //        helpEmail = ConfigurationManager.AppSettings["WebHelpDeskEmail"];
+        //    }
+        //    else
+        //    {
+        //        helpEmail = ConfigurationManager.AppSettings["HelpDeskEmail"];
+        //    }
+        //    return helpEmail;
+        //}
     }
 }
