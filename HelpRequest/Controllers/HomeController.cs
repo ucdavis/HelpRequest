@@ -14,6 +14,21 @@ namespace HelpRequest.Controllers
         {
             CatbertApplicationRepository = catbertApplicationRepository;
         }
+
+        //public ActionResult TestException()
+        //{
+        //    throw new ApplicationException("Exception successfully thrown.");
+        //}
+
+        /// <summary>
+        /// Errors this instance.
+        /// #4
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Error()
+        {
+            return View();
+        }
         /// <summary>
         /// Index
         /// #1
