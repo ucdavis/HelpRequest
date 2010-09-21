@@ -12,30 +12,15 @@ namespace HelpRequest.Tests.Interfaces
     {
         protected readonly Type ServiceClass = typeof(EmailProvider);
         protected readonly Type InterfaceClass = typeof(IEmailProvider);
-        protected EmailProvider EmailProvider;
+        //protected EmailProvider EmailProvider;
 
-        public EmailProviderTests()
-        {
-            EmailProvider = new EmailProvider();
-        }
+        //public EmailProviderTests()
+        //{
+        //    EmailProvider = new EmailProvider();
+        //}
 
-        [TestMethod]
-        public void TestAddTests()
-        {
-            #region Arrange
-
-            Assert.Inconclusive("Need to add email provider tests");
-
-            #endregion Arrange
-
-            #region Act
-
-            #endregion Act
-
-            #region Assert
-
-            #endregion Assert		
-        }
+        
+        //I'm not going to test this, otherwise it would try to send an email...
 
         #region Reflection
         #region Service Class Tests
@@ -114,115 +99,32 @@ namespace HelpRequest.Tests.Interfaces
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(0, result.Count(), "It looks like a method was added or removed from the Service.");
+            Assert.AreEqual(1, result.Count(), "It looks like a method was added or removed from the Service.");
             #endregion Assert
         }
 
-        ///// <summary>
-        ///// Tests the service method check for support email addresses contains expected attributes.
-        ///// #1
-        ///// </summary>
-        //[TestMethod]
-        //public void TestServiceMethodCheckForSupportEmailAddressesContainsExpectedAttributes()
-        //{
-        //    #region Arrange
-        //    var serviceClass = ServiceClass;
-        //    var serviceMethod = serviceClass.GetMethod("CheckForSupportEmailAddresses");
-        //    #endregion Arrange
+        /// <summary>
+        /// Tests the service method check for support email addresses contains expected attributes.
+        /// #1
+        /// </summary>
+        [TestMethod]
+        public void TestServiceMethodSendEmailContainsExpectedAttributes()
+        {
+            #region Arrange
+            var serviceClass = ServiceClass;
+            var serviceMethod = serviceClass.GetMethod("SendEmail");
+            #endregion Arrange
 
-        //    #region Act
-        //    var allAttributes = serviceMethod.GetCustomAttributes(true);
-        //    #endregion Act
+            #region Act
+            var allAttributes = serviceMethod.GetCustomAttributes(true);
+            #endregion Act
 
-        //    #region Assert
-        //    Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
+            #region Assert
+            Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
 
-        ///// <summary>
-        ///// Tests the service method common submit validation checks contains expected attributes.
-        ///// #2
-        ///// </summary>
-        //[TestMethod]
-        //public void TestServiceMethodCommonSubmitValidationChecksContainsExpectedAttributes()
-        //{
-        //    #region Arrange
-        //    var serviceClass = ServiceClass;
-        //    var serviceMethod = serviceClass.GetMethod("CommonSubmitValidationChecks");
-        //    #endregion Arrange
-
-        //    #region Act
-        //    var allAttributes = serviceMethod.GetCustomAttributes(true);
-        //    #endregion Act
-
-        //    #region Assert
-        //    Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
-
-        ///// <summary>
-        ///// Tests the service method load file contents contains expected attributes.
-        ///// #3
-        ///// </summary>
-        //[TestMethod]
-        //public void TestServiceMethodLoadFileContentsContainsExpectedAttributes()
-        //{
-        //    #region Arrange
-        //    var serviceClass = ServiceClass;
-        //    var serviceMethod = serviceClass.GetMethod("LoadFileContents");
-        //    #endregion Arrange
-
-        //    #region Act
-        //    var allAttributes = serviceMethod.GetCustomAttributes(true);
-        //    #endregion Act
-
-        //    #region Assert
-        //    Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
-
-        ///// <summary>
-        ///// Tests the service method cas login contains expected attributes.
-        ///// #4
-        ///// </summary>
-        //[TestMethod]
-        //public void TestServiceMethodCasLoginContainsExpectedAttributes()
-        //{
-        //    #region Arrange
-        //    var serviceClass = ServiceClass;
-        //    var serviceMethod = serviceClass.GetMethod("CasLogin");
-        //    #endregion Arrange
-
-        //    #region Act
-        //    var allAttributes = serviceMethod.GetCustomAttributes(true);
-        //    #endregion Act
-
-        //    #region Assert
-        //    Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
-
-        ///// <summary>
-        ///// Tests the service method find kerb user contains expected attributes.
-        ///// #5
-        ///// </summary>
-        //[TestMethod]
-        //public void TestServiceMethodFindKerbUserContainsExpectedAttributes()
-        //{
-        //    #region Arrange
-        //    var serviceClass = ServiceClass;
-        //    var serviceMethod = serviceClass.GetMethod("FindKerbUser");
-        //    #endregion Arrange
-
-        //    #region Act
-        //    var allAttributes = serviceMethod.GetCustomAttributes(true);
-        //    #endregion Act
-
-        //    #region Assert
-        //    Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
-        //    #endregion Assert
-        //}
-
+      
         #endregion Service Method Tests
 
         #endregion Reflection
