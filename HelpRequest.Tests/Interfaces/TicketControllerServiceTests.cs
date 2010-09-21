@@ -1171,6 +1171,477 @@ namespace HelpRequest.Tests.Interfaces
 
         #endregion SendHelpRequest Tests
 
+        #region BuildBody Tests
+
+        /// <summary>
+        /// Tests the build body has the expected format with computer support.
+        /// </summary>
+        [TestMethod]
+        public void TestBuildBodyHasTheExpectedFormatWithComputerSupport()
+        {
+            #region Arrange
+            var ticket = CreateValidEntities.Ticket(1);
+            ticket.SupportDepartment = StaticValues.STR_ComputerSupport;
+            ticket.ForApplication = "MAAPS";
+            ticket.ForWebSite = "http://builder/overview.html";
+            ticket.MessageBody = "This is a   test.";
+            const string expectedValue = "Original Subject     : Subject1\r\nUrgency Level        : UrgencyLevel1\r\nSupport Department   : Computer Support\r\n\r\n\r\nSupplied Message Body :\r\nThis is a   test.\r\n";
+            #endregion Arrange
+
+            #region Act
+            var result = TicketControllerService.BuildBody(ticket);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(expectedValue, result);
+            #endregion Assert		
+        }
+
+        /// <summary>
+        /// Tests the build body has the expected format with computer support and available times.
+        /// </summary>
+        [TestMethod]
+        public void TestBuildBodyHasTheExpectedFormatWithComputerSupportAndAvailableTimes()
+        {
+            #region Arrange
+            var ticket = CreateValidEntities.Ticket(1);
+            ticket.SupportDepartment = StaticValues.STR_ComputerSupport;
+            ticket.Availability.Add("today 11-noon");
+            ticket.Availability.Add("Wed approx. 8-11");
+            ticket.ForApplication = "MAAPS";
+            ticket.ForWebSite = "http://builder/overview.html";
+            ticket.MessageBody = "This is a   test.";
+            const string expectedValue = "Original Subject     : Subject1\r\nUrgency Level        : UrgencyLevel1\r\nSupport Department   : Computer Support\r\nAvailable Times      : \r\n   today 11-noon\r\n   Wed approx. 8-11\r\n\r\n\r\nSupplied Message Body :\r\nThis is a   test.\r\n";
+            #endregion Arrange
+
+            #region Act
+            var result = TicketControllerService.BuildBody(ticket);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(expectedValue, result);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the build body has the expected format with programming support.
+        /// </summary>
+        [TestMethod]
+        public void TestBuildBodyHasTheExpectedFormatWithProgrammingSupport()
+        {
+            #region Arrange
+            var ticket = CreateValidEntities.Ticket(1);
+            ticket.SupportDepartment = StaticValues.STR_ProgrammingSupport;
+            ticket.ForApplication = "MAAPS";
+            ticket.ForWebSite = "http://builder/overview.html";
+            ticket.MessageBody = "This is a   test.";
+            const string expectedValue = "Original Subject     : Subject1\r\nUrgency Level        : UrgencyLevel1\r\nSupport Department   : Programming Support\r\nFor Application      : MAAPS\r\n\r\n\r\nSupplied Message Body :\r\nThis is a   test.\r\n";
+            #endregion Arrange
+
+            #region Act
+            var result = TicketControllerService.BuildBody(ticket);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(expectedValue, result);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the build body has the expected format with programming support and available times.
+        /// </summary>
+        [TestMethod]
+        public void TestBuildBodyHasTheExpectedFormatWithProgrammingSupportAndAvailableTimes()
+        {
+            #region Arrange
+            var ticket = CreateValidEntities.Ticket(1);
+            ticket.SupportDepartment = StaticValues.STR_ProgrammingSupport;
+            ticket.Availability.Add("today 11-noon");
+            ticket.Availability.Add("Wed approx. 8-11");
+            ticket.ForApplication = "MAAPS";
+            ticket.ForWebSite = "http://builder/overview.html";
+            ticket.MessageBody = "This is a   test.";
+            const string expectedValue = "Original Subject     : Subject1\r\nUrgency Level        : UrgencyLevel1\r\nSupport Department   : Programming Support\r\nFor Application      : MAAPS\r\nAvailable Times      : \r\n   today 11-noon\r\n   Wed approx. 8-11\r\n\r\n\r\nSupplied Message Body :\r\nThis is a   test.\r\n";
+            #endregion Arrange
+
+            #region Act
+            var result = TicketControllerService.BuildBody(ticket);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(expectedValue, result);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the build body has the expected format with web support.
+        /// </summary>
+        [TestMethod]
+        public void TestBuildBodyHasTheExpectedFormatWithWebSupport()
+        {
+            #region Arrange
+            var ticket = CreateValidEntities.Ticket(1);
+            ticket.SupportDepartment = StaticValues.STR_WebSiteSupport;
+            ticket.ForApplication = "MAAPS";
+            ticket.ForWebSite = "http://builder/overview.html";
+            ticket.MessageBody = "This is a   test.";
+            const string expectedValue = "Original Subject     : Subject1\r\nUrgency Level        : UrgencyLevel1\r\nSupport Department   : Web Site Support\r\nFor Web Site         : http://builder/overview.html\r\n\r\n\r\nSupplied Message Body :\r\nThis is a   test.\r\n";
+            #endregion Arrange
+
+            #region Act
+            var result = TicketControllerService.BuildBody(ticket);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(expectedValue, result);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the build body has the expected format with web support and available times.
+        /// </summary>
+        [TestMethod]
+        public void TestBuildBodyHasTheExpectedFormatWithWebSupportAndAvailableTimes()
+        {
+            #region Arrange
+            var ticket = CreateValidEntities.Ticket(1);
+            ticket.SupportDepartment = StaticValues.STR_WebSiteSupport;
+            ticket.Availability.Add("today 11-noon");
+            ticket.Availability.Add("Wed approx. 8-11");
+            ticket.ForApplication = "MAAPS";
+            ticket.ForWebSite = "http://builder/overview.html";
+            ticket.MessageBody = "This is a   test.";
+            const string expectedValue = "Original Subject     : Subject1\r\nUrgency Level        : UrgencyLevel1\r\nSupport Department   : Web Site Support\r\nFor Web Site         : http://builder/overview.html\r\nAvailable Times      : \r\n   today 11-noon\r\n   Wed approx. 8-11\r\n\r\n\r\nSupplied Message Body :\r\nThis is a   test.\r\n";
+            #endregion Arrange
+
+            #region Act
+            var result = TicketControllerService.BuildBody(ticket);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(expectedValue, result);
+            #endregion Assert
+        }
+
+        #endregion BuildBody Tests
+
+        #region FilterCruEmail Tests
+
+        /// <summary>
+        /// Tests the filter cru email returns true for expected emails.
+        /// </summary>
+        [TestMethod]
+        public void TestFilterCruEmailReturnsTrueForExpectedEmails1()
+        {
+            #region Arrange
+            var email = "shuka@ucdavis.EDU";
+            #endregion Arrange
+
+            #region Act
+            var result = TicketControllerService.FilterCruEmail(email);
+            #endregion Act
+
+            #region Assert
+            Assert.IsTrue(result);
+            #endregion Assert		
+        }
+
+        /// <summary>
+        /// Tests the filter cru email returns true for expected emails.
+        /// </summary>
+        [TestMethod]
+        public void TestFilterCruEmailReturnsTrueForExpectedEmails2()
+        {
+            #region Arrange
+            var email = "shuka@ucdavis.edu";
+            #endregion Arrange
+
+            #region Act
+            var result = TicketControllerService.FilterCruEmail(email);
+            #endregion Act
+
+            #region Assert
+            Assert.IsTrue(result);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the filter cru email returns true for expected emails.
+        /// </summary>
+        [TestMethod]
+        public void TestFilterCruEmailReturnsTrueForExpectedEmails3()
+        {
+            #region Arrange
+            var email = "shuka@caes.ucdavis.edu";
+            #endregion Arrange
+
+            #region Act
+            var result = TicketControllerService.FilterCruEmail(email);
+            #endregion Act
+
+            #region Assert
+            Assert.IsTrue(result);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the filter cru email returns true for expected emails.
+        /// </summary>
+        [TestMethod]
+        public void TestFilterCruEmailReturnsTrueForExpectedEmails4()
+        {
+            #region Arrange
+            var email = "smith@caes.ucdavis.edu";
+            #endregion Arrange
+
+            #region Act
+            var result = TicketControllerService.FilterCruEmail(email);
+            #endregion Act
+
+            #region Assert
+            Assert.IsTrue(result);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the filter cru email returns true for expected emails.
+        /// </summary>
+        [TestMethod]
+        public void TestFilterCruEmailReturnsTrueForExpectedEmails5()
+        {
+            #region Arrange
+            var email = "ssmith@ucdavis.edu";
+            #endregion Arrange
+
+            #region Act
+            var result = TicketControllerService.FilterCruEmail(email);
+            #endregion Act
+
+            #region Assert
+            Assert.IsTrue(result);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the filter cru email returns true for expected emails.
+        /// </summary>
+        [TestMethod]
+        public void TestFilterCruEmailReturnsTrueForExpectedEmails6()
+        {
+            #region Arrange
+            var email = "ssmith@caes.ucdavis.edu";
+            #endregion Arrange
+
+            #region Act
+            var result = TicketControllerService.FilterCruEmail(email);
+            #endregion Act
+
+            #region Assert
+            Assert.IsTrue(result);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the filter cru email returns true for expected emails.
+        /// </summary>
+        [TestMethod]
+        public void TestFilterCruEmailReturnsTrueForExpectedEmails7()
+        {
+            #region Arrange
+            var email = "urossbach@ucdavis.edu";
+            #endregion Arrange
+
+            #region Act
+            var result = TicketControllerService.FilterCruEmail(email);
+            #endregion Act
+
+            #region Assert
+            Assert.IsTrue(result);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the filter cru email returns true for expected emails.
+        /// </summary>
+        [TestMethod]
+        public void TestFilterCruEmailReturnsTrueForExpectedEmails8()
+        {
+            #region Arrange
+            var email = "hi@caes.ucdavis.edu";
+            #endregion Arrange
+
+            #region Act
+            var result = TicketControllerService.FilterCruEmail(email);
+            #endregion Act
+
+            #region Assert
+            Assert.IsTrue(result);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the filter cru email returns true for expected emails.
+        /// </summary>
+        [TestMethod]
+        public void TestFilterCruEmailReturnsTrueForExpectedEmails9()
+        {
+            #region Arrange
+            var email = "rossbach@caes.ucdavis.edu";
+            #endregion Arrange
+
+            #region Act
+            var result = TicketControllerService.FilterCruEmail(email);
+            #endregion Act
+
+            #region Assert
+            Assert.IsTrue(result);
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the filter cru email returns false for me.
+        /// </summary>
+        [TestMethod]
+        public void TestFilterCruEmailReturnsFalseForMe()
+        {
+            #region Arrange
+            var email = "jsylvestre@ucdavis.edu";
+            #endregion Arrange
+
+            #region Act
+            var result = TicketControllerService.FilterCruEmail(email);
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(result);
+            #endregion Assert
+        }
+        #endregion FilterCruEmail Tests
+
+        #region GetHelpEmail Tests
+
+
+        /// <summary>
+        /// Tests the get help email returns expected values.
+        /// </summary>
+        [TestMethod]
+        public void TestGetHelpEmailReturnsExpectedValues1()
+        {
+            var saveConfigValue = ConfigurationManager.AppSettings["HelpDeskEmail"];
+            try
+            {
+                #region Arrange
+                const string expectedResult = "computersupport@ucdavis.edu";
+                ConfigurationManager.AppSettings["HelpDeskEmail"] = expectedResult;
+                var ticket = CreateValidEntities.Ticket(1);
+                ticket.SupportDepartment = StaticValues.STR_ComputerSupport;
+                #endregion Arrange
+
+                #region Act
+                var result = TicketControllerService.GetHelpEmail(ticket);
+                #endregion Act
+
+                #region Assert
+                Assert.AreEqual(expectedResult, result);
+                #endregion Assert
+            }
+            finally
+            {
+                ConfigurationManager.AppSettings["HelpDeskEmail"] = saveConfigValue;
+            }		
+        }
+
+        /// <summary>
+        /// Tests the get help email returns expected values.
+        /// </summary>
+        [TestMethod]
+        public void TestGetHelpEmailReturnsExpectedValues2()
+        {
+            var saveConfigValue = ConfigurationManager.AppSettings["HelpDeskEmail"];
+            try
+            {
+                #region Arrange
+                const string expectedResult = "computersupport@ucdavis.edu";
+                ConfigurationManager.AppSettings["HelpDeskEmail"] = expectedResult;
+                var ticket = CreateValidEntities.Ticket(1);
+                ticket.SupportDepartment = "notValid";
+                #endregion Arrange
+
+                #region Act
+                var result = TicketControllerService.GetHelpEmail(ticket);
+                #endregion Act
+
+                #region Assert
+                Assert.AreEqual(expectedResult, result);
+                #endregion Assert
+            }
+            finally
+            {
+                ConfigurationManager.AppSettings["HelpDeskEmail"] = saveConfigValue;
+            }
+        }
+        /// <summary>
+        /// Tests the get help email returns expected values.
+        /// </summary>
+        [TestMethod]
+        public void TestGetHelpEmailReturnsExpectedValues3()
+        {
+            var saveConfigValue = ConfigurationManager.AppSettings["AppHelpDeskEmail"];
+            try
+            {
+                #region Arrange
+                const string expectedResult = "programmingsupport@ucdavis.edu";
+                ConfigurationManager.AppSettings["AppHelpDeskEmail"] = expectedResult;
+                var ticket = CreateValidEntities.Ticket(1);
+                ticket.SupportDepartment = StaticValues.STR_ProgrammingSupport;
+                #endregion Arrange
+
+                #region Act
+                var result = TicketControllerService.GetHelpEmail(ticket);
+                #endregion Act
+
+                #region Assert
+                Assert.AreEqual(expectedResult, result);
+                #endregion Assert
+            }
+            finally
+            {
+                ConfigurationManager.AppSettings["AppHelpDeskEmail"] = saveConfigValue;
+            }
+        }
+
+        /// <summary>
+        /// Tests the get help email returns expected values.
+        /// </summary>
+        [TestMethod]
+        public void TestGetHelpEmailReturnsExpectedValues4()
+        {
+            var saveConfigValue = ConfigurationManager.AppSettings["WebHelpDeskEmail"];
+            try
+            {
+                #region Arrange
+                const string expectedResult = "websupport@ucdavis.edu";
+                ConfigurationManager.AppSettings["WebHelpDeskEmail"] = expectedResult;
+                var ticket = CreateValidEntities.Ticket(1);
+                ticket.SupportDepartment = StaticValues.STR_WebSiteSupport;
+                #endregion Arrange
+
+                #region Act
+                var result = TicketControllerService.GetHelpEmail(ticket);
+                #endregion Act
+
+                #region Assert
+                Assert.AreEqual(expectedResult, result);
+                #endregion Assert
+            }
+            finally
+            {
+                ConfigurationManager.AppSettings["WebHelpDeskEmail"] = saveConfigValue;
+            }
+        }
+
+        #endregion GetHelpEmail Tests
+
         #region Reflection
         #region Service Class Tests
 
@@ -1234,10 +1705,10 @@ namespace HelpRequest.Tests.Interfaces
         #region Service Method Tests
 
         /// <summary>
-        /// Tests the controller contains expected number of public methods.
+        /// Tests the Implementation contains expected number of public methods.
         /// </summary>
         [TestMethod]
-        public void TestControllerContainsExpectedNumberOfPublicMethods()
+        public void TestImplementationContainsExpectedNumberOfPublicMethods()
         {
             #region Arrange
             var serviceClass = ServiceClass;
@@ -1248,16 +1719,16 @@ namespace HelpRequest.Tests.Interfaces
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(6, result.Count(), "It looks like a method was added or removed from the Service.");
+            Assert.AreEqual(9, result.Count(), "It looks like a method was added or removed from the Service.");
             #endregion Assert
         }
                
         /// <summary>
-        /// Tests the service method check for support email addresses contains expected attributes.
+        /// Tests the Implementation method check for support email addresses contains expected attributes.
         /// #1
         /// </summary>
         [TestMethod]
-        public void TestServiceMethodCheckForSupportEmailAddressesContainsExpectedAttributes()
+        public void TestImplementationMethodCheckForSupportEmailAddressesContainsExpectedAttributes()
         {
             #region Arrange
             var serviceClass = ServiceClass;
@@ -1274,11 +1745,11 @@ namespace HelpRequest.Tests.Interfaces
         }
 
         /// <summary>
-        /// Tests the service method common submit validation checks contains expected attributes.
+        /// Tests the Implementation method common submit validation checks contains expected attributes.
         /// #2
         /// </summary>
         [TestMethod]
-        public void TestServiceMethodCommonSubmitValidationChecksContainsExpectedAttributes()
+        public void TestImplementationMethodCommonSubmitValidationChecksContainsExpectedAttributes()
         {
             #region Arrange
             var serviceClass = ServiceClass;
@@ -1295,11 +1766,11 @@ namespace HelpRequest.Tests.Interfaces
         }
 
         /// <summary>
-        /// Tests the service method load file contents contains expected attributes.
+        /// Tests the Implementation method load file contents contains expected attributes.
         /// #3
         /// </summary>
         [TestMethod]
-        public void TestServiceMethodLoadFileContentsContainsExpectedAttributes()
+        public void TestImplementationMethodLoadFileContentsContainsExpectedAttributes()
         {
             #region Arrange
             var serviceClass = ServiceClass;
@@ -1316,11 +1787,11 @@ namespace HelpRequest.Tests.Interfaces
         }
 
         /// <summary>
-        /// Tests the service method cas login contains expected attributes.
+        /// Tests the Implementation method cas login contains expected attributes.
         /// #4
         /// </summary>
         [TestMethod]
-        public void TestServiceMethodCasLoginContainsExpectedAttributes()
+        public void TestImplementationMethodCasLoginContainsExpectedAttributes()
         {
             #region Arrange
             var serviceClass = ServiceClass;
@@ -1337,11 +1808,11 @@ namespace HelpRequest.Tests.Interfaces
         }
 
         /// <summary>
-        /// Tests the service method find kerb user contains expected attributes.
+        /// Tests the Implementation method find kerb user contains expected attributes.
         /// #5
         /// </summary>
         [TestMethod]
-        public void TestServiceMethodFindKerbUserContainsExpectedAttributes()
+        public void TestImplementationMethodFindKerbUserContainsExpectedAttributes()
         {
             #region Arrange
             var serviceClass = ServiceClass;
@@ -1358,15 +1829,78 @@ namespace HelpRequest.Tests.Interfaces
         }
 
         /// <summary>
-        /// Tests the service method send help request contains expected attributes.
+        /// Tests the Implementation method send help request contains expected attributes.
         /// #6
         /// </summary>
         [TestMethod]
-        public void TestServiceMethodSendHelpRequestContainsExpectedAttributes()
+        public void TestImplementationMethodSendHelpRequestContainsExpectedAttributes()
         {
             #region Arrange
             var serviceClass = ServiceClass;
             var serviceMethod = serviceClass.GetMethod("SendHelpRequest");
+            #endregion Arrange
+
+            #region Act
+            var allAttributes = serviceMethod.GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the implementation method build body contains expected attributes.
+        /// #7
+        /// </summary>
+        [TestMethod]
+        public void TestImplementationMethodBuildBodyContainsExpectedAttributes()
+        {
+            #region Arrange
+            var serviceClass = ServiceClass;
+            var serviceMethod = serviceClass.GetMethod("BuildBody");
+            #endregion Arrange
+
+            #region Act
+            var allAttributes = serviceMethod.GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the implementation method filter cru email contains expected attributes.
+        /// #8
+        /// </summary>
+        [TestMethod]
+        public void TestImplementationMethodFilterCruEmailContainsExpectedAttributes()
+        {
+            #region Arrange
+            var serviceClass = ServiceClass;
+            var serviceMethod = serviceClass.GetMethod("FilterCruEmail");
+            #endregion Arrange
+
+            #region Act
+            var allAttributes = serviceMethod.GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the implementation method get help email contains expected attributes.
+        /// #9
+        /// </summary>
+        [TestMethod]
+        public void TestImplementationMethodGetHelpEmailContainsExpectedAttributes()
+        {
+            #region Arrange
+            var serviceClass = ServiceClass;
+            var serviceMethod = serviceClass.GetMethod("GetHelpEmail");
             #endregion Arrange
 
             #region Act

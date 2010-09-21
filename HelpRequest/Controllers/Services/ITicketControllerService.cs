@@ -235,6 +235,7 @@ namespace HelpRequest.Controllers.Services
 
         /// <summary>
         /// Builds the body of the email.
+        /// #7
         /// </summary>
         /// <param name="ticket">The ticket.</param>
         /// <returns></returns>
@@ -270,6 +271,7 @@ namespace HelpRequest.Controllers.Services
 
         /// <summary>
         /// Filters the cru email.
+        /// #8
         /// </summary>
         /// <param name="emailCc">The email cc.</param>
         /// <returns></returns>
@@ -296,6 +298,7 @@ namespace HelpRequest.Controllers.Services
         }
         /// <summary>
         /// Gets the help email.
+        /// #9
         /// </summary>
         /// <param name="ticket">The ticket.</param>
         /// <returns></returns>
