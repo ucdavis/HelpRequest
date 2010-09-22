@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContinuousDeploymentIntegrationHack.cs" />
+    <Compile Include="Controllers\ErrorControllerTests.cs" />
     <Compile Include="Controllers\HelpControllerTests.cs" />
     <Compile Include="Controllers\TicketControllerTests\TicketControllerTestsInit.cs" />
     <Compile Include="Controllers\TicketControllerTests\TicketControllerTestsPart01.cs" />
