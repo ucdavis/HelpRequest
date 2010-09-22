@@ -71,15 +71,6 @@ namespace HelpRequest.Tests.Controllers
             "~/Home/ReturnToCallingApplication/?url=Test".ShouldMapTo<HomeController>(a => a.ReturnToCallingApplication("Test"), true);
         }
 
-        /// <summary>
-        /// Tests the error mapping.
-        /// </summary>
-        [TestMethod]
-        public void TestErrorMapping()
-        {
-            "~/Home/Error/".ShouldMapTo<HomeController>(a => a.Error());
-        }
-
         #endregion Mapping Tests
 
         #region Index Tests
@@ -362,20 +353,6 @@ namespace HelpRequest.Tests.Controllers
 
         #endregion ReturnToCallingApplication Tests
 
-        #region Error Tests
-
-        /// <summary>
-        /// Tests the error returns view.
-        /// </summary>
-        [TestMethod]
-        public void TestErrorReturnsView()
-        {
-            #region Assert
-            Controller.Error()
-                .AssertViewRendered();
-            #endregion Assert		
-        }
-        #endregion Error Tests
 
         #region Reflection
         #region Controller Class Tests
@@ -476,7 +453,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(4, result.Count(), "It looks like a method was added or removed from the controller.");
+            Assert.AreEqual(3, result.Count(), "It looks like a method was added or removed from the controller.");
             #endregion Assert
         }
 
@@ -533,27 +510,6 @@ namespace HelpRequest.Tests.Controllers
             #region Arrange
             var controllerClass = _controllerClass;
             var controllerMethod = controllerClass.GetMethod("ReturnToCallingApplication");
-            #endregion Arrange
-
-            #region Act
-            var allAttributes = controllerMethod.GetCustomAttributes(true);
-            #endregion Act
-
-            #region Assert
-            Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
-            #endregion Assert
-        }
-
-        /// <summary>
-        /// Tests the controller method error contains expected attributes.
-        /// #4
-        /// </summary>
-        [TestMethod]
-        public void TestControllerMethodErrorContainsExpectedAttributes()
-        {
-            #region Arrange
-            var controllerClass = _controllerClass;
-            var controllerMethod = controllerClass.GetMethod("Error");
             #endregion Arrange
 
             #region Act
