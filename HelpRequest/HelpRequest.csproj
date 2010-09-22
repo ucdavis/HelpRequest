@@ -422,6 +422,7 @@
     <Content Include="AppSettingsTest.config" />
     <Content Include="ConnectionStringProd.config" />
     <Content Include="ConnectionStringTest.config" />
+    <Content Include="Images\Error.gif" />
     <Content Include="Scripts\jquery.enableTinyMce.js" />
     <Content Include="Views\Error\Index.aspx" />
     <None Include="Images\fonts\Quicksand_Bold.eot" />
