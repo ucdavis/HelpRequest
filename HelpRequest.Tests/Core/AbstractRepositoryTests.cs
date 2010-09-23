@@ -14,6 +14,7 @@ namespace HelpRequest.Tests.Core
 {
 
     // ReSharper disable InconsistentNaming
+    [TestClass]
     public abstract class AbstractRepositoryTests<T, IdT> : RepositoryTestBase where T : DomainObjectWithTypedId<IdT>
     // ReSharper restore InconsistentNaming
     {
