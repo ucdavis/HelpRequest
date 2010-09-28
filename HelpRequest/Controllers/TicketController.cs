@@ -112,7 +112,7 @@ namespace HelpRequest.Controllers
         /// <param name="availableDatesInput">Non-Array available dates as strings.</param>
         /// <param name="emailCCsInput">Non-Array email Carbon Copy</param>
         /// <returns></returns>
-        [AcceptPost]
+        [HttpPost]
         [ValidateInput(false)]
         [Authorize]
         public ActionResult Submit(Ticket ticket, string[] avDates, string[] emailCCs, HttpPostedFileBase uploadAttachment, string appName, string availableDatesInput, string emailCCsInput)
@@ -223,7 +223,7 @@ namespace HelpRequest.Controllers
         /// <param name="emailCCsInput">Non-Array email Carbon Copy</param>
         /// <returns></returns>
         [CaptchaValidator]
-        [AcceptPost]
+        [HttpPost]
         [ValidateInput(false)]
         public ActionResult PublicSubmit(Ticket ticket, string[] avDates, string[] emailCCs, HttpPostedFileBase uploadAttachment, bool captchaValid, string appName, string availableDatesInput, string emailCCsInput)
         {

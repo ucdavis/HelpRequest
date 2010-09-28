@@ -18,7 +18,7 @@ namespace HelpRequest
         protected void Application_Start()
         {
 #if DEBUG
-            HibernatingRhinos.NHibernate.Profiler.Appender.NHibernateProfiler.Initialize();
+            HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
 #endif
 
             xVal.ActiveRuleProviders.Providers.Add(new ValidatorRulesProvider());

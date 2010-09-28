@@ -1,19 +1,20 @@
-﻿<!-- 
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- 
   Microsoft Visual Studio 2008 Web Deployment Project 
   http://go.microsoft.com/fwlink/?LinkID=104956
 
 -->
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>10.0.30319</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{413C1FBA-FF4B-45FA-8BA5-517E12586DC6}</ProjectGuid>
     <SourceWebPhysicalPath>..\HelpRequest</SourceWebPhysicalPath>
     <SourceWebProject>{917E6AB4-3B1A-462C-87E3-7EB43914D6F7}|HelpRequest\HelpRequest.csproj</SourceWebProject>
     <SourceWebVirtualPath>/HelpRequest.csproj</SourceWebVirtualPath>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -51,6 +52,10 @@
     <OutputPath>.\Prod</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HelpRequest\HelpRequest.csproj">
+      <Project>{917E6AB4-3B1A-462C-87E3-7EB43914D6F7}</Project>
+      <Name>HelpRequest</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <AssemblyAttributes Include="AssemblyFileVersion">
@@ -96,7 +101,7 @@
       <Section>connectionStrings</Section>
     </WebConfigReplacementFiles>
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WebDeployment\v9.0\Microsoft.WebDeployment.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WebDeployment\v10.0\Microsoft.WebDeployment.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.WebDeployment.targets.
   <Target Name="BeforeBuild">

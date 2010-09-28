@@ -62,7 +62,7 @@ namespace HelpRequest.Controllers
         /// <param name="appName">Name of the app.</param>
         /// <returns></returns>
         [AdminOnly]
-        [AcceptPost]
+        [HttpPost]
         [ValidateInput(false)]
         public ActionResult Create(HelpTopicViewModel viewModel, string appName)
         {
@@ -106,7 +106,7 @@ namespace HelpRequest.Controllers
         /// <param name="appName">Name of the app.</param>
         /// <returns></returns>
         [AdminOnly]
-        [AcceptPost]
+        [HttpPost]
         [ValidateInput(false)]
         public ActionResult Edit(int id, HelpTopic helpTopic, string appName)
         {

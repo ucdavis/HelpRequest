@@ -1,52 +1,53 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bin", "Bin", "{ACBFC0F4-B018-4957-B200-79E8028FE7E3}"
+	ProjectSection(SolutionItems) = preProject
+		Bin\AutoMapper.dll = Bin\AutoMapper.dll
+		Bin\Castle.Core.dll = Bin\Castle.Core.dll
+		Bin\Castle.DynamicProxy2.dll = Bin\Castle.DynamicProxy2.dll
+		Bin\Castle.MicroKernel.dll = Bin\Castle.MicroKernel.dll
+		Bin\Castle.Windsor.dll = Bin\Castle.Windsor.dll
+		Bin\Common.Logging.dll = Bin\Common.Logging.dll
+		Bin\Elmah.dll = Bin\Elmah.dll
+		Bin\FluentNHibernate.dll = Bin\FluentNHibernate.dll
+		Bin\HibernatingRhinos.Profiler.Appender.dll = Bin\HibernatingRhinos.Profiler.Appender.dll
+		Bin\Iesi.Collections.dll = Bin\Iesi.Collections.dll
+		Bin\log4net.dll = Bin\log4net.dll
+		Bin\Microsoft.Practices.ServiceLocation.dll = Bin\Microsoft.Practices.ServiceLocation.dll
+		Bin\Microsoft.Web.Mvc.dll = Bin\Microsoft.Web.Mvc.dll
+		Bin\MvcContrib.Castle.dll = Bin\MvcContrib.Castle.dll
+		Bin\MvcContrib.dll = Bin\MvcContrib.dll
+		Bin\MvcContrib.FluentHtml.dll = Bin\MvcContrib.FluentHtml.dll
+		Bin\MvcContrib.TestHelper.dll = Bin\MvcContrib.TestHelper.dll
+		Bin\Newtonsoft.Json.dll = Bin\Newtonsoft.Json.dll
+		Bin\NHibernate.ByteCode.Spring.dll = Bin\NHibernate.ByteCode.Spring.dll
+		Bin\NHibernate.dll = Bin\NHibernate.dll
+		Bin\NHibernate.Linq.dll = Bin\NHibernate.Linq.dll
+		Bin\NHibernate.Validator.dll = Bin\NHibernate.Validator.dll
+		Bin\Recaptcha.dll = Bin\Recaptcha.dll
+		Bin\Recaptcha.pdb = Bin\Recaptcha.pdb
+		Bin\Rhino.Mocks.dll = Bin\Rhino.Mocks.dll
+		Bin\Spring.Aop.dll = Bin\Spring.Aop.dll
+		Bin\Spring.Core.dll = Bin\Spring.Core.dll
+		Bin\System.Data.SQLite.DLL = Bin\System.Data.SQLite.DLL
+		Bin\Telerik.Web.Mvc.dll = Bin\Telerik.Web.Mvc.dll
+		Bin\UCDArch.Core.dll = Bin\UCDArch.Core.dll
+		Bin\UCDArch.Core.NHibernateValidator.dll = Bin\UCDArch.Core.NHibernateValidator.dll
+		Bin\UCDArch.Data.dll = Bin\UCDArch.Data.dll
+		Bin\UCDArch.Testing.dll = Bin\UCDArch.Testing.dll
+		Bin\UCDArch.Web.dll = Bin\UCDArch.Web.dll
+		Bin\UCDArch.Web.Providers.dll = Bin\UCDArch.Web.Providers.dll
+		Bin\xVal.dll = Bin\xVal.dll
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpRequest", "HelpRequest\HelpRequest.csproj", "{917E6AB4-3B1A-462C-87E3-7EB43914D6F7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpRequest.Tests", "HelpRequest.Tests\HelpRequest.Tests.csproj", "{D407ECE6-D3D5-48E1-A2F4-31CACB0C855D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpRequest.Core", "HelpRequest.Core\HelpRequest.Core.csproj", "{C45D6382-FA5F-46B9-8333-51AE9DBBB2D0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bin", "Bin", "{ACBFC0F4-B018-4957-B200-79E8028FE7E3}"
-	ProjectSection(SolutionItems) = preProject
-		HelpRequest\bin\Castle.Core.dll = HelpRequest\bin\Castle.Core.dll
-		HelpRequest\bin\Castle.DynamicProxy2.dll = HelpRequest\bin\Castle.DynamicProxy2.dll
-		HelpRequest\bin\Castle.MicroKernel.dll = HelpRequest\bin\Castle.MicroKernel.dll
-		HelpRequest\bin\Castle.Windsor.dll = HelpRequest\bin\Castle.Windsor.dll
-		HelpRequest\bin\Common.Logging.dll = HelpRequest\bin\Common.Logging.dll
-		HelpRequest\bin\Elmah.dll = HelpRequest\bin\Elmah.dll
-		HelpRequest\bin\FluentNHibernate.dll = HelpRequest\bin\FluentNHibernate.dll
-		HelpRequest\bin\HibernatingRhinos.NHibernate.Profiler.Appender.dll = HelpRequest\bin\HibernatingRhinos.NHibernate.Profiler.Appender.dll
-		HelpRequest\bin\Iesi.Collections.dll = HelpRequest\bin\Iesi.Collections.dll
-		HelpRequest\bin\log4net.dll = HelpRequest\bin\log4net.dll
-		HelpRequest\bin\Microsoft.Practices.ServiceLocation.dll = HelpRequest\bin\Microsoft.Practices.ServiceLocation.dll
-		HelpRequest\bin\Microsoft.Web.Mvc.dll = HelpRequest\bin\Microsoft.Web.Mvc.dll
-		HelpRequest\bin\MvcContrib.Castle.dll = HelpRequest\bin\MvcContrib.Castle.dll
-		HelpRequest\bin\MvcContrib.dll = HelpRequest\bin\MvcContrib.dll
-		HelpRequest\bin\MvcContrib.FluentHtml.dll = HelpRequest\bin\MvcContrib.FluentHtml.dll
-		HelpRequest\bin\MvcContrib.TestHelper.dll = HelpRequest\bin\MvcContrib.TestHelper.dll
-		HelpRequest\bin\Newtonsoft.Json.dll = HelpRequest\bin\Newtonsoft.Json.dll
-		HelpRequest\bin\Newtonsoft.Json.Net20.dll = HelpRequest\bin\Newtonsoft.Json.Net20.dll
-		HelpRequest\bin\Newtonsoft.Json.Net20.pdb = HelpRequest\bin\Newtonsoft.Json.Net20.pdb
-		HelpRequest\bin\Newtonsoft.Json.Net20.xml = HelpRequest\bin\Newtonsoft.Json.Net20.xml
-		HelpRequest\bin\NHibernate.ByteCode.Spring.dll = HelpRequest\bin\NHibernate.ByteCode.Spring.dll
-		HelpRequest\bin\NHibernate.dll = HelpRequest\bin\NHibernate.dll
-		HelpRequest\bin\NHibernate.Linq.dll = HelpRequest\bin\NHibernate.Linq.dll
-		HelpRequest\bin\NHibernate.Validator.dll = HelpRequest\bin\NHibernate.Validator.dll
-		HelpRequest\bin\Recaptcha.dll = HelpRequest\bin\Recaptcha.dll
-		HelpRequest\bin\Recaptcha.pdb = HelpRequest\bin\Recaptcha.pdb
-		HelpRequest\bin\Rhino.Mocks.dll = HelpRequest\bin\Rhino.Mocks.dll
-		HelpRequest\bin\Telerik.Web.Mvc.dll = HelpRequest\bin\Telerik.Web.Mvc.dll
-		HelpRequest\bin\UCDArch.Core.dll = HelpRequest\bin\UCDArch.Core.dll
-		HelpRequest\bin\UCDArch.Core.NHibernateValidator.dll = HelpRequest\bin\UCDArch.Core.NHibernateValidator.dll
-		HelpRequest\bin\UCDArch.Data.dll = HelpRequest\bin\UCDArch.Data.dll
-		HelpRequest\bin\UCDArch.Testing.dll = HelpRequest\bin\UCDArch.Testing.dll
-		HelpRequest\bin\UCDArch.Web.dll = HelpRequest\bin\UCDArch.Web.dll
-		HelpRequest\bin\UCDArch.Web.Providers.dll = HelpRequest\bin\UCDArch.Web.Providers.dll
-		HelpRequest\bin\xVal.dll = HelpRequest\bin\xVal.dll
-	EndProjectSection
-EndProject
-Project("{4F174C21-8C12-11D0-8340-0000F80270F8}") = "HelpRequest.DB", "DB\HelpRequest.DB.dbp", "{DE02F2B0-8478-4FBC-9FD6-9FCA8F77C9B2}"
+Project("{C8D11400-126E-41CD-887F-60BD40844F9E}") = "HelpRequest.DB", "DB\HelpRequest.DB.dbproj", "{67CBC824-A49E-4E9B-A947-360F3DFE65C3}"
 EndProject
 Project("{2CFEAB61-6A3B-4EB8-B523-560B4BEEF521}") = "HelpRequest.Deploy", "HelpRequest.Deploy\HelpRequest.Deploy.wdproj", "{413C1FBA-FF4B-45FA-8BA5-517E12586DC6}"
 EndProject
@@ -54,23 +55,23 @@ Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 6
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.caes.ucdavis.edu:8088/tfs
+		SccTeamFoundationServer = https://tfs.caes.ucdavis.edu:8088/tfs/defaultcollection
 		SccLocalPath0 = .
-		SccProjectUniqueName1 = DB\\HelpRequest.DB.dbp
-		SccProjectName1 = DB
-		SccLocalPath1 = DB
-		SccProjectUniqueName2 = HelpRequest.Core\\HelpRequest.Core.csproj
-		SccProjectName2 = HelpRequest.Core
-		SccLocalPath2 = HelpRequest.Core
-		SccProjectUniqueName3 = HelpRequest.Deploy\\HelpRequest.Deploy.wdproj
-		SccProjectName3 = HelpRequest.Deploy
-		SccLocalPath3 = HelpRequest.Deploy
-		SccProjectUniqueName4 = HelpRequest.Tests\\HelpRequest.Tests.csproj
-		SccProjectName4 = HelpRequest.Tests
-		SccLocalPath4 = HelpRequest.Tests
-		SccProjectUniqueName5 = HelpRequest\\HelpRequest.csproj
-		SccProjectName5 = HelpRequest
-		SccLocalPath5 = HelpRequest
+		SccProjectUniqueName1 = HelpRequest.Core\\HelpRequest.Core.csproj
+		SccProjectName1 = HelpRequest.Core
+		SccLocalPath1 = HelpRequest.Core
+		SccProjectUniqueName2 = HelpRequest.Deploy\\HelpRequest.Deploy.wdproj
+		SccProjectName2 = HelpRequest.Deploy
+		SccLocalPath2 = HelpRequest.Deploy
+		SccProjectUniqueName3 = HelpRequest.Tests\\HelpRequest.Tests.csproj
+		SccProjectName3 = HelpRequest.Tests
+		SccLocalPath3 = HelpRequest.Tests
+		SccProjectUniqueName4 = HelpRequest\\HelpRequest.csproj
+		SccProjectName4 = HelpRequest
+		SccLocalPath4 = HelpRequest
+		SccProjectUniqueName5 = DB\\HelpRequest.DB.dbproj
+		SccProjectName5 = DB
+		SccLocalPath5 = DB
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -100,6 +101,10 @@ Global
 		{C45D6382-FA5F-46B9-8333-51AE9DBBB2D0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C45D6382-FA5F-46B9-8333-51AE9DBBB2D0}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{C45D6382-FA5F-46B9-8333-51AE9DBBB2D0}.Test|Any CPU.Build.0 = Test|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Prod|Any CPU.ActiveCfg = Debug|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Test|Any CPU.ActiveCfg = Debug|Any CPU
 		{413C1FBA-FF4B-45FA-8BA5-517E12586DC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{413C1FBA-FF4B-45FA-8BA5-517E12586DC6}.Prod|Any CPU.ActiveCfg = Prod|Any CPU
 		{413C1FBA-FF4B-45FA-8BA5-517E12586DC6}.Prod|Any CPU.Build.0 = Prod|Any CPU

@@ -3079,7 +3079,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<AcceptPostAttribute>();
+            var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<HttpPostAttribute>();
             var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
             #endregion Act
 
@@ -3173,7 +3173,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<AcceptPostAttribute>();
+            var expectedAttribute = controllerMethod.ElementAt(1).GetCustomAttributes(true).OfType<HttpPostAttribute>();
             var allAttributes = controllerMethod.ElementAt(1).GetCustomAttributes(true);
             #endregion Act
 
