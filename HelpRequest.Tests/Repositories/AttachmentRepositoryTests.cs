@@ -579,7 +579,7 @@ namespace HelpRequest.Tests.Repositories
                 Assert.IsNotNull(attachment);
                 Assert.IsNull(attachment.Contents);
                 var results = attachment.ValidationResults().AsMessageList();
-                results.AssertErrorsAre("Contents: may not be empty");
+                results.AssertErrorsAre("Contents: may not be null");
                 Assert.IsTrue(attachment.IsTransient());
                 Assert.IsFalse(attachment.IsValid());
                 throw;
