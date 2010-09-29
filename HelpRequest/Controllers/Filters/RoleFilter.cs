@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web.Mvc;
-using System.Web.Security;
 
 namespace HelpRequest.Controllers.Filters
 {

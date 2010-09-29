@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using HelpRequest.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 

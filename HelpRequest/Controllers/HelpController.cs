@@ -1,5 +1,4 @@
-﻿using System;
-using System.Security.Principal;
+﻿using System.Security.Principal;
 using System.Web.Mvc;
 using HelpRequest.Controllers.Filters;
 using HelpRequest.Controllers.Helpers;
@@ -7,7 +6,6 @@ using HelpRequest.Controllers.ViewModels;
 using HelpRequest.Core.Domain;
 using HelpRequest.Core.Resources;
 using MvcContrib;
-using MvcContrib.Attributes;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Controller;
 using UCDArch.Web.Helpers;

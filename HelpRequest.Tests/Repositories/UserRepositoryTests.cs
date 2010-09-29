@@ -8,7 +8,6 @@ using HelpRequest.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Data.NHibernate;
-using UCDArch.Testing.Extensions;
 
 namespace HelpRequest.Tests.Repositories
 {

@@ -5,7 +5,6 @@ using HelpRequest.Controllers.Filters;
 using HelpRequest.Core.Domain;
 using HelpRequest.Tests.Core.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MvcContrib.Attributes;
 using UCDArch.Web.Attributes;
 
 namespace HelpRequest.Tests.Controllers.TicketControllerTests

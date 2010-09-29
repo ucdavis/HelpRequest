@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
 using System.DirectoryServices.Protocols;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Web.Configuration;
 //For now, this is just a cut and paste from Catbert. I'm not sure how it is working - Jason
 namespace HelpRequest.Controllers.Helpers
 {

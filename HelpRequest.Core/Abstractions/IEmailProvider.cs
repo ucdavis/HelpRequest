@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using HelpRequest.Core.Domain;
-using HelpRequest.Core.Resources;
-using UCDArch.Core.PersistanceSupport;
-using UCDArch.Core.Utils;
-using Attachment = System.Net.Mail.Attachment;
+﻿using System.Net.Mail;
 
 namespace HelpRequest.Core.Abstractions
 {

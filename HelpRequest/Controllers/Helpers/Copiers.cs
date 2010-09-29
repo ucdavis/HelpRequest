@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using HelpRequest.Core.Domain;
+﻿using HelpRequest.Core.Domain;
 
 namespace HelpRequest.Controllers.Helpers
 {

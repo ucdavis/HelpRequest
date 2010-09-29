@@ -1,9 +1,6 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Security;
-using HelpRequest.Controllers.Filters;
 using UCDArch.Web.Authentication;
-using MvcContrib;
 using UCDArch.Web.Controller;
 
 namespace HelpRequest.Controllers

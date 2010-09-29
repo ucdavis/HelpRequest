@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using NHibernate.Validator.Constraints;
+﻿using System.Collections.Generic;
 using UCDArch.Core.DomainModel;
 using UCDArch.Core.NHibernateValidator.Extensions;
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Mail;
 using HelpRequest.Controllers;
 using HelpRequest.Controllers.ViewModels;
 using HelpRequest.Core.Resources;

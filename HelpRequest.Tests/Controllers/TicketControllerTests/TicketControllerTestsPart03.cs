@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Mail;
 using HelpRequest.Controllers;
 using HelpRequest.Controllers.Helpers;
 using HelpRequest.Controllers.ViewModels;

@@ -1,5 +1,4 @@
 using System;
-using System.Configuration;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -11,7 +10,6 @@ using HelpRequest.Core.Abstractions;
 using HelpRequest.Core.Domain;
 using HelpRequest.Core.Resources;
 using MvcContrib;
-using MvcContrib.Attributes;
 using UCDArch.Web.Controller;
 using UCDArch.Web.Validator;
 

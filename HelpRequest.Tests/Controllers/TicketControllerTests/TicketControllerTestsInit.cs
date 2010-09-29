@@ -4,7 +4,6 @@ using System.Linq;
 using System.Security.Principal;
 using System.Web;
 using HelpRequest.Controllers;
-using HelpRequest.Controllers.Helpers;
 using HelpRequest.Controllers.Services;
 using HelpRequest.Core.Abstractions;
 using HelpRequest.Core.Domain;
