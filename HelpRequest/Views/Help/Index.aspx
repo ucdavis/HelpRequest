@@ -24,10 +24,10 @@
                         switch (cell.Column.Member)
                         {
                             case "AvailableToPublic":
-                                cell.Text = cell.DataItem.AvailableToPublic ? "x" : string.Empty;
+                                cell.Text = cell.DataItem.AvailableToPublic ? "•" : " ";
                                 break;
                             case "IsActive":
-                                cell.Text = cell.DataItem.IsActive ? "x" : string.Empty;
+                                cell.Text = cell.DataItem.IsActive ? "•" : " ";
                                 break;
                         }
                     })                                   
