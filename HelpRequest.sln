@@ -49,29 +49,24 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpRequest.Core", "HelpReq
 EndProject
 Project("{C8D11400-126E-41CD-887F-60BD40844F9E}") = "HelpRequest.DB", "DB\HelpRequest.DB.dbproj", "{67CBC824-A49E-4E9B-A947-360F3DFE65C3}"
 EndProject
-Project("{2CFEAB61-6A3B-4EB8-B523-560B4BEEF521}") = "HelpRequest.Deploy", "HelpRequest.Deploy\HelpRequest.Deploy.wdproj", "{413C1FBA-FF4B-45FA-8BA5-517E12586DC6}"
-EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 6
+		SccNumberOfProjects = 5
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.caes.ucdavis.edu:8088/tfs/defaultcollection
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = HelpRequest.Core\\HelpRequest.Core.csproj
 		SccProjectName1 = HelpRequest.Core
 		SccLocalPath1 = HelpRequest.Core
-		SccProjectUniqueName2 = HelpRequest.Deploy\\HelpRequest.Deploy.wdproj
-		SccProjectName2 = HelpRequest.Deploy
-		SccLocalPath2 = HelpRequest.Deploy
-		SccProjectUniqueName3 = HelpRequest.Tests\\HelpRequest.Tests.csproj
-		SccProjectName3 = HelpRequest.Tests
-		SccLocalPath3 = HelpRequest.Tests
-		SccProjectUniqueName4 = HelpRequest\\HelpRequest.csproj
-		SccProjectName4 = HelpRequest
-		SccLocalPath4 = HelpRequest
-		SccProjectUniqueName5 = DB\\HelpRequest.DB.dbproj
-		SccProjectName5 = DB
-		SccLocalPath5 = DB
+		SccProjectUniqueName2 = HelpRequest.Tests\\HelpRequest.Tests.csproj
+		SccProjectName2 = HelpRequest.Tests
+		SccLocalPath2 = HelpRequest.Tests
+		SccProjectUniqueName3 = HelpRequest\\HelpRequest.csproj
+		SccProjectName3 = HelpRequest
+		SccLocalPath3 = HelpRequest
+		SccProjectUniqueName4 = DB\\HelpRequest.DB.dbproj
+		SccProjectName4 = DB
+		SccLocalPath4 = DB
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,7 +83,7 @@ Global
 		{D407ECE6-D3D5-48E1-A2F4-31CACB0C855D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D407ECE6-D3D5-48E1-A2F4-31CACB0C855D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D407ECE6-D3D5-48E1-A2F4-31CACB0C855D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D407ECE6-D3D5-48E1-A2F4-31CACB0C855D}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{D407ECE6-D3D5-48E1-A2F4-31CACB0C855D}.Test|Any CPU.ActiveCfg = Debug|Any CPU
 		{C45D6382-FA5F-46B9-8333-51AE9DBBB2D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C45D6382-FA5F-46B9-8333-51AE9DBBB2D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C45D6382-FA5F-46B9-8333-51AE9DBBB2D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -98,11 +93,6 @@ Global
 		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Test|Any CPU.ActiveCfg = Debug|Any CPU
-		{413C1FBA-FF4B-45FA-8BA5-517E12586DC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{413C1FBA-FF4B-45FA-8BA5-517E12586DC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{413C1FBA-FF4B-45FA-8BA5-517E12586DC6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{413C1FBA-FF4B-45FA-8BA5-517E12586DC6}.Test|Any CPU.ActiveCfg = Test|Any CPU
-		{413C1FBA-FF4B-45FA-8BA5-517E12586DC6}.Test|Any CPU.Build.0 = Test|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -32,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PublishDatabases>false</PublishDatabases>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,6 +42,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PublishDatabases>false</PublishDatabases>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,6 +54,8 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PublishDatabases>false</PublishDatabases>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Prod|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -73,6 +77,9 @@
     </Reference>
     <Reference Include="Castle.Windsor">
       <HintPath>..\Bin\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah">
+      <HintPath>..\Bin\Elmah.dll</HintPath>
     </Reference>
     <Reference Include="HibernatingRhinos.Profiler.Appender">
       <HintPath>..\Bin\HibernatingRhinos.Profiler.Appender.dll</HintPath>
@@ -167,11 +174,53 @@
     <Compile Include="RouteConfigurator.asax.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\2009.3.1103.0\Black\loading.gif" />
+    <Content Include="Content\2009.3.1103.0\Black\sprite.png" />
+    <Content Include="Content\2009.3.1103.0\Default\loading.gif" />
+    <Content Include="Content\2009.3.1103.0\Default\sprite.png" />
+    <Content Include="Content\2009.3.1103.0\Forest\loading.gif" />
+    <Content Include="Content\2009.3.1103.0\Forest\sprite.png" />
+    <Content Include="Content\2009.3.1103.0\Hay\loading.gif" />
+    <Content Include="Content\2009.3.1103.0\Hay\sprite.png" />
+    <Content Include="Content\2009.3.1103.0\Office2007\loading.gif" />
+    <Content Include="Content\2009.3.1103.0\Office2007\sprite.png" />
+    <Content Include="Content\2009.3.1103.0\Outlook\loading.gif" />
+    <Content Include="Content\2009.3.1103.0\Outlook\sprite.png" />
+    <Content Include="Content\2009.3.1103.0\Simple\loading.gif" />
+    <Content Include="Content\2009.3.1103.0\Simple\sprite.png" />
+    <Content Include="Content\2009.3.1103.0\Sitefinity\loading.gif" />
+    <Content Include="Content\2009.3.1103.0\Sitefinity\sprite.png" />
+    <Content Include="Content\2009.3.1103.0\Sunset\loading.gif" />
+    <Content Include="Content\2009.3.1103.0\Sunset\sprite.png" />
+    <Content Include="Content\2009.3.1103.0\telerik.black.min.css" />
+    <Content Include="Content\2009.3.1103.0\telerik.default.min.css" />
+    <Content Include="Content\2009.3.1103.0\telerik.forest.min.css" />
+    <Content Include="Content\2009.3.1103.0\telerik.hay.min.css" />
+    <Content Include="Content\2009.3.1103.0\telerik.office2007.min.css" />
+    <Content Include="Content\2009.3.1103.0\telerik.outlook.min.css" />
+    <Content Include="Content\2009.3.1103.0\telerik.simple.min.css" />
+    <Content Include="Content\2009.3.1103.0\telerik.sitefinity.min.css" />
+    <Content Include="Content\2009.3.1103.0\telerik.sunset.min.css" />
+    <Content Include="Content\2009.3.1103.0\telerik.telerik.min.css" />
+    <Content Include="Content\2009.3.1103.0\telerik.vista.min.css" />
+    <Content Include="Content\2009.3.1103.0\telerik.web20.min.css" />
+    <Content Include="Content\2009.3.1103.0\telerik.webblue.min.css" />
+    <Content Include="Content\2009.3.1103.0\Telerik\loading.gif" />
+    <Content Include="Content\2009.3.1103.0\Telerik\sprite.png" />
+    <Content Include="Content\2009.3.1103.0\Web20\loading.gif" />
+    <Content Include="Content\2009.3.1103.0\Web20\sprite.png" />
+    <Content Include="Content\2009.3.1103.0\WebBlue\loading.gif" />
+    <Content Include="Content\2009.3.1103.0\WebBlue\sprite.png" />
     <Content Include="Content\Copy of Site.css" />
     <Content Include="Content\quicksandstylesheet.css" />
     <Content Include="Content\telerik.common.css" />
     <Content Include="Content\telerik.vista.css" />
+    <Content Include="Content\Vista\loading.gif" />
+    <Content Include="Content\Vista\sprite.png" />
+    <Content Include="Content\Windows7\loading.gif" />
+    <Content Include="Content\Windows7\sprite.png" />
     <Content Include="Default.aspx" />
+    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\caes-logo.jpg" />
@@ -462,10 +511,6 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AppSettingsProd.config" />
-    <Content Include="AppSettingsTest.config" />
-    <Content Include="ConnectionStringProd.config" />
-    <Content Include="ConnectionStringTest.config" />
     <Content Include="Images\Error.gif" />
     <Content Include="Scripts\jquery.enableTinyMce.js" />
     <Content Include="Views\Error\Index.aspx" />
@@ -483,6 +528,12 @@
     <None Include="Images\fonts\Quicksand_Light.ttf" />
     <None Include="Images\fonts\Quicksand_Light_Oblique.eot" />
     <None Include="Images\fonts\Quicksand_Light_Oblique.ttf" />
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Test.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HelpRequest.Core\HelpRequest.Core.csproj">
