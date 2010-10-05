@@ -26,7 +26,7 @@ namespace HelpRequest.Tests.Core
         protected LocalRepositoryTestBase()
         {
             Repository = new Repository();
-            NHibernateSessionConfiguration.Mappings.UseFluentMappings(typeof(HelpTopicMap).Assembly); //???
+           // NHibernateSessionConfiguration.Mappings.UseFluentMappings(typeof(HelpTopicMap).Assembly); //???
             CreateDB();
         }
 
