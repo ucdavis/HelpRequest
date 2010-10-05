@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HelpRequest.Core.Domain;
+using HelpRequest.Core.Mappings;
 using HelpRequest.Tests.Core;
 using HelpRequest.Tests.Core.Extensions;
 using HelpRequest.Tests.Core.Helpers;
@@ -16,7 +17,7 @@ namespace HelpRequest.Tests.Repositories
     /// LookupFieldName:	LoginId
     /// </summary>
     [TestClass]
-    public class UserRepositoryTests : AbstractRepositoryTests<User, int>
+    public class UserRepositoryTests : AbstractRepositoryTests<User, int, UserMap>
     {
         /// <summary>
         /// Gets or sets the User repository.

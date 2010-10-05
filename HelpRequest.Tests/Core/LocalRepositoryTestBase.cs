@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Castle.Windsor;
 using FluentNHibernate.Cfg;
@@ -15,9 +16,14 @@ using UCDArch.Testing;
 
 namespace HelpRequest.Tests.Core
 {
-    public abstract class LocalRepositoryTestBase
+    /// <summary>
+    /// The TMap is the Mapping file for Fluent Mapping
+    /// </summary>
+    /// <typeparam name="TMap">The type of the map.</typeparam>
+    public abstract class LocalRepositoryTestBase<TMap>
     {
         public IRepository Repository { get; set; }
+        private Assembly MappingAssembly { get; set; }
 
         public IStatistics FactoryStatistics
         {
@@ -26,9 +32,9 @@ namespace HelpRequest.Tests.Core
 
         protected LocalRepositoryTestBase()
         {
+            MappingAssembly = typeof(TMap).Assembly;
             Repository = new Repository();
-            NHibernateSessionConfiguration.Mappings.UseFluentMappings(typeof(HelpTopicMap).Assembly); //???
-
+            NHibernateSessionConfiguration.Mappings.UseFluentMappings(MappingAssembly); //Needed for the persister
         }
 
         [TestInitialize]
@@ -37,7 +43,7 @@ namespace HelpRequest.Tests.Core
            
             //Configuration config = new Configuration().Configure();
             Configuration config = Fluently.Configure()
-                .Mappings(x => x.FluentMappings.AddFromAssembly(typeof(HelpTopicMap).Assembly)
+                .Mappings(x => x.FluentMappings.AddFromAssembly(MappingAssembly)
                 .Conventions.AddAssembly(typeof(PrimaryKeyConvention).Assembly))
                 .BuildConfiguration();
             new NHibernate.Tool.hbm2ddl.SchemaExport(config).Execute(false, true, false, NHibernateSessionManager.Instance.GetSession().Connection, null);

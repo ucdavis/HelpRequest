@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HelpRequest.Core.Domain;
+using HelpRequest.Core.Mappings;
 using HelpRequest.Tests.Core;
 using HelpRequest.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,7 +16,7 @@ namespace HelpRequest.Tests.Repositories
     /// LookupFieldName:	Name
     /// </summary>
     [TestClass]
-    public class CatbertApplicationRepositoryTests : AbstractRepositoryTests<CatbertApplication, int>
+    public class CatbertApplicationRepositoryTests : AbstractRepositoryTests<CatbertApplication, int, CatbertApplicationMap>
     {
         /// <summary>
         /// Gets or sets the CatbertApplication repository.

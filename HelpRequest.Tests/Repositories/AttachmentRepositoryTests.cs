@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using HelpRequest.Core.Domain;
+using HelpRequest.Core.Mappings;
 using HelpRequest.Tests.Core;
 using HelpRequest.Tests.Core.Extensions;
 using HelpRequest.Tests.Core.Helpers;
@@ -19,7 +20,7 @@ namespace HelpRequest.Tests.Repositories
 	/// LookupFieldName:	Name
 	/// </summary>
 	[TestClass]
-	public class AttachmentRepositoryTests : AbstractRepositoryTests<Attachment, int>
+	public class AttachmentRepositoryTests : AbstractRepositoryTests<Attachment, int, AttachmentMap>
 	{
 		/// <summary>
 		/// Gets or sets the Attachment repository.
