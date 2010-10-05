@@ -81,6 +81,9 @@
     <Reference Include="Elmah">
       <HintPath>..\Bin\Elmah.dll</HintPath>
     </Reference>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\Bin\FluentNHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="HibernatingRhinos.Profiler.Appender">
       <HintPath>..\Bin\HibernatingRhinos.Profiler.Appender.dll</HintPath>
     </Reference>
@@ -93,6 +96,9 @@
     </Reference>
     <Reference Include="MvcContrib.FluentHtml">
       <HintPath>..\Bin\MvcContrib.FluentHtml.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\Bin\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate.ByteCode.Spring">
       <HintPath>..\Bin\NHibernate.ByteCode.Spring.dll</HintPath>

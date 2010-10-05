@@ -79,6 +79,12 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\Bin\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\Bin\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate.Validator, Version=1.2.0.4000, Culture=neutral, PublicKeyToken=70154e18752585bd, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Bin\NHibernate.Validator.dll</HintPath>
@@ -109,6 +115,11 @@
     <Compile Include="Domain\HelpTopic.cs" />
     <Compile Include="Domain\Ticket.cs" />
     <Compile Include="Domain\User.cs" />
+    <Compile Include="Mappings\AttachmentMap.cs" />
+    <Compile Include="Mappings\CatbertApplicationMap.cs" />
+    <Compile Include="Mappings\HelpTopicMap.cs" />
+    <Compile Include="Mappings\TicketMap.cs" />
+    <Compile Include="Mappings\UserMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\StaticValues.Designer.cs">
       <AutoGen>True</AutoGen>

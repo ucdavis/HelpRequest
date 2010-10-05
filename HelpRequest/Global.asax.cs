@@ -1,8 +1,11 @@
 ﻿using System.Web.Mvc;
+using System.Web.Routing;
 using Castle.Windsor;
 using HelpRequest.Controllers;
+using HelpRequest.Core.Mappings;
 using Microsoft.Practices.ServiceLocation;
 using MvcContrib.Castle;
+using UCDArch.Data.NHibernate;
 using UCDArch.Web.IoC;
 using UCDArch.Web.ModelBinder;
 using UCDArch.Web.Validator;
@@ -26,6 +29,8 @@ namespace HelpRequest
             new RouteConfigurator().RegisterRoutes();
 
             ModelBinders.Binders.DefaultBinder = new UCDArchModelBinder();
+
+            NHibernateSessionConfiguration.Mappings.UseFluentMappings(typeof (AttachmentMap).Assembly);
 
             IWindsorContainer container = InitializeServiceLocator();
         }
