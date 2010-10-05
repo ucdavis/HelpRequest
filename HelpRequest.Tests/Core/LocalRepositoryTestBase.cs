@@ -5,6 +5,7 @@ using System.Text;
 using Castle.Windsor;
 using FluentNHibernate.Cfg;
 using HelpRequest.Core.Mappings;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NHibernate.Cfg;
 using NHibernate.Stat;
 using UCDArch.Core.PersistanceSupport;
@@ -27,9 +28,10 @@ namespace HelpRequest.Tests.Core
         {
             Repository = new Repository();
             NHibernateSessionConfiguration.Mappings.UseFluentMappings(typeof(HelpTopicMap).Assembly); //???
-            CreateDB();
+
         }
 
+        [TestInitialize]
         public void CreateDB()
         {
            
@@ -38,7 +40,7 @@ namespace HelpRequest.Tests.Core
                 .Mappings(x => x.FluentMappings.AddFromAssembly(typeof(HelpTopicMap).Assembly)
                 .Conventions.AddAssembly(typeof(PrimaryKeyConvention).Assembly))
                 .BuildConfiguration();
-            new NHibernate.Tool.hbm2ddl.SchemaExport(config).Execute(false, true, false, NHibernateSessionManager.Instance.GetSession().Connection, Console.Out);
+            new NHibernate.Tool.hbm2ddl.SchemaExport(config).Execute(false, true, false, NHibernateSessionManager.Instance.GetSession().Connection, null);
 
             InitServiceLocator();
 
