@@ -228,6 +228,7 @@
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="HelpRequest.Publish.xml" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\caes-logo.jpg" />
     <Content Include="Images\caes_logo.png" />
