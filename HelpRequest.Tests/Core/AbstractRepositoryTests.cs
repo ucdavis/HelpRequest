@@ -15,7 +15,7 @@ namespace HelpRequest.Tests.Core
 
     // ReSharper disable InconsistentNaming
     [TestClass]
-    public abstract class AbstractRepositoryTests<T, IdT, TMap> : LocalRepositoryTestBase<TMap> where T : DomainObjectWithTypedId<IdT>
+    public abstract class AbstractRepositoryTests<T, IdT, TMap> : FluentRepositoryTestBase<TMap> where T : DomainObjectWithTypedId<IdT>    
     // ReSharper restore InconsistentNaming
     {
         protected int EntriesAdded;
