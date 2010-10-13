@@ -110,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstractions\IEmailProvider.cs" />
+    <Compile Include="Abstractions\SystemTime.cs" />
     <Compile Include="Domain\Attachment.cs" />
     <Compile Include="Domain\CatbertApplication.cs" />
     <Compile Include="Domain\HelpTopic.cs" />

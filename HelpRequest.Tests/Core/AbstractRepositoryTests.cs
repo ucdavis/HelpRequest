@@ -372,6 +372,15 @@ namespace HelpRequest.Tests.Core
             }
         }
 
+        protected void LoadAttachments(int entriesToAdd)
+        {
+            for (int i = 0; i < entriesToAdd; i++)
+            {
+                var validEntity = CreateValidEntities.Attachment(i + 1);
+                Repository.OfType<Attachment>().EnsurePersistent(validEntity);
+            }
+        }
+
 
         /// <summary>
         /// Abstract Repository Tests Action

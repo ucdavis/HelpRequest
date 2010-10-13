@@ -1,4 +1,5 @@
 ﻿using System;
+using HelpRequest.Core.Abstractions;
 using NHibernate.Validator.Constraints;
 using UCDArch.Core.DomainModel;
 using UCDArch.Core.NHibernateValidator.Extensions;
@@ -25,8 +26,7 @@ namespace HelpRequest.Core.Domain
 
         protected void SetDefaults()
         {
-            DateCreated = DateTime.Now;
-
+            DateCreated = SystemTime.Now();
         }
 
         [Required]

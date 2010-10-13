@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Testing;
 using HelpRequest.Core.Domain;
 using HelpRequest.Core.Mappings;
 using HelpRequest.Tests.Core;
@@ -123,6 +124,31 @@ namespace HelpRequest.Tests.Repositories
         }
 
         #endregion Init and Overrides	
+
+        #region Fluent Mapping Tests
+        [TestMethod]
+        public void TestCanCorrectlyMapAttachment()
+        {
+            #region Arrange
+            var id = UserRepository.Queryable.Max(x => x.Id) + 1;
+            var session = NHibernateSessionManager.Instance.GetSession();
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<User>(session)
+                .CheckProperty(c => c.Id, id)
+                .CheckProperty(c => c.Email, "test@test.com")
+                .CheckProperty(c => c.EmployeeId, "test")
+                .CheckProperty(c => c.FirstName, "FirstName")
+                .CheckProperty(c => c.LastName, "LastName")
+                .CheckProperty(c => c.LoginId, "LoginId")
+                .CheckProperty(c => c.Phone, "234-2345")
+                .CheckProperty(c => c.Sid, "sid")
+                .CheckProperty(c => c.UserKey, "userKey")
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
+        #endregion Fluent Mapping Tests
         
         #region LoginId Tests
         #region Invalid Tests

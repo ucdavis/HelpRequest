@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
+using FluentNHibernate.Testing;
+using HelpRequest.Core.Abstractions;
 using HelpRequest.Core.Domain;
 using HelpRequest.Core.Mappings;
 using HelpRequest.Tests.Core;
@@ -104,6 +105,30 @@ namespace HelpRequest.Tests.Repositories
 		}
 
 		#endregion Init and Overrides	
+
+        #region Fluent Mapping Tests
+        [TestMethod]
+        public void TestCanCorrectlyMapAttachment()
+        {
+            #region Arrange
+            var id = AttachmentRepository.Queryable.Max(x => x.Id) + 1;
+            var session = NHibernateSessionManager.Instance.GetSession();
+            var contents = new byte[] {1,2,3,4,5};
+            var fakeDate = new DateTime(2010, 01, 02, 12, 25, 33);
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<Attachment>(session)
+                .CheckProperty(c => c.Id, id)
+                .CheckProperty(c => c.Contents, contents)
+                .CheckProperty(c => c.ContentType, "contentType")
+                .CheckProperty(c => c.DateCreated, fakeDate)
+                .CheckProperty(c => c.FileName, "FileName")
+                .CheckProperty(c => c.Name, "Name")
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
+        #endregion Fluent Mapping Tests
 		
 		#region Name Tests
 		#region Invalid Tests

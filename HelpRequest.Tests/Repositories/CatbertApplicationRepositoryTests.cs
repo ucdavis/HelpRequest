@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Testing;
 using HelpRequest.Core.Domain;
 using HelpRequest.Core.Mappings;
 using HelpRequest.Tests.Core;
@@ -123,7 +124,25 @@ namespace HelpRequest.Tests.Repositories
         #endregion Init and Overrides	
         
         //Fields don't need to be tested.
-        
+        #region Fluent Mapping Tests
+        [TestMethod]
+        public void TestCanCorrectlyMapAttachment()
+        {
+            #region Arrange
+            var id = CatbertApplicationRepository.Queryable.Max(x => x.Id) + 1;
+            var session = NHibernateSessionManager.Instance.GetSession();
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<CatbertApplication>(session)
+                .CheckProperty(c => c.Id, id)
+                .CheckProperty(c => c.Abbr, "abr")
+                .CheckProperty(c => c.Location, "Location")
+                .CheckProperty(c => c.Name, "Name")                
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
+        #endregion Fluent Mapping Tests
         
         
         

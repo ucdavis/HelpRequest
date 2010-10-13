@@ -39,6 +39,6 @@ namespace HelpRequest.Core.Domain
         public virtual List<string> Availability { get; set; }
         public virtual List<string> EmailCCs { get; set; }
 
-        public virtual ICollection<Attachment> Attachments { get; set; }
+        public virtual ICollection<Attachment> Attachments { get; set; } //Note: if IList is used instead, a different mapping test is used.
     }
 }

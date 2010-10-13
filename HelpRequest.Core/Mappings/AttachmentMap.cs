@@ -13,12 +13,14 @@ namespace HelpRequest.Core.Mappings
         /// </summary>
         public AttachmentMap()
         {
+            Table("AttachmentDoesNotExist");
             Id(x => x.Id);
 
             Map(x => x.Name);
             Map(x => x.DateCreated);
             Map(x => x.Contents);
             Map(x => x.ContentType);
+            Map(x => x.FileName);
         }
     }
 }

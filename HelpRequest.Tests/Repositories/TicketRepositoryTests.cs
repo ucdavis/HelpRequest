@@ -1,6 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using FluentNHibernate.Testing;
 using HelpRequest.Core.Domain;
 using HelpRequest.Core.Mappings;
 using HelpRequest.Tests.Core;
@@ -102,6 +105,110 @@ namespace HelpRequest.Tests.Repositories
         }
 
         #endregion Init and Overrides	
+
+        #region Fluent Mapping Tests
+        [TestMethod]
+        public void TestCanCorrectlyMapTicket()
+        {
+            #region Arrange
+            var id = TicketRepository.Queryable.Max(x => x.Id) + 1;
+            var session = NHibernateSessionManager.Instance.GetSession();
+            LoadUsers(2);
+            var user = Repository.OfType<User>().GetNullableById(1);
+            Assert.IsNotNull(user);
+            var availablility = new List<string>();
+            availablility.Add("Test 1");
+            availablility.Add("Test 2");
+            var emailCCs = new List<string>();
+            emailCCs.Add("test1@testy.com");
+            emailCCs.Add("test2@testy.com");
+            var attachments = new List<Attachment>();
+            //attachments.Add(CreateValidEntities.Attachment(1));
+            //attachments.Add(CreateValidEntities.Attachment(2));
+            LoadAttachments(2);
+            attachments.Add(Repository.OfType<Attachment>().GetNullableById(1));
+            attachments.Add(Repository.OfType<Attachment>().GetNullableById(2));
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<Ticket>(session, new TicketEqualityComparer())
+                .CheckProperty(c => c.Id, id)
+                .CheckProperty(c => c.ForApplication, "For Application")
+                .CheckProperty(c => c.ForWebSite, "For Web Site")
+                .CheckProperty(c => c.FromEmail, "from Email")
+                .CheckProperty(c => c.MessageBody, "Message Body")
+                .CheckProperty(c => c.Subject, "Subject")
+                .CheckProperty(c => c.SupportDepartment, "Support Department")
+                .CheckProperty(c => c.SupportDepartmentOther, "Other Dept")
+                .CheckProperty(c => c.UrgencyLevel, "Urgency")
+                .CheckProperty(c => c.Availability, availablility)
+                .CheckProperty(c => c.EmailCCs, emailCCs)
+                .CheckReference(c => c.User, user)
+                //.CheckProperty(c => c.Attachments, attachments)
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
+
+        [TestMethod]
+        public void TestCanCorrectlyMapTicket2()
+        {
+            #region Arrange
+            var id = TicketRepository.Queryable.Max(x => x.Id) + 1;
+            var session = NHibernateSessionManager.Instance.GetSession();
+            LoadUsers(2);
+            var user = Repository.OfType<User>().GetNullableById(1);
+            Assert.IsNotNull(user);
+            var availablility = new List<string>();
+            availablility.Add("Test 1");
+            availablility.Add("Test 2");
+            var emailCCs = new List<string>();
+            emailCCs.Add("test1@testy.com");
+            emailCCs.Add("test2@testy.com");
+            var attachments = new List<Attachment>();
+            attachments.Add(CreateValidEntities.Attachment(1));
+            attachments.Add(CreateValidEntities.Attachment(2));
+
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<Ticket>(session, new TicketEqualityComparer())
+                .CheckProperty(c => c.Attachments, attachments)
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
+
+        //[TestMethod]
+        //public void TestCanCorrectlyMapTicket3()
+        //{
+        //    #region Arrange
+        //    var id = TicketRepository.Queryable.Max(x => x.Id) + 1;
+        //    var session = NHibernateSessionManager.Instance.GetSession();
+        //    LoadUsers(2);
+        //    var user = Repository.OfType<User>().GetNullableById(1);
+        //    Assert.IsNotNull(user);
+        //    var availablility = new List<string>();
+        //    availablility.Add("Test 1");
+        //    availablility.Add("Test 2");
+        //    var emailCCs = new List<string>();
+        //    emailCCs.Add("test1@testy.com");
+        //    emailCCs.Add("test2@testy.com");
+        //    var attachments = new List<Attachment>();
+        //    attachments.Add(CreateValidEntities.Attachment(1));
+        //    attachments.Add(CreateValidEntities.Attachment(2));
+        //    //LoadAttachments(2);
+        //    //attachments.Add(Repository.OfType<Attachment>().GetNullableById(1));
+        //    //attachments.Add(Repository.OfType<Attachment>().GetNullableById(2));
+
+        //    #endregion Arrange
+
+        //    #region Act/Assert
+        //    new PersistenceSpecification<Ticket>(session, new TicketEqualityComparer())
+        //        .CheckList(c => c.Attachments, attachments)
+        //        .VerifyTheMappings();
+        //    #endregion Act/Assert
+        //}
+
+        #endregion Fluent Mapping Tests
 
         #region User Tests
         #region Invalid Tests
@@ -1645,6 +1752,52 @@ namespace HelpRequest.Tests.Repositories
 
         #endregion Reflection of Database.	
 		
-		
+        public class TicketEqualityComparer : IEqualityComparer
+        {
+            public bool Equals(object x, object y)
+            {
+                if (x == null || y == null)
+                {
+                    return false;
+                }
+                if (x is User && y is User)
+                {
+                    if (((User)x).Id == ((User)y).Id && ((User)x).LoginId == ((User)y).LoginId)
+                    {
+                        return true;
+                    }
+                }
+                if (x is List<String> && y is List<String>)
+                {
+                    var xVal = (IList) x;
+                    var yVal = (IList) y;
+                    Assert.AreEqual(xVal.Count, yVal.Count);
+                    for (int i = 0; i < xVal.Count; i++)
+                    {
+                        Assert.AreEqual(xVal[i], yVal[i]);
+                    }
+                    return true;
+                }
+                if (x is IList<Attachment> && y is IList<Attachment>)
+                {
+                    var xVal = (IList<Attachment>)x;
+                    var yVal = (IList<Attachment>)y;
+                    Assert.AreEqual(xVal.Count, yVal.Count);
+                    for (int i = 0; i < xVal.Count; i++)
+                    {
+                        Assert.AreEqual(xVal[i].FileName, yVal[i].FileName);
+                    }
+                    return true;
+                }
+
+
+                return x.Equals(y);
+            }
+
+            public int GetHashCode(object obj)
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

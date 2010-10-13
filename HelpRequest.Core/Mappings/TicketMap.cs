@@ -22,7 +22,7 @@ namespace HelpRequest.Core.Mappings
             Map(x => x.EmailCCs);
 
             References(x => x.User).Column("UserId").Cascade.None();
-            HasMany(x => x.Attachments).Table("AttachmentDoesNotExist").Inverse().Cascade.AllDeleteOrphan();
+            HasMany(x => x.Attachments).Table("AttachmentDoesNotExist").Cascade.AllDeleteOrphan();
 
         }
     }
