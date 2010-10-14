@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 using UCDArch.Core.NHibernateValidator.Extensions;
 
@@ -40,5 +41,29 @@ namespace HelpRequest.Core.Domain
         public virtual List<string> EmailCCs { get; set; }
 
         public virtual ICollection<Attachment> Attachments { get; set; } //Note: if IList is used instead, a different mapping test is used.
+    }
+
+    public class TicketMap : ClassMap<Ticket>
+    {
+        public TicketMap()
+        {
+            Table("DoesNotExist"); //This table is only in memory, if we want to persist it, it will need to be created.
+            Id(x => x.Id).UnsavedValue(0);
+
+            Map(x => x.FromEmail);
+            Map(x => x.UrgencyLevel);
+            Map(x => x.SupportDepartment);
+            Map(x => x.SupportDepartmentOther);
+            Map(x => x.Subject);
+            Map(x => x.MessageBody);
+            Map(x => x.Availability);
+            Map(x => x.ForApplication);
+            Map(x => x.ForWebSite);
+            Map(x => x.EmailCCs);
+
+            References(x => x.User).Column("UserId").Cascade.None();
+            HasMany(x => x.Attachments).Table("AttachmentDoesNotExist").Cascade.AllDeleteOrphan();
+
+        }
     }
 }

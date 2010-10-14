@@ -2,7 +2,7 @@
 using System.Web.Routing;
 using Castle.Windsor;
 using HelpRequest.Controllers;
-using HelpRequest.Core.Mappings;
+using HelpRequest.Core.Domain;
 using Microsoft.Practices.ServiceLocation;
 using MvcContrib.Castle;
 using UCDArch.Data.NHibernate;

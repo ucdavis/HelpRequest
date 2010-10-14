@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Testing;
 using HelpRequest.Core.Domain;
-using HelpRequest.Core.Mappings;
 using HelpRequest.Tests.Core;
 using HelpRequest.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

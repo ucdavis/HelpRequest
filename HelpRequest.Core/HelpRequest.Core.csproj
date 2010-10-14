@@ -116,11 +116,6 @@
     <Compile Include="Domain\HelpTopic.cs" />
     <Compile Include="Domain\Ticket.cs" />
     <Compile Include="Domain\User.cs" />
-    <Compile Include="Mappings\AttachmentMap.cs" />
-    <Compile Include="Mappings\CatbertApplicationMap.cs" />
-    <Compile Include="Mappings\HelpTopicMap.cs" />
-    <Compile Include="Mappings\TicketMap.cs" />
-    <Compile Include="Mappings\UserMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\StaticValues.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -129,13 +124,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Domain\HelpTopic.hbm.xml" />
-    <EmbeddedResource Include="Domain\User.hbm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Domain\CatbertApplication.hbm.xml" />
-    <EmbeddedResource Include="Domain\Attachment.hbm.xml" />
-    <EmbeddedResource Include="Domain\Ticket.hbm.xml" />
     <EmbeddedResource Include="Resources\StaticValues.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>StaticValues.Designer.cs</LastGenOutput>

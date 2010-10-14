@@ -4,7 +4,6 @@ using System.Linq;
 using FluentNHibernate.Testing;
 using HelpRequest.Core.Abstractions;
 using HelpRequest.Core.Domain;
-using HelpRequest.Core.Mappings;
 using HelpRequest.Tests.Core;
 using HelpRequest.Tests.Core.Extensions;
 using HelpRequest.Tests.Core.Helpers;
