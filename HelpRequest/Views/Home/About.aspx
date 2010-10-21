@@ -9,5 +9,6 @@
     <ul>
         <li>Created July 12, 2010</li>
         <li>Created By Jason Sylvestre</li>
+        <li>Version <%=Html.Encode(System.Reflection.Assembly.GetAssembly(ViewContext.Controller.GetType()).GetName().Version.ToString())%></li>
     </ul>
 </asp:Content>
