@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 using HelpRequest.Controllers;
 using HelpRequest.Controllers.ViewModels;
 using HelpRequest.Core.Domain;
@@ -71,6 +72,11 @@ namespace HelpRequest.Tests.Controllers
             "~/Home/ReturnToCallingApplication/?url=Test".ShouldMapTo<HomeController>(a => a.ReturnToCallingApplication("Test"), true);
         }
 
+        [TestMethod]
+        public void TestAuthorizedHomeMapping()
+        {
+            "~/Home/AuthorizedHome/?appName=Test".ShouldMapTo<HomeController>(a => a.AuthorizedHome("Test"), true);
+        }
         #endregion Mapping Tests
 
         #region Index Tests
@@ -353,6 +359,85 @@ namespace HelpRequest.Tests.Controllers
 
         #endregion ReturnToCallingApplication Tests
 
+        #region AuthorizedHome Tests
+
+        [TestMethod]
+        public void TestAuthorizedHomeWithoutAppNameRedirectsToIndex()
+        {
+            #region Arrange
+            string appName = null;
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.AuthorizedHome(appName)
+                .AssertActionRedirect()
+                .ToAction<HomeController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert		
+        }
+
+        [TestMethod]
+        public void TestAuthorizedHomeWithAppNameRedirectsToIndex()
+        {
+            #region Arrange
+            string appName = "MAAPS";
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.AuthorizedHome(appName)
+                .AssertActionRedirect()
+                .ToAction<HomeController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(appName, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestAuthorizedHomeWithExtraAppNameInfoRedirectsToIndex()
+        {
+            #region Arrange
+            string appName = "?appName=STD appName=STD";
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.AuthorizedHome(appName)
+                .AssertActionRedirect()
+                .ToAction<HomeController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("STD", result.RouteValues["appName"]);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestAuthorizedHomeWithExtraAppNameInfoRedirectsToIndex2()
+        {
+            #region Arrange
+            string appName = "?appName=";
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.AuthorizedHome(appName)
+                .AssertActionRedirect()
+                .ToAction<HomeController>(a => a.Index(appName));
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(string.Empty, result.RouteValues["appName"]);
+            #endregion Assert
+        }
+        #endregion AuthorizedHome Tests
+
 
         #region Reflection
         #region Controller Class Tests
@@ -453,7 +538,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(3, result.Count(), "It looks like a method was added or removed from the controller.");
+            Assert.AreEqual(4, result.Count(), "It looks like a method was added or removed from the controller.");
             #endregion Assert
         }
 
@@ -518,6 +603,27 @@ namespace HelpRequest.Tests.Controllers
 
             #region Assert
             Assert.AreEqual(0, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+        /// <summary>
+        /// #4
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodAuthorizedHomeContainsExpectedAttributes()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            var controllerMethod = controllerClass.GetMethod("AuthorizedHome");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<AuthorizeAttribute>();
+            var allAttributes = controllerMethod.GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "AuthorizeAttribute not found");
+            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
             #endregion Assert
         }
 

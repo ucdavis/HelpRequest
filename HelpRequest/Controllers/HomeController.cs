@@ -3,6 +3,7 @@ using HelpRequest.Controllers.ViewModels;
 using HelpRequest.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Controller;
+using MvcContrib;
 
 namespace HelpRequest.Controllers
 {
@@ -54,6 +55,24 @@ namespace HelpRequest.Controllers
         public ActionResult ReturnToCallingApplication(string url)
         {
             return Redirect(url);
+        }
+        /// <summary>
+        /// AuthorizedHome
+        /// #4
+        /// </summary>
+        /// <param name="appName"></param>
+        /// <returns></returns>
+        [Authorize]
+        public ActionResult AuthorizedHome(string appName)
+        {
+            if (!string.IsNullOrEmpty(appName))
+            {
+                if (appName.Contains("appName="))
+                {
+                    appName = appName.Substring(appName.LastIndexOf("appName=")+8);
+                }
+            }
+            return this.RedirectToAction(a => a.Index(appName));
         }
     }
 }
