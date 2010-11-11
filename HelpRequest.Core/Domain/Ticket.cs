@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 using UCDArch.Core.NHibernateValidator.Extensions;
@@ -34,7 +35,9 @@ namespace HelpRequest.Core.Domain
         public virtual string ForWebSite { get; set; }
         
         [Required(Message = "You must enter the Subject.")]
+        [DisplayName("Subject:")]
         public virtual string Subject { get; set; }
+
         [Required(Message = "You must enter the Message Body.")]
         public virtual string MessageBody { get; set; }
         public virtual List<string> Availability { get; set; }
