@@ -35,7 +35,7 @@ namespace HelpRequest.Core.Domain
         public virtual string ForWebSite { get; set; }
         
         [Required(Message = "You must enter the Subject.")]
-        [DisplayName("Subject:")]
+        //[DisplayName("Subject:")]
         public virtual string Subject { get; set; }
 
         [Required(Message = "You must enter the Message Body.")]
