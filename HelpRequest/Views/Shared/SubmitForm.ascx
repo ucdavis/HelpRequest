@@ -97,8 +97,7 @@
                         $("span.WebSiteWarning").text("This may be invalid");
                 }
             }                   
-	    });
-	    });	   	    
+	    });   	    
 	</script>
 	        <li>
                 <label for="Ticket.UrgencyLevel">Urgency Level:</label>  
@@ -116,6 +115,7 @@
             <%} %>
             <%else {%>
             <li>
+                
                 <label for="Ticket.SupportDepartment">Support Department:</label>  
                 <%= this.Select("Ticket.SupportDepartment").Options(Model.SupportDepartment)
                                                                  .Selected("Application Support")%>
@@ -171,12 +171,16 @@
                 <%=this.FileUpload("uploadAttachment").Label("Add Attachment:")%>
             </li>
             <li>
-                <label for="Ticket.Subject">Subject:</label>
+                <%= Html.LabelFor(a => a.Ticket.Subject, DisplayOptions.HumanizeAndColon) %>
+                <%--<%= Html.LabelFor(a => a.Ticket.Subject).Humanize() %>--%>
+                <%--<label for="Ticket.Subject">Subject:</label>--%>
                 <%=Html.TextBox("Ticket.Subject", string.Empty, new {style = "width: 500px"})%>
                 <%= Html.ValidationMessage("Ticket.Subject")%>
             </li>
             <li>
-                <label for="Ticket.MessageBody">MessageBody:</label>
+                <%= Html.LabelFor(a => a.Ticket.MessageBody, DisplayOptions.HumanizeAndColon) %>
+               <%--<%= Html.LabelFor(a => a.Ticket.MessageBody).Humanize() %>--%>
+                <%--<label for="Ticket.MessageBody">MessageBody:</label>--%>
                 <%= Html.TextArea("Ticket.MessageBody", new { style = "height:225px; width: 700px" })%>
                 <br/>
                 <%= Html.ValidationMessage("Ticket.MessageBody")%>
