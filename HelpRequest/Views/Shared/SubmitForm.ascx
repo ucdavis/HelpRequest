@@ -41,6 +41,7 @@
 	        <%} %>
             <%else{%>
 	            $("select#Ticket_SupportDepartment").bt('<b>Programming Support:</b> (Scott Kirkland, Alan Lai, Ken Taylor, Jason Sylvestre)', { width: '550px' });
+                $("input#Ticket_ForApplication").attr('readonly', true).addClass("ReadOnly");
 	        <%}%>
 	        $("input#Ticket_ForWebSite").bt('You need the http:// or https:// at the start for a valid URL. For example: http://www.ucdavis.edu/index.html');
 	        $("input#uploadAttachment").bt('The maximum attachment size is 4 Meg.');

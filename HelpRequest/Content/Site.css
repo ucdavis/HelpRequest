@@ -369,3 +369,8 @@ body {color:#1c1f22; background-color:#f8f8f8;}
     color: Black;
     text-decoration: none;
 }
+.ReadOnly
+{
+	background-color: #F8F8F8;
+	color: gray;
+}
