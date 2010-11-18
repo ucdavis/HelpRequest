@@ -95,9 +95,10 @@
                     if(webVal != null && webVal != "" && webVal.match(/<%=StaticValues.WebSiteRegEx %>/) == null){
                         $(this).addClass("warning");
                         $("span.WebSiteWarning").text("This may be invalid");
-                }
-            }                   
-	    });   	    
+                    }
+                }                   
+	        });   	    
+        });   	    
 	</script>
 	        <li>
                 <label for="Ticket.UrgencyLevel">Urgency Level:</label>  
@@ -171,16 +172,12 @@
                 <%=this.FileUpload("uploadAttachment").Label("Add Attachment:")%>
             </li>
             <li>
-                <%= Html.LabelFor(a => a.Ticket.Subject, DisplayOptions.HumanizeAndColon) %>
-                <%--<%= Html.LabelFor(a => a.Ticket.Subject).Humanize() %>--%>
-                <%--<label for="Ticket.Subject">Subject:</label>--%>
+                <label for="Ticket.Subject">Subject:</label>
                 <%=Html.TextBox("Ticket.Subject", string.Empty, new {style = "width: 500px"})%>
                 <%= Html.ValidationMessage("Ticket.Subject")%>
             </li>
             <li>
-                <%= Html.LabelFor(a => a.Ticket.MessageBody, DisplayOptions.HumanizeAndColon) %>
-               <%--<%= Html.LabelFor(a => a.Ticket.MessageBody).Humanize() %>--%>
-                <%--<label for="Ticket.MessageBody">MessageBody:</label>--%>
+                <label for="Ticket.MessageBody">MessageBody:</label>
                 <%= Html.TextArea("Ticket.MessageBody", new { style = "height:225px; width: 700px" })%>
                 <br/>
                 <%= Html.ValidationMessage("Ticket.MessageBody")%>
