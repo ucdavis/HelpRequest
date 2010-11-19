@@ -31,13 +31,14 @@ namespace HelpRequest.Controllers
         /// #1
         /// </summary>
         /// <param name="appName">Name of the app.</param>
+        /// <param name="subject"></param>
         /// <returns></returns>
-        public ActionResult LogOnAndSubmit(string appName)
+        public ActionResult LogOnAndSubmit(string appName, string subject)
         {
             //CASHelper.Login(); //Do the CAS Login
             _ticketControllerService.CasLogin();
 
-            return this.RedirectToAction(a => a.SubmitRedirect(appName));
+            return this.RedirectToAction(a => a.SubmitRedirect(appName, subject));
         }
 
         /// <summary>
@@ -45,8 +46,9 @@ namespace HelpRequest.Controllers
         /// #2
         /// </summary>
         /// <param name="appName">Name of the app.</param>
+        /// <param name="subject"></param>
         /// <returns></returns>
-        public ActionResult SubmitRedirect(string appName)
+        public ActionResult SubmitRedirect(string appName, string subject)
         {
             bool foundEmail = false;
 
@@ -80,9 +82,9 @@ namespace HelpRequest.Controllers
             }
             if(foundEmail)
             {
-                return this.RedirectToAction(a => a.Submit(appName));
+                return this.RedirectToAction(a => a.Submit(appName, subject));
             }
-            return this.RedirectToAction(a => a.PublicSubmit(appName));
+            return this.RedirectToAction(a => a.PublicSubmit(appName, subject));
         }
 
         /// <summary>
@@ -90,12 +92,13 @@ namespace HelpRequest.Controllers
         /// #3
         /// </summary>
         /// <param name="appName">Name of the app.</param>
+        /// <param name="subject"></param>
         /// <returns></returns>
         [Authorize]
-        public ActionResult Submit(string appName)
+        public ActionResult Submit(string appName, string subject)
         {
             //return View(TicketViewModel.Create(Repository, CurrentUser, appName));
-            return View(TicketViewModel.Create(CurrentUser, appName));
+            return View(TicketViewModel.Create(CurrentUser, appName, subject));
         }
 
 
@@ -107,13 +110,14 @@ namespace HelpRequest.Controllers
         /// <param name="emailCCs">Array of email Carbon Copy.</param>
         /// <param name="uploadAttachment">The upload attachment.</param>
         /// <param name="appName">Name of the app.</param>
+        /// <param name="passedSubject"></param>
         /// <param name="availableDatesInput">Non-Array available dates as strings.</param>
         /// <param name="emailCCsInput">Non-Array email Carbon Copy</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
         [Authorize]
-        public ActionResult Submit(Ticket ticket, string[] avDates, string[] emailCCs, HttpPostedFileBase uploadAttachment, string appName, string availableDatesInput, string emailCCsInput)
+        public ActionResult Submit(Ticket ticket, string[] avDates, string[] emailCCs, HttpPostedFileBase uploadAttachment, string appName, string passedSubject,string availableDatesInput, string emailCCsInput)
         {
             bool foundEmail = false;
             var useKerbEmail = false;
@@ -156,7 +160,7 @@ namespace HelpRequest.Controllers
             if (!foundEmail)
             {
                 Message = "Logged in email not found. Use this public submit instead.";
-                return this.RedirectToAction(a => a.PublicSubmit(appName));
+                return this.RedirectToAction(a => a.PublicSubmit(appName, passedSubject));
             }
 
 
@@ -173,13 +177,13 @@ namespace HelpRequest.Controllers
                     //_emailProvider.SendHelpRequest(ticket, useKerbEmail, GetHelpEmail(ticket));
                     _ticketControllerService.SendHelpRequest(ticket, useKerbEmail, _emailProvider);
                     Message = StaticValues.STR_HelpTicketSuccessfullySent;//"Help Ticket successfully sent";
-                    return this.RedirectToAction<HomeController>(a => a.Index(appName));
+                    return this.RedirectToAction<HomeController>(a => a.Index(appName, passedSubject));
                 }
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("Exception", "Application Exception sending email: " + ex.Message);
                     //var viewModel = TicketViewModel.Create(Repository, CurrentUser, appName);
-                    var viewModel = TicketViewModel.Create(CurrentUser, appName);
+                    var viewModel = TicketViewModel.Create(CurrentUser, appName, passedSubject);
                     viewModel.Ticket = ticket;
                     return View(viewModel);
                 }
@@ -187,8 +191,10 @@ namespace HelpRequest.Controllers
             else
             {
                 //var viewModel = TicketViewModel.Create(Repository, CurrentUser, appName);
-                var viewModel = TicketViewModel.Create(CurrentUser, appName);
+                var viewModel = TicketViewModel.Create(CurrentUser, appName, passedSubject);
                 viewModel.Ticket = ticket;
+                var test = View(viewModel);
+
                 return View(viewModel);
             }
         }
@@ -199,11 +205,12 @@ namespace HelpRequest.Controllers
         /// #5
         /// </summary>
         /// <param name="appName">Name of the app.</param>
+        /// <param name="subject"></param>
         /// <returns></returns>
-        public ActionResult PublicSubmit(string appName)
+        public ActionResult PublicSubmit(string appName, string subject)
         {
             //return View(TicketViewModel.Create(Repository, CurrentUser, appName));
-            return View(TicketViewModel.Create(CurrentUser, appName));
+            return View(TicketViewModel.Create(CurrentUser, appName, subject));
         }
 
 
@@ -217,13 +224,14 @@ namespace HelpRequest.Controllers
         /// <param name="uploadAttachment">The upload attachment.</param>
         /// <param name="captchaValid">true/false</param>
         /// <param name="appName">Name of the app.</param>
+        /// <param name="passedSubject"></param>
         /// <param name="availableDatesInput">Non-Array available dates as strings.</param>
         /// <param name="emailCCsInput">Non-Array email Carbon Copy</param>
         /// <returns></returns>
         [CaptchaValidator]
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult PublicSubmit(Ticket ticket, string[] avDates, string[] emailCCs, HttpPostedFileBase uploadAttachment, bool captchaValid, string appName, string availableDatesInput, string emailCCsInput)
+        public ActionResult PublicSubmit(Ticket ticket, string[] avDates, string[] emailCCs, HttpPostedFileBase uploadAttachment, bool captchaValid, string appName, string passedSubject, string availableDatesInput, string emailCCsInput)
         {
             if(!captchaValid)
             {
@@ -257,19 +265,19 @@ namespace HelpRequest.Controllers
                     //_emailProvider.SendHelpRequest(ticket, true, GetHelpEmail(ticket));
                     _ticketControllerService.SendHelpRequest(ticket, true, _emailProvider);
                     Message = StaticValues.STR_HelpTicketSuccessfullySent;
-                    return this.RedirectToAction<HomeController>(a => a.Index(appName));
+                    return this.RedirectToAction<HomeController>(a => a.Index(appName, passedSubject));
                 }
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("Exception", "Application Exception sending email: " + ex.Message);
-                    var viewModel = TicketViewModel.Create(CurrentUser, appName);
+                    var viewModel = TicketViewModel.Create(CurrentUser, appName, passedSubject);
                     viewModel.Ticket = ticket;
                     return View(viewModel);
                 }
             }
             else
             {
-                var viewModel = TicketViewModel.Create(CurrentUser, appName);
+                var viewModel = TicketViewModel.Create(CurrentUser, appName, passedSubject);
                 viewModel.Ticket = ticket;
                 return View(viewModel);
             }

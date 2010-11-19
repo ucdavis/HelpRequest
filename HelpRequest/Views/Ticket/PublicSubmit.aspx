@@ -26,7 +26,7 @@
                 <%= Html.TextBox("Ticket.FromEmail", string.Empty, new { style = "width: 300px", @class="required" })%>
                 <%= Html.ValidationMessage("Ticket.FromEmail")%>
                 <span class="EmailWarning" style="color:Orange">&nbsp</span>
-                <%=Html.ActionLink<TicketController>(a => a.LogOnAndSubmit(Model.AppName), "Use Kerberos login to populate information.") %>
+                <%=Html.ActionLink<TicketController>(a => a.LogOnAndSubmit(Model.AppName, Model.PassedSubject), "Use Kerberos login to populate information.") %>
             </li>   
             <% Html.RenderPartial("~/Views/Shared/SubmitForm.ascx"); %>
             </ul>

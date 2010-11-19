@@ -9,10 +9,11 @@ namespace HelpRequest.Controllers.ViewModels
         public string ReturnUrl;
         public string ReturnAppName;
 
-        public static HomeViewModel Create(IRepository<CatbertApplication> catbertApplications, string appName)
+        public static HomeViewModel Create(IRepository<CatbertApplication> catbertApplications, string appName, string subject)
         {
             var viewModel = new HomeViewModel();
             viewModel.AppName = appName;
+            viewModel.PassedSubject = subject;
             if(!string.IsNullOrEmpty(appName))
             {
                 var catbertApps = catbertApplications.GetAll().ToList();

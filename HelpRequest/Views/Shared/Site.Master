@@ -74,10 +74,10 @@
              <div id="menucontainer">
             
                 <ul id="menu">            
-                    <li><%= Html.ActionLink<TicketController>(a => a.SubmitRedirect(Html.Encode(Model != null ? Model.AppName : string.Empty)), "Submit Help Ticket")%></li>
-                    <li><%= Html.ActionLink<HomeController>(a => a.Index(Html.Encode(Model != null ? Model.AppName : string.Empty)), "Home")%></li>
-                    <li><%= Html.ActionLink<HomeController>(a => a.About(Html.Encode(Model != null ? Model.AppName : string.Empty)), "About")%></li>    
-                    <li><%= Html.ActionLink<HelpController>(a => a.Index(Html.Encode(Model != null ? Model.AppName : string.Empty)), "Help FAQ")%></li>
+                    <li><%= Html.ActionLink<TicketController>(a => a.SubmitRedirect(Html.Encode(Model != null ? Model.AppName : string.Empty), Html.Encode(Model != null ? Model.PassedSubject : string.Empty)), "Submit Help Ticket")%></li>
+                    <li><%= Html.ActionLink<HomeController>(a => a.Index(Html.Encode(Model != null ? Model.AppName : string.Empty), Html.Encode(Model != null ? Model.PassedSubject : string.Empty)), "Home")%></li>
+                    <li><%= Html.ActionLink<HomeController>(a => a.About(Html.Encode(Model != null ? Model.AppName : string.Empty), Html.Encode(Model != null ? Model.PassedSubject : string.Empty)), "About")%></li>    
+                    <li><%= Html.ActionLink<HelpController>(a => a.Index(Html.Encode(Model != null ? Model.AppName : string.Empty), Html.Encode(Model != null ? Model.PassedSubject : string.Empty)), "Help FAQ")%></li>
                 </ul>
                 
             

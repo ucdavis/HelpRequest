@@ -11,7 +11,7 @@
     <h2>Help Topics</h2>
     <% if (Model.IsUserAdmin){%>
     <p>
-        <%=Html.ActionLink<HelpController>(a => a.Create(Model.AppName), "Create New")%>
+        <%=Html.ActionLink<HelpController>(a => a.Create(Model.AppName, Model.PassedSubject), "Create New")%>
     </p>
     <%}%>
     <% using (Html.BeginForm()) { %>
@@ -36,12 +36,12 @@
                                     col.Template(x =>
                                                 { %>
                                                     <% if (x.IsVideo){%>
-                                                        <%= Html.ActionLink<HelpController>(a => a.WatchVideo(x.Id, Model.AppName), "Watch")%>
+                                                        <%= Html.ActionLink<HelpController>(a => a.WatchVideo(x.Id, Model.AppName, Model.PassedSubject), "Watch")%>
                                                     <%}else{%>
-                                                        <%= Html.ActionLink<HelpController>(a => a.Details(x.Id, Model.AppName), "View")%>
+                                                        <%= Html.ActionLink<HelpController>(a => a.Details(x.Id, Model.AppName, Model.PassedSubject), "View")%>
                                                     <%}%>                                    
                                                     <% if (Model.IsUserAdmin){%>|
-                                                    <%=Html.ActionLink<HelpController>(a => a.Edit(x.Id, Model.AppName), "Edit")%> 
+                                                    <%=Html.ActionLink<HelpController>(a => a.Edit(x.Id, Model.AppName, Model.PassedSubject), "Edit")%> 
                                                     <%}%>
                                                 <% });                                    
                                     col.Bound(x => x.IsActive).Visible(Model.IsUserAdmin).Title("Active");

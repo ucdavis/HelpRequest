@@ -73,5 +73,5 @@
 
 
     <div>
-        <%=Html.ActionLink<HelpController>(a => a.Index(Model.AppName), "Back to list") %>
+        <%=Html.ActionLink<HelpController>(a => a.Index(Model.AppName, Model.PassedSubject), "Back to list") %>
     </div>

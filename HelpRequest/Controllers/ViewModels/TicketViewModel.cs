@@ -13,11 +13,12 @@ namespace HelpRequest.Controllers.ViewModels
         public Ticket Ticket { get; set; }
 
 
-        public static TicketViewModel Create(IPrincipal currentUser, string appName)
+        public static TicketViewModel Create(IPrincipal currentUser, string appName, string subject)
         {
             //Check.Require(ticketRepository != null, "ticketRepository is required.");            
             var viewModel = new TicketViewModel();
             viewModel.AppName = appName;
+            viewModel.PassedSubject = subject;
             viewModel.Ticket = new Ticket();
 
             viewModel.Urgency = new List<string>(5);
@@ -38,6 +39,7 @@ namespace HelpRequest.Controllers.ViewModels
             else
             {
                 viewModel.SupportDepartment.Add(StaticValues.STR_ProgrammingSupport);
+                viewModel.Ticket.Subject = subject;
             }
 
             return viewModel;

@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using HelpRequest.Controllers.ViewModels;
 using HelpRequest.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
@@ -22,7 +23,7 @@ namespace HelpRequest.Controllers
         /// </summary>
         /// <param name="appName">Name of the app.</param>
         /// <returns></returns>
-        public ActionResult Index(string appName)
+        public ActionResult Index(string appName, string subject)
         {
             if (string.IsNullOrEmpty(appName))
             {
@@ -32,7 +33,7 @@ namespace HelpRequest.Controllers
             {
                 ViewData["Message"] = string.Format("Welcome to the Help Request submission form home page for {0}.", appName);
             }
-            return View(HomeViewModel.Create(CatbertApplicationRepository, appName));
+            return View(HomeViewModel.Create(CatbertApplicationRepository, appName, subject));
         }
 
         /// <summary>
@@ -40,10 +41,11 @@ namespace HelpRequest.Controllers
         /// #2
         /// </summary>
         /// <param name="appName">Name of the app.</param>
+        /// <param name="subject"></param>
         /// <returns></returns>
-        public ActionResult About(string appName)
+        public ActionResult About(string appName, string subject)
         {
-            return View(GenericViewModel.Create(appName));
+            return View(GenericViewModel.Create(appName, subject));
         }
 
         /// <summary>
@@ -56,14 +58,16 @@ namespace HelpRequest.Controllers
         {
             return Redirect(url);
         }
+
         /// <summary>
         /// AuthorizedHome
         /// #4
         /// </summary>
         /// <param name="appName"></param>
+        /// <param name="subject"></param>
         /// <returns></returns>
         [Authorize]
-        public ActionResult AuthorizedHome(string appName)
+        public ActionResult AuthorizedHome(string appName, string subject)
         {
             if (!string.IsNullOrEmpty(appName))
             {
@@ -72,7 +76,20 @@ namespace HelpRequest.Controllers
                     appName = appName.Substring(appName.LastIndexOf("appName=")+8);
                 }
             }
-            return this.RedirectToAction(a => a.Index(appName));
+            if (!string.IsNullOrWhiteSpace(subject))
+            {
+                var subjectLength = (subject.Trim().Length - 1)/2;
+                if (subject[subjectLength] == ',')
+                {
+                    var subjectFirst = subject.Substring(0, subjectLength);
+                    var subjectLast = subject.Substring(subjectLength+1);
+                    if (subjectFirst == subjectLast)
+                    {
+                        subject = subjectLast;
+                    }
+                }
+            }
+            return this.RedirectToAction(a => a.Index(appName, subject));
         }
     }
 }

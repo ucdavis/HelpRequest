@@ -39,7 +39,7 @@ namespace HelpRequest.Tests.Controllers
         [TestMethod]
         public void TestLogOnMapping()
         {
-            "~/Account/LogOn/5".ShouldMapTo<AccountController>(a => a.LogOn("Test"), true);
+            "~/Account/LogOn/5".ShouldMapTo<AccountController>(a => a.LogOn("Test", "SubjectLine"), true);
         }
 
         /// <summary>

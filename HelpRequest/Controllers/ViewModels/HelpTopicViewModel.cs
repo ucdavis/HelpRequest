@@ -17,12 +17,13 @@ namespace HelpRequest.Controllers.ViewModels
         public IEnumerable<HelpTopic> HelpTopics { get; set; }
         public HelpTopic HelpTopic { get; set; }
 
-        public static HelpTopicViewModel Create(IRepository<HelpTopic> helpTopicRepository, IPrincipal currentUser, string appName)
+        public static HelpTopicViewModel Create(IRepository<HelpTopic> helpTopicRepository, IPrincipal currentUser, string appName, string passedSubject)
         {
             Check.Require(helpTopicRepository != null, "helpTopicRepository is required.");
 
             var viewModel = new HelpTopicViewModel();
             viewModel.AppName = appName;
+            viewModel.PassedSubject = passedSubject;
             viewModel.IsUserAuthorized = currentUser.IsInRole(RoleNames.Admin) || currentUser.IsInRole(RoleNames.User);
             viewModel.IsUserAdmin = currentUser.IsInRole(RoleNames.Admin);
 

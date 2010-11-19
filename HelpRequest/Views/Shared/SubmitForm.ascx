@@ -42,6 +42,9 @@
             <%else{%>
 	            $("select#Ticket_SupportDepartment").bt('<b>Programming Support:</b> (Scott Kirkland, Alan Lai, Ken Taylor, Jason Sylvestre)', { width: '550px' });
                 $("input#Ticket_ForApplication").attr('readonly', true).addClass("ReadOnly");
+                <%if(!string.IsNullOrWhiteSpace(Model.PassedSubject)) {%>                    
+                    $("input#Ticket_Subject").attr('readonly', true).addClass("ReadOnly");
+                <%}%>
 	        <%}%>
 	        $("input#Ticket_ForWebSite").bt('You need the http:// or https:// at the start for a valid URL. For example: http://www.ucdavis.edu/index.html');
 	        $("input#uploadAttachment").bt('The maximum attachment size is 4 Meg.');
@@ -101,6 +104,8 @@
 	        });   	    
         });   	    
 	</script>
+            <%= Html.HiddenFor(a => a.PassedSubject) %>
+            <%= Html.HiddenFor(a => a.AppName) %>
 	        <li>
                 <label for="Ticket.UrgencyLevel">Urgency Level:</label>  
                 <%= this.Select("Ticket.UrgencyLevel").Options(Model.Urgency).FirstOption("--Select a Urgency Level--")
@@ -174,7 +179,7 @@
             </li>
             <li>
                 <label for="Ticket.Subject">Subject:</label>
-                <%=Html.TextBox("Ticket.Subject", string.Empty, new {style = "width: 500px"})%>
+                <%=Html.TextBox("Ticket.Subject", Model != null && Model.Ticket != null ? Model.Ticket.Subject : string.Empty , new {style = "width: 500px"})%>
                 <%= Html.ValidationMessage("Ticket.Subject")%>
             </li>
             <li>

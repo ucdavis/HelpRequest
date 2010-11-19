@@ -25,7 +25,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.PublicSubmit(appName)
+            var result = Controller.PublicSubmit(appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<TicketViewModel>();
             #endregion Act
@@ -47,7 +47,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.PublicSubmit(appName)
+            var result = Controller.PublicSubmit(appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<TicketViewModel>();
             #endregion Act
@@ -69,7 +69,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.PublicSubmit(appName)
+            var result = Controller.PublicSubmit(appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<TicketViewModel>();
             #endregion Act
@@ -93,7 +93,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.PublicSubmit(appName)
+            var result = Controller.PublicSubmit(appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<TicketViewModel>();
             #endregion Act
@@ -120,7 +120,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.PublicSubmit(appName)
+            var result = Controller.PublicSubmit(appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<TicketViewModel>();
             #endregion Act
@@ -143,7 +143,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.PublicSubmit(appName)
+            var result = Controller.PublicSubmit(appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<TicketViewModel>();
             #endregion Act
@@ -193,7 +193,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
 
             #region Act
             var result = Controller
-                .PublicSubmit(ticket, avDates, emailCcs, upload, false, appName, availableDates, anotherEmailCc)
+                .PublicSubmit(ticket, avDates, emailCcs, upload, false, appName, "SubjectLine", availableDates, anotherEmailCc)
                 .AssertViewRendered()
                 .WithViewData<TicketViewModel>();
             #endregion Act
@@ -227,7 +227,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
 
             #region Act
             var result = Controller
-                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, availableDates, anotherEmailCc)
+                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, "SubjectLine", availableDates, anotherEmailCc)
                 .AssertViewRendered()
                 .WithViewData<TicketViewModel>();
             #endregion Act
@@ -261,7 +261,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
 
             #region Act
             var result = Controller
-                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, availableDates, anotherEmailCc)
+                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, "SubjectLine", availableDates, anotherEmailCc)
                 .AssertViewRendered()
                 .WithViewData<TicketViewModel>();
             #endregion Act
@@ -295,7 +295,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
 
             #region Act
             var result = Controller
-                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, availableDates, anotherEmailCc)
+                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, "SubjectLine", availableDates, anotherEmailCc)
                 .AssertViewRendered()
                 .WithViewData<TicketViewModel>();
             #endregion Act
@@ -329,7 +329,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
 
             #region Act
             var result = Controller
-                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, availableDates, anotherEmailCc)
+                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, "SubjectLine", availableDates, anotherEmailCc)
                 .AssertViewRendered()
                 .WithViewData<TicketViewModel>();
             #endregion Act
@@ -363,7 +363,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
 
             #region Act
             var result = Controller
-                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, availableDates, anotherEmailCc)
+                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, "SubjectLine", availableDates, anotherEmailCc)
                 .AssertViewRendered()
                 .WithViewData<TicketViewModel>();
             #endregion Act
@@ -405,7 +405,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
 
             #region Act
             var result = Controller
-                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, availableDates, anotherEmailCc)
+                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, "SubjectLine", availableDates, anotherEmailCc)
                 .AssertViewRendered()
                 .WithViewData<TicketViewModel>();
             #endregion Act
@@ -441,7 +441,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
 
             #region Act
             var result = Controller
-                .PublicSubmit(ticket, avDates, emailCcs, null, true, appName, availableDates, anotherEmailCc)
+                .PublicSubmit(ticket, avDates, emailCcs, null, true, appName, "SubjectLine", availableDates, anotherEmailCc)
                 .AssertViewRendered()
                 .WithViewData<TicketViewModel>();
             #endregion Act
@@ -478,7 +478,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
 
             #region Act
             var result = Controller
-                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, availableDates, anotherEmailCc)
+                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, "SubjectLine", availableDates, anotherEmailCc)
                 .AssertViewRendered()
                 .WithViewData<TicketViewModel>();
             #endregion Act
@@ -514,9 +514,9 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
 
             #region Act
             var result = Controller
-                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, availableDates, anotherEmailCc)
+                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, "SubjectLine", availableDates, anotherEmailCc)
                 .AssertActionRedirect()
-                .ToAction<HomeController>(a => a.Index(appName));
+                .ToAction<HomeController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -548,9 +548,9 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
 
             #region Act
             var result = Controller
-                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, availableDates, anotherEmailCc)
+                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, "SubjectLine", availableDates, anotherEmailCc)
                 .AssertActionRedirect()
-                .ToAction<HomeController>(a => a.Index(appName));
+                .ToAction<HomeController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -582,9 +582,9 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
 
             #region Act
             var result = Controller
-                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, availableDates, anotherEmailCc)
+                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, "SubjectLine", availableDates, anotherEmailCc)
                 .AssertActionRedirect()
-                .ToAction<HomeController>(a => a.Index(appName));
+                .ToAction<HomeController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -616,9 +616,9 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
 
             #region Act
             var result = Controller
-                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, availableDates, anotherEmailCc)
+                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, "SubjectLine", availableDates, anotherEmailCc)
                 .AssertActionRedirect()
-                .ToAction<HomeController>(a => a.Index(appName));
+                .ToAction<HomeController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -658,7 +658,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
 
             #region Act
             var result = Controller
-                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, availableDates, anotherEmailCc)
+                .PublicSubmit(ticket, avDates, emailCcs, upload, true, appName, "SubjectLine", availableDates, anotherEmailCc)
                 .AssertViewRendered()
                 .WithViewData<TicketViewModel>();
             #endregion Act

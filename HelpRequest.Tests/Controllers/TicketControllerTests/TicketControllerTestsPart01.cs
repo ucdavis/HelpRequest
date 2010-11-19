@@ -18,7 +18,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
         [TestMethod]
         public void TestLogOnAndSubmitMapping()
         {
-            "~/Ticket/LogOnAndSubmit/?appName=Test".ShouldMapTo<TicketController>(a => a.LogOnAndSubmit("Test"), true);
+            "~/Ticket/LogOnAndSubmit/?appName=Test".ShouldMapTo<TicketController>(a => a.LogOnAndSubmit("Test", "Test2"), true);
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
         [TestMethod]
         public void TestSubmitRedirectMapping()
         {
-            "~/Ticket/SubmitRedirect/?appName=Test".ShouldMapTo<TicketController>(a => a.SubmitRedirect("Test"), true);
+            "~/Ticket/SubmitRedirect/?appName=Test".ShouldMapTo<TicketController>(a => a.SubmitRedirect("Test", "SubjectLine"), true);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
         [TestMethod]
         public void TestSubmitGetMapping()
         {
-            "~/Ticket/Submit/?appName=Test".ShouldMapTo<TicketController>(a => a.Submit("Test"), true);
+            "~/Ticket/Submit/?appName=Test".ShouldMapTo<TicketController>(a => a.Submit("Test", "SubjectLine"), true);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
         [TestMethod]
         public void TestSubmitPostMapping()
         {
-            "~/Ticket/Submit/?appName=Test".ShouldMapTo<TicketController>(a => a.Submit(new Ticket(), null, null, null, "Test", null, null), true);
+            "~/Ticket/Submit/?appName=Test".ShouldMapTo<TicketController>(a => a.Submit(new Ticket(), null, null, null, "Test", "SubjectLine", null, null), true);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
         [TestMethod]
         public void TestPublicSubmitGetMapping()
         {
-            "~/Ticket/PublicSubmit/?appName=Test".ShouldMapTo<TicketController>(a => a.PublicSubmit("Test"), true);
+            "~/Ticket/PublicSubmit/?appName=Test".ShouldMapTo<TicketController>(a => a.PublicSubmit("Test", "SubjectLine"), true);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
         [TestMethod]
         public void TestPublicSubmitPostMapping()
         {
-            "~/Ticket/PublicSubmit/?appName=Test".ShouldMapTo<TicketController>(a => a.PublicSubmit(new Ticket(), null,null,null,true,null,null,null), true);
+            "~/Ticket/PublicSubmit/?appName=Test".ShouldMapTo<TicketController>(a => a.PublicSubmit(new Ticket(), null,null,null,true,null,null,null,null), true);
         }
         #endregion Mapping Tests
 

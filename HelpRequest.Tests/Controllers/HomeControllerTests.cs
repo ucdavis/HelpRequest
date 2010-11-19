@@ -51,7 +51,7 @@ namespace HelpRequest.Tests.Controllers
         [TestMethod]
         public void TestIndexMapping()
         {
-            "~/Home/Index/?appName=Test".ShouldMapTo<HomeController>(a => a.Index("Test"), true);
+            "~/Home/Index/?appName=Test".ShouldMapTo<HomeController>(a => a.Index("Test", "SubjectLine"), true);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace HelpRequest.Tests.Controllers
         [TestMethod]
         public void TestAboutMapping()
         {
-            "~/Home/About/?appName=Test".ShouldMapTo<HomeController>(a => a.About("Test"), true);
+            "~/Home/About/?appName=Test".ShouldMapTo<HomeController>(a => a.About("Test", null), true);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace HelpRequest.Tests.Controllers
         [TestMethod]
         public void TestAuthorizedHomeMapping()
         {
-            "~/Home/AuthorizedHome/?appName=Test".ShouldMapTo<HomeController>(a => a.AuthorizedHome("Test"), true);
+            "~/Home/AuthorizedHome/?appName=Test".ShouldMapTo<HomeController>(a => a.AuthorizedHome("Test", "SubjectLine"), true);
         }
         #endregion Mapping Tests
 
@@ -87,7 +87,7 @@ namespace HelpRequest.Tests.Controllers
         [TestMethod]
         public void TestIndexReturnsView()
         {
-            Controller.Index(null)
+            Controller.Index(null, null)
                 .AssertViewRendered()
                 .WithViewData<HomeViewModel>();
         }
@@ -108,7 +108,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Index("ABBR2")
+            var result = Controller.Index("ABBR2", "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HomeViewModel>();
             #endregion Act
@@ -135,7 +135,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Index(null)
+            var result = Controller.Index(null, null)
                 .AssertViewRendered()
                 .WithViewData<HomeViewModel>();
             #endregion Act
@@ -162,7 +162,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Index("Not Found")
+            var result = Controller.Index("Not Found", "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HomeViewModel>();
             #endregion Act
@@ -190,7 +190,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Index("ABBR2")
+            var result = Controller.Index("ABBR2", "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HomeViewModel>();
             #endregion Act
@@ -215,7 +215,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.Index("ABBR2");
+            Controller.Index("ABBR2", "SubjectLine");
             #endregion Act
 
             #region Assert
@@ -235,7 +235,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.Index(string.Empty);
+            Controller.Index(string.Empty, "");
             #endregion Act
 
             #region Assert
@@ -255,7 +255,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.Index(null);
+            Controller.Index(null, null);
             #endregion Act
 
             #region Assert
@@ -275,7 +275,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.Index("  ");
+            Controller.Index("  ", " ");
             #endregion Act
 
             #region Assert
@@ -298,7 +298,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.About(appName)
+            var result = Controller.About(appName, null)
                 .AssertViewRendered()
                 .WithViewData<GenericViewModel>();
             #endregion Act
@@ -321,7 +321,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.About(appName)
+            var result = Controller.About(appName, "")
                 .AssertViewRendered()
                 .WithViewData<GenericViewModel>();
             #endregion Act
@@ -369,9 +369,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.AuthorizedHome(appName)
+            var result = Controller.AuthorizedHome(appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HomeController>(a => a.Index(appName));
+                .ToAction<HomeController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -388,9 +388,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.AuthorizedHome(appName)
+            var result = Controller.AuthorizedHome(appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HomeController>(a => a.Index(appName));
+                .ToAction<HomeController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -407,9 +407,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.AuthorizedHome(appName)
+            var result = Controller.AuthorizedHome(appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HomeController>(a => a.Index(appName));
+                .ToAction<HomeController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -426,9 +426,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.AuthorizedHome(appName)
+            var result = Controller.AuthorizedHome(appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HomeController>(a => a.Index(appName));
+                .ToAction<HomeController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert

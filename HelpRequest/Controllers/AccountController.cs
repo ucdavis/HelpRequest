@@ -7,7 +7,7 @@ namespace HelpRequest.Controllers
 {
     public class AccountController : SuperController
     {
-        public ActionResult LogOn(string appName)
+        public ActionResult LogOn(string appName, string subject)
         {
             string resultUrl = CASHelper.Login(); //Do the CAS Login
 
@@ -16,7 +16,12 @@ namespace HelpRequest.Controllers
                 if(!string.IsNullOrEmpty(appName))
                 {
                     resultUrl = resultUrl + "?appName=" + appName;
+                    if (!string.IsNullOrEmpty(subject))
+                    {
+                        resultUrl = resultUrl + "&subject=" + subject;
+                    }
                 }
+
                 return Redirect(resultUrl);
             }
 

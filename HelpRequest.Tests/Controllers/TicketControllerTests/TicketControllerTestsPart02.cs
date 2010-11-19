@@ -24,9 +24,9 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.LogOnAndSubmit(appName)
+            var result = Controller.LogOnAndSubmit(appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<TicketController>(a => a.SubmitRedirect(appName));
+                .ToAction<TicketController>(a => a.SubmitRedirect(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -47,9 +47,9 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.LogOnAndSubmit(appName)
+            var result = Controller.LogOnAndSubmit(appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<TicketController>(a => a.SubmitRedirect(appName));
+                .ToAction<TicketController>(a => a.SubmitRedirect(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -76,9 +76,9 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.SubmitRedirect(appName)
+            var result = Controller.SubmitRedirect(appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<TicketController>(a => a.PublicSubmit(appName));
+                .ToAction<TicketController>(a => a.PublicSubmit(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -104,9 +104,9 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.SubmitRedirect(appName)
+            var result = Controller.SubmitRedirect(appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<TicketController>(a => a.PublicSubmit(appName));
+                .ToAction<TicketController>(a => a.PublicSubmit(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -135,9 +135,9 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.SubmitRedirect(appName)
+            var result = Controller.SubmitRedirect(appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<TicketController>(a => a.PublicSubmit(appName));
+                .ToAction<TicketController>(a => a.PublicSubmit(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -166,9 +166,9 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.SubmitRedirect(appName)
+            var result = Controller.SubmitRedirect(appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<TicketController>(a => a.PublicSubmit(appName));
+                .ToAction<TicketController>(a => a.PublicSubmit(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -199,9 +199,9 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.SubmitRedirect(appName)
+            var result = Controller.SubmitRedirect(appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<TicketController>(a => a.PublicSubmit(appName));
+                .ToAction<TicketController>(a => a.PublicSubmit(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -232,9 +232,9 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.SubmitRedirect(appName)
+            var result = Controller.SubmitRedirect(appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<TicketController>(a => a.PublicSubmit(appName));
+                .ToAction<TicketController>(a => a.PublicSubmit(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -263,9 +263,9 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.SubmitRedirect(appName)
+            var result = Controller.SubmitRedirect(appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<TicketController>(a => a.Submit(appName));
+                .ToAction<TicketController>(a => a.Submit(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -296,9 +296,9 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
             #endregion Arrange
 
             #region Act
-            var result = Controller.SubmitRedirect(appName)
+            var result = Controller.SubmitRedirect(appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<TicketController>(a => a.Submit(appName));
+                .ToAction<TicketController>(a => a.Submit(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert

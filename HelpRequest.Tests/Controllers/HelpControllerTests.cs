@@ -51,7 +51,7 @@ namespace HelpRequest.Tests.Controllers
         [TestMethod]
         public void TestIndexMapping()
         {
-            "~/Help/Index/?appName=Test".ShouldMapTo<HelpController>(a => a.Index("Test"), true);
+            "~/Help/Index/?appName=Test".ShouldMapTo<HelpController>(a => a.Index("Test", "SubjectLine"), true);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace HelpRequest.Tests.Controllers
         [TestMethod]
         public void TestCreateGetMapping()
         {
-            "~/Help/Create/?appName=Test".ShouldMapTo<HelpController>(a => a.Create("Test"), true);
+            "~/Help/Create/?appName=Test".ShouldMapTo<HelpController>(a => a.Create("Test", "SubjectLine"), true);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace HelpRequest.Tests.Controllers
         [TestMethod]
         public void TestCreatePostMapping()
         {
-            "~/Help/Create/?appName=Test".ShouldMapTo<HelpController>(a => a.Create(new HelpTopicViewModel(), "Test"), true);
+            "~/Help/Create/?appName=Test".ShouldMapTo<HelpController>(a => a.Create(new HelpTopicViewModel(), "Test", "SubjectLine"), true);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace HelpRequest.Tests.Controllers
         [TestMethod]
         public void TestEditGetMapping()
         {
-            "~/Help/Edit/5?appName=Test".ShouldMapTo<HelpController>(a => a.Edit(5, "Test"), true);
+            "~/Help/Edit/5?appName=Test".ShouldMapTo<HelpController>(a => a.Edit(5, "Test", "SubjectLine"), true);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace HelpRequest.Tests.Controllers
         [TestMethod]
         public void TestEditPostMapping()
         {
-            "~/Help/Edit/5?appName=Test".ShouldMapTo<HelpController>(a => a.Edit(5, new HelpTopic(), "Test"), true);
+            "~/Help/Edit/5?appName=Test".ShouldMapTo<HelpController>(a => a.Edit(5, new HelpTopic(), "Test", "SubjectLine"), true);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace HelpRequest.Tests.Controllers
         [TestMethod]
         public void TestDetailsMapping()
         {
-            "~/Help/Details/5?appName=Test".ShouldMapTo<HelpController>(a => a.Details(5, "Test"), true);
+            "~/Help/Details/5?appName=Test".ShouldMapTo<HelpController>(a => a.Details(5, "Test", "SubjectLine"), true);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace HelpRequest.Tests.Controllers
         [TestMethod]
         public void TestWatchVideoMapping()
         {
-            "~/Help/WatchVideo/5?appName=Test".ShouldMapTo<HelpController>(a => a.WatchVideo(5, "Test"), true);
+            "~/Help/WatchVideo/5?appName=Test".ShouldMapTo<HelpController>(a => a.WatchVideo(5, "Test", "SubjectLine"), true);
         }
         #endregion Mapping Tests
 
@@ -126,7 +126,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Index(appName)
+            var result = Controller.Index(appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -155,7 +155,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Index(appName)
+            var result = Controller.Index(appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -184,7 +184,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Index(appName)
+            var result = Controller.Index(appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -217,7 +217,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Index(appName)
+            var result = Controller.Index(appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -252,7 +252,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Index(appName)
+            var result = Controller.Index(appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -284,7 +284,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Index(appName)
+            var result = Controller.Index(appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -324,7 +324,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Create(appName)
+            var result = Controller.Create(appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -353,7 +353,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Create(appName)
+            var result = Controller.Create(appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -393,7 +393,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.Create(viewModel, "NewAppFilter");
+            Controller.Create(viewModel, "NewAppFilter", "SubjectLine");
             #endregion Act
 
             #region Assert
@@ -434,7 +434,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
             
             #region Act
-            var result = Controller.Create(viewModel, "NewAppFilter")
+            var result = Controller.Create(viewModel, "NewAppFilter", "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -470,9 +470,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Create(viewModel, "NewAppFilter")
+            var result = Controller.Create(viewModel, "NewAppFilter", "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index("NewAppFilter"));
+                .ToAction<HelpController>(a => a.Index("NewAppFilter", "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -504,9 +504,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Edit(helpTopics.Count+1, appName)
+            var result = Controller.Edit(helpTopics.Count + 1, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -532,7 +532,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Edit(1, appName)
+            var result = Controller.Edit(1, appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -560,9 +560,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Edit(helpTopics.Count + 1, new HelpTopic(), appName)
+            var result = Controller.Edit(helpTopics.Count + 1, new HelpTopic(), appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -601,9 +601,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Edit(1, helpTopic, appName)
+            var result = Controller.Edit(1, helpTopic, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -649,7 +649,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Edit(1, helpTopic, appName)
+            var result = Controller.Edit(1, helpTopic, appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -680,9 +680,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(helpTopics.Count + 1, appName)
+            var result = Controller.Details(helpTopics.Count + 1, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -708,7 +708,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(4, appName)
+            var result = Controller.Details(4, appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -740,7 +740,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.Details(5, null)
+            Controller.Details(5, null, null)
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -767,7 +767,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.Details(5, string.Empty)
+            Controller.Details(5, string.Empty, string.Empty)
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -794,7 +794,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.Details(5, "HelpRequest")
+            Controller.Details(5, "HelpRequest", "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -821,7 +821,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.Details(5, "HelpRequest")
+            Controller.Details(5, "HelpRequest", "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -848,7 +848,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.Details(5, "HelpRequest")
+            Controller.Details(5, "HelpRequest", "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -875,7 +875,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.Details(5, null)
+            Controller.Details(5, null, null)
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -902,7 +902,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.Details(5, "HelpRequest")
+            Controller.Details(5, "HelpRequest", "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -929,7 +929,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.Details(5, "OtherApp")
+            Controller.Details(5, "OtherApp", "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -959,9 +959,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(7, null)
+            var result = Controller.Details(7, null, null)
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(null));
+                .ToAction<HelpController>(a => a.Index(null, null));
             #endregion Act
 
             #region Assert
@@ -989,9 +989,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(8, null)
+            var result = Controller.Details(8, null, null)
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(null));
+                .ToAction<HelpController>(a => a.Index(null, null));
             #endregion Act
 
             #region Assert
@@ -1020,9 +1020,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(8, null)
+            var result = Controller.Details(8, null, null)
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(null));
+                .ToAction<HelpController>(a => a.Index(null, null));
             #endregion Act
 
             #region Assert
@@ -1050,9 +1050,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(4, null)
+            var result = Controller.Details(4, null, null)
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(null));
+                .ToAction<HelpController>(a => a.Index(null, null));
             #endregion Act
 
             #region Assert
@@ -1080,9 +1080,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(4, string.Empty)
+            var result = Controller.Details(4, string.Empty, string.Empty)
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(null));
+                .ToAction<HelpController>(a => a.Index(null, null));
             #endregion Act
 
             #region Assert
@@ -1110,9 +1110,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(8, appName)
+            var result = Controller.Details(8, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -1140,9 +1140,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(4, appName)
+            var result = Controller.Details(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -1172,7 +1172,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.Details(10, null)
+            Controller.Details(10, null, null)
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -1202,7 +1202,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.Details(10, null)
+            Controller.Details(10, null, null)
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -1231,7 +1231,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.Details(10, null)
+            Controller.Details(10, null, null)
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -1261,7 +1261,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.Details(10, appName)
+            Controller.Details(10, appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -1291,7 +1291,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.Details(10, appName)
+            Controller.Details(10, appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -1320,7 +1320,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(10, appName)
+            var result = Controller.Details(10, appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -1350,9 +1350,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(4, appName)
+            var result = Controller.Details(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -1380,9 +1380,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(4, appName)
+            var result = Controller.Details(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -1410,9 +1410,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(4, appName)
+            var result = Controller.Details(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -1440,9 +1440,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(4, appName)
+            var result = Controller.Details(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -1470,9 +1470,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(4, appName)
+            var result = Controller.Details(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -1500,9 +1500,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(4, appName)
+            var result = Controller.Details(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -1530,9 +1530,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(4, appName)
+            var result = Controller.Details(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -1560,9 +1560,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(4, appName)
+            var result = Controller.Details(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -1591,7 +1591,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(4, appName)
+            var result = Controller.Details(4, appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -1622,7 +1622,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(4, appName)
+            var result = Controller.Details(4, appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -1653,7 +1653,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(4, appName)
+            var result = Controller.Details(4, appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -1684,7 +1684,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.Details(4, appName)
+            var result = Controller.Details(4, appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -1714,9 +1714,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(helpTopics.Count + 1, appName)
+            var result = Controller.WatchVideo(helpTopics.Count + 1, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -1743,7 +1743,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, appName)
+            var result = Controller.WatchVideo(4, appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -1777,7 +1777,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.WatchVideo(5, null)
+            Controller.WatchVideo(5, null, null)
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -1805,7 +1805,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.WatchVideo(5, string.Empty)
+            Controller.WatchVideo(5, string.Empty, string.Empty)
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -1833,7 +1833,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.WatchVideo(5, "HelpRequest")
+            Controller.WatchVideo(5, "HelpRequest", "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -1861,7 +1861,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.WatchVideo(5, "HelpRequest")
+            Controller.WatchVideo(5, "HelpRequest", "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -1889,7 +1889,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.WatchVideo(5, "HelpRequest")
+            Controller.WatchVideo(5, "HelpRequest", "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -1917,7 +1917,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.WatchVideo(5, null)
+            Controller.WatchVideo(5, null, null)
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -1945,7 +1945,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.WatchVideo(5, "HelpRequest")
+            Controller.WatchVideo(5, "HelpRequest", "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -1973,7 +1973,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.WatchVideo(5, "OtherApp")
+            Controller.WatchVideo(5, "OtherApp", "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -2004,9 +2004,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(7, null)
+            var result = Controller.WatchVideo(7, null, null)
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(null));
+                .ToAction<HelpController>(a => a.Index(null, null));
             #endregion Act
 
             #region Assert
@@ -2035,9 +2035,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(8, null)
+            var result = Controller.WatchVideo(8, null, null)
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(null));
+                .ToAction<HelpController>(a => a.Index(null, null));
             #endregion Act
 
             #region Assert
@@ -2067,9 +2067,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(8, null)
+            var result = Controller.WatchVideo(8, null, null)
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(null));
+                .ToAction<HelpController>(a => a.Index(null, null));
             #endregion Act
 
             #region Assert
@@ -2098,9 +2098,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, null)
+            var result = Controller.WatchVideo(4, null, null)
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(null));
+                .ToAction<HelpController>(a => a.Index(null, null));
             #endregion Act
 
             #region Assert
@@ -2129,9 +2129,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, string.Empty)
+            var result = Controller.WatchVideo(4, string.Empty, string.Empty)
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(null));
+                .ToAction<HelpController>(a => a.Index(null, null));
             #endregion Act
 
             #region Assert
@@ -2160,9 +2160,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(8, appName)
+            var result = Controller.WatchVideo(8, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -2191,9 +2191,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, appName)
+            var result = Controller.WatchVideo(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -2224,7 +2224,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.WatchVideo(10, null)
+            Controller.WatchVideo(10, null, null)
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -2255,7 +2255,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.WatchVideo(10, null)
+            Controller.WatchVideo(10, null, null)
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -2285,7 +2285,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.WatchVideo(10, null)
+            Controller.WatchVideo(10, null, null)
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -2316,7 +2316,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.WatchVideo(10, appName)
+            Controller.WatchVideo(10, appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -2347,7 +2347,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            Controller.WatchVideo(10, appName)
+            Controller.WatchVideo(10, appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -2377,7 +2377,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(10, appName)
+            var result = Controller.WatchVideo(10, appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -2408,9 +2408,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, appName)
+            var result = Controller.WatchVideo(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -2439,9 +2439,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, appName)
+            var result = Controller.WatchVideo(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -2470,9 +2470,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, appName)
+            var result = Controller.WatchVideo(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -2501,9 +2501,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, appName)
+            var result = Controller.WatchVideo(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -2532,9 +2532,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, appName)
+            var result = Controller.WatchVideo(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -2563,9 +2563,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, appName)
+            var result = Controller.WatchVideo(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -2594,9 +2594,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, appName)
+            var result = Controller.WatchVideo(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -2625,9 +2625,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, appName)
+            var result = Controller.WatchVideo(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -2657,7 +2657,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, appName)
+            var result = Controller.WatchVideo(4, appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -2689,7 +2689,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, appName)
+            var result = Controller.WatchVideo(4, appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -2721,7 +2721,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, appName)
+            var result = Controller.WatchVideo(4, appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -2753,7 +2753,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, appName)
+            var result = Controller.WatchVideo(4, appName, "SubjectLine")
                 .AssertViewRendered()
                 .WithViewData<HelpTopicViewModel>();
             #endregion Act
@@ -2785,9 +2785,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, appName)
+            var result = Controller.WatchVideo(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -2817,9 +2817,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, appName)
+            var result = Controller.WatchVideo(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -2849,9 +2849,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, appName)
+            var result = Controller.WatchVideo(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert
@@ -2881,9 +2881,9 @@ namespace HelpRequest.Tests.Controllers
             #endregion Arrange
 
             #region Act
-            var result = Controller.WatchVideo(4, appName)
+            var result = Controller.WatchVideo(4, appName, "SubjectLine")
                 .AssertActionRedirect()
-                .ToAction<HelpController>(a => a.Index(appName));
+                .ToAction<HelpController>(a => a.Index(appName, "SubjectLine"));
             #endregion Act
 
             #region Assert

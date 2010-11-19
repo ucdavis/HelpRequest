@@ -12,7 +12,7 @@
 %> 
         <%--[ <%= Html.ActionLink("Log On", "LogOn", "Account")%> ]--%>
         <%--[ <%= Html.ActionLink<AccountController>(a => a.LogOn(ReturnUrlGenerator.LogOnReturn(Model != null && Model.AppName != null ? Model.AppName : string.Empty)), "Log On")%> ]--%>
-        [ <%= Html.ActionLink<AccountController>(a => a.LogOn(Model != null && Model.AppName != null ? Model.AppName : string.Empty), "Log On")%> ]
+        [ <%= Html.ActionLink<AccountController>(a => a.LogOn(Model != null && Model.AppName != null ? Model.AppName : string.Empty, Model != null && Model.PassedSubject != null ? Model.PassedSubject : string.Empty), "Log On")%> ]
 <%
     }
 %>

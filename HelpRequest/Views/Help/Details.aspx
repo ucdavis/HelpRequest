@@ -21,7 +21,7 @@
     </div>
 
     <p>
-        <%= Html.ActionLink<HelpController>(a => a.Index(Model.AppName), "back to List") %>
+        <%= Html.ActionLink<HelpController>(a => a.Index(Model.AppName, Model.PassedSubject), "back to List") %>
     </p>
 
 </asp:Content>

@@ -27,10 +27,11 @@ namespace HelpRequest.Controllers
         /// #1
         /// </summary>
         /// <param name="appName">Name of the app.</param>
+        /// <param name="subject"></param>
         /// <returns></returns>
-        public ActionResult Index(string appName)
+        public ActionResult Index(string appName, string subject)
         {
-            HelpTopicViewModel viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName);
+            HelpTopicViewModel viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName, subject);
             return View(viewModel);
         }
 
@@ -40,13 +41,14 @@ namespace HelpRequest.Controllers
         /// #2
         /// </summary>
         /// <param name="appName">Name of the app.</param>
+        /// <param name="subject"></param>
         /// <returns></returns>
         [AdminOnly]
-        public ActionResult Create(string appName)
+        public ActionResult Create(string appName, string subject)
         {
             var helpTopic = new HelpTopic();
             helpTopic.AppFilter = appName;
-            var viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName);
+            var viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName, subject);
             viewModel.HelpTopic = helpTopic;
             return View(viewModel);
         }
@@ -58,11 +60,12 @@ namespace HelpRequest.Controllers
         /// </summary>
         /// <param name="viewModel">The view model.</param>
         /// <param name="appName">Name of the app.</param>
+        /// <param name="passedSubject"></param>
         /// <returns></returns>
         [AdminOnly]
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Create(HelpTopicViewModel viewModel, string appName)
+        public ActionResult Create(HelpTopicViewModel viewModel, string appName, string passedSubject)
         {
             var topic = Copiers.HelpTopic(new HelpTopic(), viewModel.HelpTopic);
 
@@ -72,7 +75,7 @@ namespace HelpRequest.Controllers
             {
                 HelpTopicRepository.EnsurePersistent(topic);
                 Message = "Help Topic created";
-                return this.RedirectToAction(a => a.Index(appName));
+                return this.RedirectToAction(a => a.Index(appName, passedSubject));
             }
             viewModel.HelpTopic = topic;
             return View(viewModel);
@@ -81,16 +84,16 @@ namespace HelpRequest.Controllers
         //
         // GET: /Help/Edit/5
         [AdminOnly]
-        public ActionResult Edit(int id, string appName)
+        public ActionResult Edit(int id, string appName, string subject)
         {
             var helpTopic = HelpTopicRepository.GetNullableById(id);
             if (helpTopic == null)
             {
                 Message = "Help Topic not found";
-                return this.RedirectToAction(a => a.Index(appName));
+                return this.RedirectToAction(a => a.Index(appName, subject));
             }
 
-            var viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName);
+            var viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName, subject);
             viewModel.HelpTopic = helpTopic;
             return View(viewModel);
         }
@@ -102,17 +105,18 @@ namespace HelpRequest.Controllers
         /// <param name="id">The id.</param>
         /// <param name="helpTopic">The help topic.</param>
         /// <param name="appName">Name of the app.</param>
+        /// <param name="passedSubject"></param>
         /// <returns></returns>
         [AdminOnly]
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit(int id, HelpTopic helpTopic, string appName)
+        public ActionResult Edit(int id, HelpTopic helpTopic, string appName, string passedSubject)
         {
             var topic = HelpTopicRepository.GetNullableById(id);
             if (topic == null)
             {
                 Message = "Help Topic not found";
-                return this.RedirectToAction(a => a.Index(appName));
+                return this.RedirectToAction(a => a.Index(appName, passedSubject));
             }
             topic = Copiers.HelpTopic(topic, helpTopic);
 
@@ -123,10 +127,10 @@ namespace HelpRequest.Controllers
             {
                 HelpTopicRepository.EnsurePersistent(topic);
                 Message = "Help Topic saved";
-                return this.RedirectToAction(a => a.Index(appName));
+                return this.RedirectToAction(a => a.Index(appName, passedSubject));
             }
 
-            var viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName);
+            var viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName, passedSubject);
             viewModel.HelpTopic = topic;
             return View(viewModel);
         }
@@ -137,13 +141,14 @@ namespace HelpRequest.Controllers
         /// </summary>
         /// <param name="id">The id of the Help topic.</param>
         /// <param name="appName">Filter to App Name</param>
+        /// <param name="subject"></param>
         /// <returns></returns>
-        public ActionResult Details(int id, string appName)
+        public ActionResult Details(int id, string appName, string subject)
         {
             var helpTopic = HelpTopicRepository.GetNullableById(id);
             if (helpTopic == null)
             {
-                return this.RedirectToAction(a => a.Index(appName));
+                return this.RedirectToAction(a => a.Index(appName, subject));
             }
             if(CurrentUser.IsInRole(RoleNames.Admin))
             {
@@ -168,11 +173,11 @@ namespace HelpRequest.Controllers
             if(!IsUserAuthorized(helpTopic, CurrentUser, appName))
             {
                 Message = "Not Authorized to view that topic";
-                return this.RedirectToAction(a => a.Index(appName));
+                return this.RedirectToAction(a => a.Index(appName, subject));
             }
             helpTopic.NumberOfReads++;
             HelpTopicRepository.EnsurePersistent(helpTopic);
-            HelpTopicViewModel viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName);
+            HelpTopicViewModel viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName, subject);
             viewModel.HelpTopic = helpTopic;
             return View(viewModel);
         }
@@ -184,13 +189,14 @@ namespace HelpRequest.Controllers
         /// </summary>
         /// <param name="id">The id of the Help topic.</param>
         /// <param name="appName">Filter to App Name</param>
+        /// <param name="subject"></param>
         /// <returns></returns>
-        public ActionResult WatchVideo(int id, string appName)
+        public ActionResult WatchVideo(int id, string appName, string subject)
         {
             var helpTopic = HelpTopicRepository.GetNullableById(id);
             if (helpTopic == null)
             {
-                return this.RedirectToAction(a => a.Index(appName));
+                return this.RedirectToAction(a => a.Index(appName, subject));
             }
             if (CurrentUser.IsInRole(RoleNames.Admin))
             {
@@ -212,16 +218,16 @@ namespace HelpRequest.Controllers
             if (!IsUserAuthorized(helpTopic, CurrentUser, appName))
             {
                 Message = "Not Authorized to watch that topic";
-                return this.RedirectToAction(a => a.Index(appName));
+                return this.RedirectToAction(a => a.Index(appName, subject));
             }
             if(!helpTopic.IsVideo || string.IsNullOrEmpty(helpTopic.VideoName) || helpTopic.VideoName.Trim() == string.Empty)
             {
                 Message = "Error. Help Topic is not a video.";
-                return this.RedirectToAction(a => a.Index(appName));
+                return this.RedirectToAction(a => a.Index(appName, subject));
             }
             helpTopic.NumberOfReads++;
             HelpTopicRepository.EnsurePersistent(helpTopic);
-            HelpTopicViewModel viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName);
+            HelpTopicViewModel viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName, subject);
             viewModel.HelpTopic = helpTopic;
             return View(viewModel);
         }
