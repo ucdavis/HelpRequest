@@ -179,6 +179,7 @@
             </li>
             <li>
                 <label for="Ticket.Subject">Subject:</label>
+                <%--<%=Html.LabelFor(a => a.Ticket.Subject, DisplayOptions.HumanizeAndColon) %>--%>
                 <%=Html.TextBox("Ticket.Subject", Model != null && Model.Ticket != null ? Model.Ticket.Subject : string.Empty , new {style = "width: 500px"})%>
                 <%= Html.ValidationMessage("Ticket.Subject")%>
             </li>
