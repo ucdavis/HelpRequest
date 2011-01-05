@@ -50,6 +50,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpRequest.Core", "HelpReq
 EndProject
 Project("{C8D11400-126E-41CD-887F-60BD40844F9E}") = "HelpRequest.DB", "DB\HelpRequest.DB.dbproj", "{67CBC824-A49E-4E9B-A947-360F3DFE65C3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{6BDBC6E1-D7E3-4724-A5AB-08B8123B7F52}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 5
@@ -115,5 +117,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6BDBC6E1-D7E3-4724-A5AB-08B8123B7F52} = {ACBFC0F4-B018-4957-B200-79E8028FE7E3}
 	EndGlobalSection
 EndGlobal
