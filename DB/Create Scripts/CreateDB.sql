@@ -32,7 +32,6 @@ SET ANSI_PADDING ON
 GO
 CREATE TABLE [dbo].[Applications](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[SortOrder] [int] NOT NULL,
 	[Abbr] [varchar](50) NOT NULL,
 	[ApplicationName] [varchar](50) NOT NULL,
  CONSTRAINT [PK_Applications] PRIMARY KEY CLUSTERED 

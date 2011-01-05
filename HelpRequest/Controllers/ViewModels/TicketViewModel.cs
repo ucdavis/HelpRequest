@@ -53,7 +53,7 @@ namespace HelpRequest.Controllers.ViewModels
             }
             else
             {
-                foreach (var application in applicationRepository.Queryable.OrderBy(x => x.SortOrder))
+                foreach (var application in applicationRepository.Queryable.OrderBy(x => x.ApplicationName))
                 {
                     viewModel.ProgrammingSupportApps.Add(application.ApplicationName);                    
                 }

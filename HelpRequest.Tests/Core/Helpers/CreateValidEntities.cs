@@ -69,11 +69,8 @@ namespace HelpRequest.Tests.Core.Helpers
 
         public static Application Application(int? counter)
         {
-            var rtValue = new Application(0, "Abbr" + counter.Extra(), "Application" + counter.Extra());
-            if (counter != null)
-            {
-                rtValue.SortOrder = (int) counter;
-            }
+            var rtValue = new Application( "Abbr" + counter.Extra(), "Application" + counter.Extra());
+
             return rtValue;
         }
     }

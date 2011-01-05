@@ -102,58 +102,7 @@ namespace HelpRequest.Tests.Repositories
         }
 
         #endregion Init and Overrides	
-        
-        #region SortOrder Tests
 
-        /// <summary>
-        /// Tests the SortOrder with max int value saves.
-        /// </summary>
-        [TestMethod]
-        public void TestSortOrderWithMaxIntValueSaves()
-        {
-            #region Arrange
-            var record = GetValid(9);
-            record.SortOrder = int.MaxValue;
-            #endregion Arrange
-
-            #region Act
-            ApplicationRepository.DbContext.BeginTransaction();
-            ApplicationRepository.EnsurePersistent(record);
-            ApplicationRepository.DbContext.CommitTransaction();
-            #endregion Act
-
-            #region Assert
-            Assert.AreEqual(int.MaxValue, record.SortOrder);
-            Assert.IsFalse(record.IsTransient());
-            Assert.IsTrue(record.IsValid());
-            #endregion Assert
-        }
-
-        /// <summary>
-        /// Tests the SortOrder with min int value saves.
-        /// </summary>
-        [TestMethod]
-        public void TestSortOrderWithMinIntValueSaves()
-        {
-            #region Arrange
-            var record = GetValid(9);
-            record.SortOrder = int.MinValue;
-            #endregion Arrange
-
-            #region Act
-            ApplicationRepository.DbContext.BeginTransaction();
-            ApplicationRepository.EnsurePersistent(record);
-            ApplicationRepository.DbContext.CommitTransaction();
-            #endregion Act
-
-            #region Assert
-            Assert.AreEqual(int.MinValue, record.SortOrder);
-            Assert.IsFalse(record.IsTransient());
-            Assert.IsTrue(record.IsValid());
-            #endregion Assert
-        }
-
-        #endregion SortOrder Tests
         #region Abbr Tests
         #region Invalid Tests
 
@@ -537,7 +486,6 @@ namespace HelpRequest.Tests.Repositories
             #region Act/Assert
             new PersistenceSpecification<Application>(session)
                 .CheckProperty(c => c.Id, id)
-                .CheckProperty(c => c.SortOrder, 10)
                 .CheckProperty(c => c.Abbr, "Abbr")
                 .CheckProperty(c => c.ApplicationName, "ApplicationName")
                 .VerifyTheMappings();
@@ -572,7 +520,6 @@ namespace HelpRequest.Tests.Repositories
                 "[Newtonsoft.Json.JsonPropertyAttribute()]", 
                 "[System.Xml.Serialization.XmlIgnoreAttribute()]"
             }));
-            expectedFields.Add(new NameAndType("SortOrder", "System.Int32", new List<string>()));
             #endregion Arrange
 
             AttributeAndFieldValidation.ValidateFieldsAndAttributes(expectedFields, typeof(Application));
