@@ -1,4 +1,5 @@
-﻿using HelpRequest.Core.Domain;
+﻿using System;
+using HelpRequest.Core.Domain;
 
 namespace HelpRequest.Tests.Core.Helpers
 {
@@ -66,6 +67,14 @@ namespace HelpRequest.Tests.Core.Helpers
 
         #endregion Helper Extension
 
-
+        public static Application Application(int? counter)
+        {
+            var rtValue = new Application(0, "Abbr" + counter.Extra(), "Application" + counter.Extra());
+            if (counter != null)
+            {
+                rtValue.SortOrder = (int) counter;
+            }
+            return rtValue;
+        }
     }
 }

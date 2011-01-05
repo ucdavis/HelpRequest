@@ -1,6 +1,5 @@
 ﻿USE [HelpRequest]
 GO
-/****** Object:  Table [dbo].[HelpTopics]    Script Date: 07/12/2010 14:39:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -25,7 +24,25 @@ CREATE TABLE [dbo].[HelpTopics](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  View [dbo].[vUsers]    Script Date: 07/12/2010 14:39:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Applications](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[SortOrder] [int] NOT NULL,
+	[Abbr] [varchar](50) NOT NULL,
+	[ApplicationName] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Applications] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -147,7 +164,6 @@ End
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPaneCount', @value=1 , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'vUsers'
 GO
-/****** Object:  View [dbo].[vCatbertApplications]    Script Date: 07/12/2010 14:39:23 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -272,7 +288,5 @@ End
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPaneCount', @value=1 , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'vCatbertApplications'
 GO
-/****** Object:  Default [DF_HelpTopics_AvailableToPublic]    Script Date: 07/12/2010 14:39:22 ******/
 ALTER TABLE [dbo].[HelpTopics] ADD  CONSTRAINT [DF_HelpTopics_AvailableToPublic]  DEFAULT ((0)) FOR [AvailableToPublic]
 GO
- 

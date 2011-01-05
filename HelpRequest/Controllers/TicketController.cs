@@ -98,7 +98,7 @@ namespace HelpRequest.Controllers
         public ActionResult Submit(string appName, string subject)
         {
             //return View(TicketViewModel.Create(Repository, CurrentUser, appName));
-            return View(TicketViewModel.Create(CurrentUser, appName, subject));
+            return View(TicketViewModel.Create(Repository.OfType<Application>(), CurrentUser, appName, subject));
         }
 
 
@@ -183,7 +183,7 @@ namespace HelpRequest.Controllers
                 {
                     ModelState.AddModelError("Exception", "Application Exception sending email: " + ex.Message);
                     //var viewModel = TicketViewModel.Create(Repository, CurrentUser, appName);
-                    var viewModel = TicketViewModel.Create(CurrentUser, appName, passedSubject);
+                    var viewModel = TicketViewModel.Create(Repository.OfType<Application>(), CurrentUser, appName, passedSubject);
                     viewModel.Ticket = ticket;
                     return View(viewModel);
                 }
@@ -191,7 +191,7 @@ namespace HelpRequest.Controllers
             else
             {
                 //var viewModel = TicketViewModel.Create(Repository, CurrentUser, appName);
-                var viewModel = TicketViewModel.Create(CurrentUser, appName, passedSubject);
+                var viewModel = TicketViewModel.Create(Repository.OfType<Application>(), CurrentUser, appName, passedSubject);
                 viewModel.Ticket = ticket;
                 var test = View(viewModel);
 
@@ -210,7 +210,7 @@ namespace HelpRequest.Controllers
         public ActionResult PublicSubmit(string appName, string subject)
         {
             //return View(TicketViewModel.Create(Repository, CurrentUser, appName));
-            return View(TicketViewModel.Create(CurrentUser, appName, subject));
+            return View(TicketViewModel.Create(Repository.OfType<Application>(), CurrentUser, appName, subject));
         }
 
 
@@ -270,14 +270,14 @@ namespace HelpRequest.Controllers
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("Exception", "Application Exception sending email: " + ex.Message);
-                    var viewModel = TicketViewModel.Create(CurrentUser, appName, passedSubject);
+                    var viewModel = TicketViewModel.Create(Repository.OfType<Application>(), CurrentUser, appName, passedSubject);
                     viewModel.Ticket = ticket;
                     return View(viewModel);
                 }
             }
             else
             {
-                var viewModel = TicketViewModel.Create(CurrentUser, appName, passedSubject);
+                var viewModel = TicketViewModel.Create(Repository.OfType<Application>(), CurrentUser, appName, passedSubject);
                 viewModel.Ticket = ticket;
                 return View(viewModel);
             }

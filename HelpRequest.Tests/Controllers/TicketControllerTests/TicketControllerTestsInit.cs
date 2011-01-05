@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Principal;
@@ -7,6 +8,7 @@ using HelpRequest.Controllers;
 using HelpRequest.Controllers.Services;
 using HelpRequest.Core.Abstractions;
 using HelpRequest.Core.Domain;
+using HelpRequest.Tests.Core.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;
 using Rhino.Mocks;
@@ -21,16 +23,28 @@ namespace HelpRequest.Tests.Controllers.TicketControllerTests
         protected readonly Type ControllerClass = typeof(TicketController);
         public IRepository<Ticket> TicketRepository;
         public IRepository<User> UserRepository;
+        public IRepository<Application> ApplicationRepository;
         protected IEmailProvider EmailProvider;
         protected ITicketControllerService TicketControllerService;
+
+        protected List<Application> ApplicationList;
 
         #region Init
 
         public TicketControllerTests()
         {
-            UserRepository = FakeRepository<User>();
+            UserRepository = FakeRepository<User>();            
             Controller.Repository.Expect(a => a.OfType<User>()).Return(UserRepository).Repeat.Any();
+            ApplicationRepository = FakeRepository<Application>();
+            Controller.Repository.Expect(a => a.OfType<Application>()).Return(ApplicationRepository).Repeat.Any();
 
+            ApplicationList = new List<Application>();
+            for (int i = 0; i < 3; i++)
+            {
+                ApplicationList.Add(CreateValidEntities.Application(i+1));
+            }
+            Controller.Repository.OfType<Application>().Expect(a => a.Queryable)
+                .Return(ApplicationList.AsQueryable()).Repeat.Any();
         }
 
         protected override void SetupController()

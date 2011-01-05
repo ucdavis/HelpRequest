@@ -98,6 +98,13 @@ namespace HelpRequest.Controllers.Services
                     }
                 }
             }
+            else if (ticket.SupportDepartment == StaticValues.STR_ProgrammingSupport)
+            {
+                if (string.IsNullOrWhiteSpace(ticket.ForApplication))
+                {
+                    modelState.AddModelError("Ticket.ForApplication", "For Programming Support you must pick the program from the list.");
+                }
+            }
             if (!string.IsNullOrEmpty(availableDatesInput))
             {
                 ticket.Availability.Add(availableDatesInput);

@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HelpRequest.Core.Resources
-{
-
-
+namespace HelpRequest.Core.Resources {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -75,6 +75,159 @@ namespace HelpRequest.Core.Resources
         public static string EmailWarningRegEx {
             get {
                 return ResourceManager.GetString("EmailWarningRegEx", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AD419.
+        /// </summary>
+        public static string STR_App_AD419 {
+            get {
+                return ResourceManager.GetString("STR_App_AD419", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CatBert.
+        /// </summary>
+        public static string STR_App_CatBert {
+            get {
+                return ResourceManager.GetString("STR_App_CatBert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Commencement.
+        /// </summary>
+        public static string STR_App_Commencement {
+            get {
+                return ResourceManager.GetString("STR_App_Commencement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Conference Registration And Payments.
+        /// </summary>
+        public static string STR_App_CRP {
+            get {
+                return ResourceManager.GetString("STR_App_CRP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dogbert.
+        /// </summary>
+        public static string STR_App_Dogbert {
+            get {
+                return ResourceManager.GetString("STR_App_Dogbert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Eat Fit.
+        /// </summary>
+        public static string STR_App_EatFit {
+            get {
+                return ResourceManager.GetString("STR_App_EatFit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Eligibility List.
+        /// </summary>
+        public static string STR_App_EL {
+            get {
+                return ResourceManager.GetString("STR_App_EL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Employee Salary Review Analysis.
+        /// </summary>
+        public static string STR_App_ESRA {
+            get {
+                return ResourceManager.GetString("STR_App_ESRA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FSNEP Records.
+        /// </summary>
+        public static string STR_App_FSNEP {
+            get {
+                return ResourceManager.GetString("STR_App_FSNEP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Help Request.
+        /// </summary>
+        public static string STR_App_Help {
+            get {
+                return ResourceManager.GetString("STR_App_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Messaging and Appointment System.
+        /// </summary>
+        public static string STR_App_MAAPS {
+            get {
+                return ResourceManager.GetString("STR_App_MAAPS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Petition Entry Tracking System.
+        /// </summary>
+        public static string STR_App_PETS {
+            get {
+                return ResourceManager.GetString("STR_App_PETS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PTF.
+        /// </summary>
+        public static string STR_App_PTF {
+            get {
+                return ResourceManager.GetString("STR_App_PTF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recruitment.
+        /// </summary>
+        public static string STR_App_Recruitment {
+            get {
+                return ResourceManager.GetString("STR_App_Recruitment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subject To Dismissal.
+        /// </summary>
+        public static string STR_App_SD {
+            get {
+                return ResourceManager.GetString("STR_App_SD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Student Information Management System.
+        /// </summary>
+        public static string STR_App_SIMS {
+            get {
+                return ResourceManager.GetString("STR_App_SIMS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TPS3.
+        /// </summary>
+        public static string STR_App_TPS {
+            get {
+                return ResourceManager.GetString("STR_App_TPS", resourceCulture);
             }
         }
         

@@ -121,8 +121,7 @@
             </li>
             <%} %>
             <%else {%>
-            <li>
-                
+            <li>                
                 <label for="Ticket.SupportDepartment">Support Department:</label>  
                 <%= this.Select("Ticket.SupportDepartment").Options(Model.SupportDepartment)
                                                                  .Selected("Application Support")%>
@@ -140,7 +139,9 @@
             <span id="ForApplication" style="display: none">
                 <li>
                     <label for="Ticket.ForApplication">For Application:</label>
-                    <%= Html.TextBox("Ticket.ForApplication", Model.AppName, new { style = "width: 500px" })%>
+                    <%--<%= Html.TextBox("Ticket.ForApplication", Model.AppName, new { style = "width: 500px" })%>--%>
+                    <%= this.Select("Ticket.ForApplication").Options(Model.ProgrammingSupportApps).FirstOption("--Select a Program--")
+                        .Selected(Model.Ticket != null ? Model.Ticket.ForApplication : string.Empty)%>
                     <%= Html.ValidationMessage("Ticket.ForApplication")%>
                 </li>
             </span>
