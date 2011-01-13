@@ -26,13 +26,15 @@ namespace HelpRequest.Tests.Controllers
     {
         private readonly Type _controllerClass = typeof(HelpController);
         public IRepository<HelpTopic> HelpTopicRepository;
+        public IRepository<Application> ApplicationRepository;
 
         #region Init
 
         protected override void SetupController()
         {
             HelpTopicRepository = FakeRepository<HelpTopic>();
-            Controller = new TestControllerBuilder().CreateController<HelpController>(HelpTopicRepository);
+            ApplicationRepository = FakeRepository<Application>();
+            Controller = new TestControllerBuilder().CreateController<HelpController>(HelpTopicRepository, ApplicationRepository);
         }
         /// <summary>
         /// Registers the routes.
@@ -249,6 +251,7 @@ namespace HelpRequest.Tests.Controllers
             var helpTopics = new List<HelpTopic>();
             LoadHelpTopics(helpTopics, appName);
             ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            ControllerRecordFakes.FakeApplication(3, ApplicationRepository);
             #endregion Arrange
 
             #region Act
@@ -263,6 +266,81 @@ namespace HelpRequest.Tests.Controllers
             Assert.IsTrue(result.HelpTopics.Contains(helpTopics[0]));
             Assert.IsTrue(result.HelpTopics.Contains(helpTopics[1]));
             Assert.IsTrue(result.HelpTopics.Contains(helpTopics[2]));
+            Assert.AreEqual("TestAppName", result.AppName);
+            Assert.IsFalse(result.IsUserAdmin);
+            Assert.IsFalse(result.IsUserAuthorized);
+            #endregion Assert
+        }
+        [TestMethod]
+        public void TestIndexReturnsViewModelWithExpectedValues5A()
+        {
+            #region Arrange
+            var appName = "TestAppName";
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            var helpTopic = CreateValidEntities.HelpTopic(99);
+            helpTopic.AppFilter = null;
+            helpTopics.Add(helpTopic);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            var applications = new List<Application>();
+            applications.Add(CreateValidEntities.Application(9));
+            applications[0].Abbr = appName;
+            applications[0].HideOtherFaq = false;
+            ControllerRecordFakes.FakeApplication(3, ApplicationRepository, applications);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Index(appName, "SubjectLine")
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(4, result.HelpTopics.Count());
+            Assert.IsTrue(result.HelpTopics.Contains(helpTopics[0]));
+            Assert.IsTrue(result.HelpTopics.Contains(helpTopics[1]));
+            Assert.IsTrue(result.HelpTopics.Contains(helpTopics[2]));
+            Assert.IsTrue(result.HelpTopics.Contains(helpTopic));
+            Assert.AreEqual("TestAppName", result.AppName);
+            Assert.IsFalse(result.IsUserAdmin);
+            Assert.IsFalse(result.IsUserAuthorized);
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestIndexReturnsViewModelWithExpectedValues5B()
+        {
+            #region Arrange
+            var appName = "TestAppName";
+            Controller.ControllerContext.HttpContext = new MockHttpContext(0, new[] { "" });
+            var helpTopics = new List<HelpTopic>();
+            LoadHelpTopics(helpTopics, appName);
+            var helpTopic = CreateValidEntities.HelpTopic(99);
+            helpTopic.AppFilter = null;
+            helpTopics.Add(helpTopic);
+            ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            var applications = new List<Application>();
+            applications.Add(CreateValidEntities.Application(9));
+            applications[0].Abbr = appName;
+            applications[0].HideOtherFaq = true;
+            ControllerRecordFakes.FakeApplication(3, ApplicationRepository, applications);
+            #endregion Arrange
+
+            #region Act
+            var result = Controller.Index(appName, "SubjectLine")
+                .AssertViewRendered()
+                .WithViewData<HelpTopicViewModel>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.HelpTopics.Count());
+            Assert.IsFalse(result.HelpTopics.Contains(helpTopics[0]));
+            Assert.IsFalse(result.HelpTopics.Contains(helpTopics[1]));
+            Assert.IsTrue(result.HelpTopics.Contains(helpTopics[2]));
+            Assert.IsFalse(result.HelpTopics.Contains(helpTopic));
             Assert.AreEqual("TestAppName", result.AppName);
             Assert.IsFalse(result.IsUserAdmin);
             Assert.IsFalse(result.IsUserAuthorized);
@@ -1680,6 +1758,7 @@ namespace HelpRequest.Tests.Controllers
             helpTopics[3].AvailableToPublic = true;
             helpTopics[3].IsActive = true;
             ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
+            ControllerRecordFakes.FakeApplication(3, ApplicationRepository);
 
             #endregion Arrange
 
@@ -1695,6 +1774,8 @@ namespace HelpRequest.Tests.Controllers
             Assert.AreSame(helpTopics[3], result.HelpTopic);
             #endregion Assert
         }
+
+  
         #endregion Details Tests
 
         #region WatchVideo Tests
@@ -2749,7 +2830,7 @@ namespace HelpRequest.Tests.Controllers
             helpTopics[3].AvailableToPublic = true;
             helpTopics[3].IsActive = true;
             ControllerRecordFakes.FakeHelpTopic(0, HelpTopicRepository, helpTopics);
-
+            ControllerRecordFakes.FakeApplication(3, ApplicationRepository);
             #endregion Arrange
 
             #region Act

@@ -15,10 +15,12 @@ namespace HelpRequest.Controllers
     public class HelpController : SuperController
     {
         public IRepository<HelpTopic> HelpTopicRepository;
+        public IRepository<Application> ApplicationRepository;
 
-        public HelpController(IRepository<HelpTopic> helpTopicRepository)
+        public HelpController(IRepository<HelpTopic> helpTopicRepository, IRepository<Application> applicationRepository)
         {
             HelpTopicRepository = helpTopicRepository;
+            ApplicationRepository = applicationRepository;
         }
 
 
@@ -31,7 +33,7 @@ namespace HelpRequest.Controllers
         /// <returns></returns>
         public ActionResult Index(string appName, string subject)
         {
-            HelpTopicViewModel viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName, subject);
+            HelpTopicViewModel viewModel = HelpTopicViewModel.Create(HelpTopicRepository, ApplicationRepository, CurrentUser, appName, subject);
             return View(viewModel);
         }
 
@@ -48,7 +50,7 @@ namespace HelpRequest.Controllers
         {
             var helpTopic = new HelpTopic();
             helpTopic.AppFilter = appName;
-            var viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName, subject);
+            var viewModel = HelpTopicViewModel.Create(HelpTopicRepository, ApplicationRepository, CurrentUser, appName, subject);
             viewModel.HelpTopic = helpTopic;
             return View(viewModel);
         }
@@ -93,7 +95,7 @@ namespace HelpRequest.Controllers
                 return this.RedirectToAction(a => a.Index(appName, subject));
             }
 
-            var viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName, subject);
+            var viewModel = HelpTopicViewModel.Create(HelpTopicRepository, ApplicationRepository, CurrentUser, appName, subject);
             viewModel.HelpTopic = helpTopic;
             return View(viewModel);
         }
@@ -130,7 +132,7 @@ namespace HelpRequest.Controllers
                 return this.RedirectToAction(a => a.Index(appName, passedSubject));
             }
 
-            var viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName, passedSubject);
+            var viewModel = HelpTopicViewModel.Create(HelpTopicRepository, ApplicationRepository, CurrentUser, appName, passedSubject);
             viewModel.HelpTopic = topic;
             return View(viewModel);
         }
@@ -177,7 +179,7 @@ namespace HelpRequest.Controllers
             }
             helpTopic.NumberOfReads++;
             HelpTopicRepository.EnsurePersistent(helpTopic);
-            HelpTopicViewModel viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName, subject);
+            HelpTopicViewModel viewModel = HelpTopicViewModel.Create(HelpTopicRepository, ApplicationRepository, CurrentUser, appName, subject);
             viewModel.HelpTopic = helpTopic;
             return View(viewModel);
         }
@@ -227,7 +229,7 @@ namespace HelpRequest.Controllers
             }
             helpTopic.NumberOfReads++;
             HelpTopicRepository.EnsurePersistent(helpTopic);
-            HelpTopicViewModel viewModel = HelpTopicViewModel.Create(HelpTopicRepository, CurrentUser, appName, subject);
+            HelpTopicViewModel viewModel = HelpTopicViewModel.Create(HelpTopicRepository, ApplicationRepository, CurrentUser, appName, subject);
             viewModel.HelpTopic = helpTopic;
             return View(viewModel);
         }

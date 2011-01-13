@@ -136,5 +136,44 @@ namespace HelpRequest.Tests.Core.Helpers
             userRepository.Expect(a => a.Queryable).Return(users.AsQueryable()).Repeat.Any();
             userRepository.Expect(a => a.GetAll()).Return(users).Repeat.Any();
         }
+
+        public static void FakeApplication(int count, IRepository<Application> applicationRepository)
+        {
+            var applications = new List<Application>();
+            FakeApplication(count, applicationRepository, applications);
+        }
+        public static void FakeApplication(int count, IRepository<Application> applicationRepository, List<Application> specificApplications)
+        {
+            var applications = new List<Application>();
+            var specificApplicationsCount = 0;
+            if (specificApplications != null)
+            {
+                specificApplicationsCount = specificApplications.Count;
+                for (int i = 0; i < specificApplicationsCount; i++)
+                {
+                    applications.Add(specificApplications[i]);
+                }
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                applications.Add(CreateValidEntities.Application(i + specificApplicationsCount + 1));
+            }
+
+            var totalCount = applications.Count;
+            for (int i = 0; i < totalCount; i++)
+            {
+                applications[i].SetIdTo(i + 1);
+                int i1 = i;
+                applicationRepository
+                    .Expect(a => a.GetNullableById(i1 + 1))
+                    .Return(applications[i])
+                    .Repeat
+                    .Any();
+            }
+            applicationRepository.Expect(a => a.GetNullableById(totalCount + 1)).Return(null).Repeat.Any();
+            applicationRepository.Expect(a => a.Queryable).Return(applications.AsQueryable()).Repeat.Any();
+            applicationRepository.Expect(a => a.GetAll()).Return(applications).Repeat.Any();
+        }
     }
 }

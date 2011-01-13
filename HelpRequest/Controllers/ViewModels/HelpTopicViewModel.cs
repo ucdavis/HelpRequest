@@ -17,7 +17,7 @@ namespace HelpRequest.Controllers.ViewModels
         public IEnumerable<HelpTopic> HelpTopics { get; set; }
         public HelpTopic HelpTopic { get; set; }
 
-        public static HelpTopicViewModel Create(IRepository<HelpTopic> helpTopicRepository, IPrincipal currentUser, string appName, string passedSubject)
+        public static HelpTopicViewModel Create(IRepository<HelpTopic> helpTopicRepository, IRepository<Application> applicationRepository, IPrincipal currentUser, string appName, string passedSubject)
         {
             Check.Require(helpTopicRepository != null, "helpTopicRepository is required.");
 
@@ -50,13 +50,22 @@ namespace HelpRequest.Controllers.ViewModels
                 {
                     viewModel.HelpTopics = helpTopicRepository
                         .Queryable.Where(a => a.AvailableToPublic && a.IsActive && (a.AppFilter == null || a.AppFilter == string.Empty || a.AppFilter == StaticValues.STR_HelpRequest))
-                        .OrderByDescending(a => a.NumberOfReads);                    
+                        .OrderByDescending(a => a.NumberOfReads);
                 }
                 else
                 {
-                    viewModel.HelpTopics = helpTopicRepository
-                        .Queryable.Where(a => a.AvailableToPublic && a.IsActive && (a.AppFilter == null || a.AppFilter == string.Empty || a.AppFilter == viewModel.AppName))
-                        .OrderByDescending(a => a.NumberOfReads);  
+                    if (applicationRepository.Queryable.Where(a => a.Abbr == viewModel.AppName && a.HideOtherFaq).Any())
+                    {
+                        viewModel.HelpTopics = helpTopicRepository
+                            .Queryable.Where(a => a.AvailableToPublic && a.IsActive && a.AppFilter == viewModel.AppName)
+                            .OrderByDescending(a => a.NumberOfReads);
+                    }
+                    else
+                    {
+                        viewModel.HelpTopics = helpTopicRepository
+                            .Queryable.Where(a =>a.AvailableToPublic && a.IsActive &&(a.AppFilter == null || a.AppFilter == string.Empty || a.AppFilter == viewModel.AppName))
+                            .OrderByDescending(a => a.NumberOfReads);
+                    }
                 }
             }
 

@@ -34,6 +34,7 @@ CREATE TABLE [dbo].[Applications](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Abbr] [varchar](50) NOT NULL,
 	[ApplicationName] [varchar](50) NOT NULL,
+	[HideOtherFaq] [bit] NOT NULL,
  CONSTRAINT [PK_Applications] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -286,6 +287,8 @@ End
 ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'vCatbertApplications'
 GO
 EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPaneCount', @value=1 , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'vCatbertApplications'
+GO
+ALTER TABLE [dbo].[Applications] ADD  CONSTRAINT [DF_Applications_HideOtherFaq]  DEFAULT ((0)) FOR [HideOtherFaq]
 GO
 ALTER TABLE [dbo].[HelpTopics] ADD  CONSTRAINT [DF_HelpTopics_AvailableToPublic]  DEFAULT ((0)) FOR [AvailableToPublic]
 GO

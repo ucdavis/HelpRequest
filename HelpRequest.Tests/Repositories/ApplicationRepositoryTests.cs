@@ -473,10 +473,76 @@ namespace HelpRequest.Tests.Repositories
         #endregion Valid Tests
         #endregion ApplicationName Tests
 
+        #region HideOtherFaq Tests
+
+        /// <summary>
+        /// Tests the HideOtherFaq is false saves.
+        /// </summary>
+        [TestMethod]
+        public void TestHideOtherFaqIsFalseSaves()
+        {
+            #region Arrange
+
+            Application application = GetValid(9);
+            application.HideOtherFaq = false;
+
+            #endregion Arrange
+
+            #region Act
+
+            ApplicationRepository.DbContext.BeginTransaction();
+            ApplicationRepository.EnsurePersistent(application);
+            ApplicationRepository.DbContext.CommitTransaction();
+
+            #endregion Act
+
+            #region Assert
+
+            Assert.IsFalse(application.HideOtherFaq);
+            Assert.IsFalse(application.IsTransient());
+            Assert.IsTrue(application.IsValid());
+
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the HideOtherFaq is true saves.
+        /// </summary>
+        [TestMethod]
+        public void TestHideOtherFaqIsTrueSaves()
+        {
+            #region Arrange
+
+            var application = GetValid(9);
+            application.HideOtherFaq = true;
+
+            #endregion Arrange
+
+            #region Act
+
+            ApplicationRepository.DbContext.BeginTransaction();
+            ApplicationRepository.EnsurePersistent(application);
+            ApplicationRepository.DbContext.CommitTransaction();
+
+            #endregion Act
+
+            #region Assert
+
+            Assert.IsTrue(application.HideOtherFaq);
+            Assert.IsFalse(application.IsTransient());
+            Assert.IsTrue(application.IsValid());
+
+            #endregion Assert
+        }
+
+        #endregion HideOtherFaq Tests
+
+
+
         #region FluentMapping Tests
 
         [TestMethod]
-        public void TestCanCorrectlyMapApplication()
+        public void TestCanCorrectlyMapApplication1()
         {
             #region Arrange
             var id = ApplicationRepository.Queryable.Max(x => x.Id) + 1;
@@ -488,10 +554,28 @@ namespace HelpRequest.Tests.Repositories
                 .CheckProperty(c => c.Id, id)
                 .CheckProperty(c => c.Abbr, "Abbr")
                 .CheckProperty(c => c.ApplicationName, "ApplicationName")
+                .CheckProperty(c => c.HideOtherFaq, true)
                 .VerifyTheMappings();
             #endregion Act/Assert
         }
 
+        [TestMethod]
+        public void TestCanCorrectlyMapApplication2()
+        {
+            #region Arrange
+            var id = ApplicationRepository.Queryable.Max(x => x.Id) + 1;
+            var session = NHibernateSessionManager.Instance.GetSession();
+            #endregion Arrange
+
+            #region Act/Assert
+            new PersistenceSpecification<Application>(session)
+                .CheckProperty(c => c.Id, id)
+                .CheckProperty(c => c.Abbr, "Abbr")
+                .CheckProperty(c => c.ApplicationName, "ApplicationName")
+                .CheckProperty(c => c.HideOtherFaq, false)
+                .VerifyTheMappings();
+            #endregion Act/Assert
+        }
         #endregion FluentMapping Tests
         
         #region Reflection of Database.
@@ -515,11 +599,13 @@ namespace HelpRequest.Tests.Repositories
                  "[NHibernate.Validator.Constraints.LengthAttribute((Int32)50)]", 
                  "[UCDArch.Core.NHibernateValidator.Extensions.RequiredAttribute()]"
             }));
+            expectedFields.Add(new NameAndType("HideOtherFaq", "System.Boolean", new List<string>()));
             expectedFields.Add(new NameAndType("Id", "System.Int32", new List<string>
             {
                 "[Newtonsoft.Json.JsonPropertyAttribute()]", 
                 "[System.Xml.Serialization.XmlIgnoreAttribute()]"
             }));
+            
             #endregion Arrange
 
             AttributeAndFieldValidation.ValidateFieldsAndAttributes(expectedFields, typeof(Application));

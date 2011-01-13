@@ -26,6 +26,8 @@ namespace HelpRequest.Core.Domain
         [Required]
         [Length(50)]
         public virtual string ApplicationName { get; set; }
+
+        public virtual bool HideOtherFaq { get; set; }
     }
 
     public class ApplicationMap : ClassMap<Application>
@@ -35,6 +37,7 @@ namespace HelpRequest.Core.Domain
             Id(x => x.Id);
             Map(x => x.Abbr);
             Map(x => x.ApplicationName);
+            Map(x => x.HideOtherFaq);
         }
     }
 }
