@@ -98,6 +98,26 @@ namespace HelpRequest.Controllers
         public ActionResult Submit(string appName, string subject)
         {
             //return View(TicketViewModel.Create(Repository, CurrentUser, appName));
+            if (!string.IsNullOrEmpty(appName))
+            {
+                if (appName.Contains("appName="))
+                {
+                    appName = appName.Substring(appName.LastIndexOf("appName=") + 8);
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(subject))
+            {
+                var subjectLength = (subject.Trim().Length - 1) / 2;
+                if (subject[subjectLength] == ',')
+                {
+                    var subjectFirst = subject.Substring(0, subjectLength);
+                    var subjectLast = subject.Substring(subjectLength + 1);
+                    if (subjectFirst == subjectLast)
+                    {
+                        subject = subjectLast;
+                    }
+                }
+            }
             return View(TicketViewModel.Create(Repository.OfType<Application>(), CurrentUser, appName, subject));
         }
 
