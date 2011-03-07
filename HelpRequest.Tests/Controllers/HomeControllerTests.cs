@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using HelpRequest.Controllers;
+using HelpRequest.Controllers.Filters;
 using HelpRequest.Controllers.ViewModels;
 using HelpRequest.Core.Domain;
 using HelpRequest.Tests.Core.Extensions;
@@ -463,10 +464,10 @@ namespace HelpRequest.Tests.Controllers
         }
 
         /// <summary>
-        /// Tests the controller has only two attributes.
+        /// Tests the controller has only 3 attributes.
         /// </summary>
         [TestMethod]
-        public void TestControllerHasOnlyTwoAttributes()
+        public void TestControllerHasOnlyThreeAttributes()
         {
             #region Arrange
             var controllerClass = _controllerClass;
@@ -477,7 +478,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(2, result.Count());
+            Assert.AreEqual(3, result.Count());
             #endregion Assert
         }
 
@@ -519,6 +520,21 @@ namespace HelpRequest.Tests.Controllers
             #endregion Assert
         }
 
+        [TestMethod]
+        public void TestControllerHasVersionAttribute()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            #endregion Arrange
+
+            #region Act
+            var result = controllerClass.GetCustomAttributes(true).OfType<VersionAttribute>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsTrue(result.Count() > 0, "VersionAttribute not found.");
+            #endregion Assert
+        }
         #endregion Controller Class Tests
 
         #region Controller Method Tests

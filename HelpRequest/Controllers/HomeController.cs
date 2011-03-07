@@ -5,9 +5,11 @@ using HelpRequest.Core.Domain;
 using UCDArch.Core.PersistanceSupport;
 using UCDArch.Web.Controller;
 using MvcContrib;
+using HelpRequest.Controllers.Filters;
 
 namespace HelpRequest.Controllers
-{
+{   
+    [Version]
     public class HomeController : SuperController
     {
         public IRepository<CatbertApplication> CatbertApplicationRepository;

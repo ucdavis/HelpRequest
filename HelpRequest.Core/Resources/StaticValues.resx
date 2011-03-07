@@ -210,4 +210,7 @@
   <data name="STR_App_TPS" xml:space="preserve">
     <value>TPS3</value>
   </data>
+  <data name="VersionKey" xml:space="preserve">
+    <value>VersionKey</value>
+  </data>
 </root>

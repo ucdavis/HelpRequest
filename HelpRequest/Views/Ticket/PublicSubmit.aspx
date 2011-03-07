@@ -8,7 +8,8 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Submit Help Ticket</h2>
+    <h2>Submit Help Ticket to College of Agricultural and Environmental Sciences Dean's Office</h2>
+    <h3>Computing Resources Unit</h3>
     
     <%= Html.ValidationSummary("Create was unsuccessful. Please correct the errors and try again.") %>
     <%= Html.ClientSideValidation<Ticket>("Ticket") %>
