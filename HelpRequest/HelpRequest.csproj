@@ -183,6 +183,9 @@
     <Compile Include="RouteConfigurator.asax.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AppSettings.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Content\2009.3.1103.0\Black\loading.gif" />
     <Content Include="Content\2009.3.1103.0\Black\sprite.png" />
     <Content Include="Content\2009.3.1103.0\Default\loading.gif" />
@@ -543,6 +546,7 @@
     </Content>
     <Content Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
