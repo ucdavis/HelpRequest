@@ -5,7 +5,7 @@ using UCDArch.Web.Controller;
 
 namespace HelpRequest.Controllers
 {
-    public class AccountController : SuperController
+    public class AccountController : ApplicationController
     {
         public ActionResult LogOn(string appName, string subject)
         {

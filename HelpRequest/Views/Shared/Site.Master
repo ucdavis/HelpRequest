@@ -39,6 +39,7 @@
 </head>
 
 <body>
+<%:Html.Partial("SystemMessage") %>
 <div id="brand_bar">
 <div id="brand_bar_content">                    
 

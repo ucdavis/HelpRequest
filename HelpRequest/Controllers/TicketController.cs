@@ -15,7 +15,7 @@ using UCDArch.Web.Validator;
 
 namespace HelpRequest.Controllers
 {
-    public class TicketController : SuperController
+    public class TicketController : ApplicationController
     {
         private readonly IEmailProvider _emailProvider;
         private readonly ITicketControllerService _ticketControllerService;

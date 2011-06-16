@@ -12,7 +12,7 @@ using UCDArch.Web.Helpers;
 
 namespace HelpRequest.Controllers
 {
-    public class HelpController : SuperController
+    public class HelpController : ApplicationController
     {
         public IRepository<HelpTopic> HelpTopicRepository;
         public IRepository<Application> ApplicationRepository;

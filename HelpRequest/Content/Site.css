@@ -117,6 +117,8 @@ page width. Or, you can specify an exact pixel width. */
     _height: 1px; /* only IE6 applies CSS properties starting with an underscrore */
 }
 
+
+
 #footer
 {
     color: #999;
@@ -374,3 +376,10 @@ body {color:#1c1f22; background-color:#f8f8f8;}
 	background-color: #F8F8F8;
 	color: gray;
 }
+
+/* ---------------- */
+/*system wide status*/
+/* ---------------- */
+#system_wide_status_text {margin:0.5em auto; text-align:center;}
+#system_wide_status_text .critical {font-weight:bolder; color:Red; font-size:1.5em;}
+#system_wide_status {border:3px solid #C83900; background-color:#fcf0f0;}

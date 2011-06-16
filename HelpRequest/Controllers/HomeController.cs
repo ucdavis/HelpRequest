@@ -10,7 +10,7 @@ using HelpRequest.Controllers.Filters;
 namespace HelpRequest.Controllers
 {   
     [Version]
-    public class HomeController : SuperController
+    public class HomeController : ApplicationController
     {
         public IRepository<CatbertApplication> CatbertApplicationRepository;
 
@@ -92,6 +92,14 @@ namespace HelpRequest.Controllers
                 }
             }
             return this.RedirectToAction(a => a.Index(appName, subject));
+        }
+
+        [AdminOnly]
+        public ActionResult ResetCache()
+        {
+            HttpContext.Cache.Remove("ServiceMessages");
+
+            return this.RedirectToAction(a => a.Index(null, null));
         }
     }
 }
