@@ -94,6 +94,10 @@ namespace HelpRequest.Controllers
             return this.RedirectToAction(a => a.Index(appName, subject));
         }
 
+        /// <summary>
+        /// #5
+        /// </summary>
+        /// <returns></returns>
         [AdminOnly]
         public ActionResult ResetCache()
         {

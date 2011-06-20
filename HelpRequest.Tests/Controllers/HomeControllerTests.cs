@@ -78,6 +78,13 @@ namespace HelpRequest.Tests.Controllers
         {
             "~/Home/AuthorizedHome/?appName=Test".ShouldMapTo<HomeController>(a => a.AuthorizedHome("Test", "SubjectLine"), true);
         }
+
+        [TestMethod]
+        public void TestResetCacheMapping()
+        {
+            "~/Home/ResetCache/".ShouldMapTo<HomeController>(a => a.ResetCache());
+        }
+
         #endregion Mapping Tests
 
         #region Index Tests
@@ -447,7 +454,7 @@ namespace HelpRequest.Tests.Controllers
         /// Tests the controller inherits from super controller.
         /// </summary>
         [TestMethod]
-        public void TestControllerInheritsFromSuperController()
+        public void TestControllerInheritsFromApplicationController()
         {
             #region Arrange
             var controllerClass = _controllerClass;
@@ -459,7 +466,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Act
 
             #region Assert
-            Assert.AreEqual("SuperController", result);
+            Assert.AreEqual("ApplicationController", result);
             #endregion Assert
         }
 
@@ -478,7 +485,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(3, result.Count());
+            Assert.AreEqual(4, result.Count());
             #endregion Assert
         }
 
@@ -554,7 +561,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(4, result.Count(), "It looks like a method was added or removed from the controller.");
+            Assert.AreEqual(5, result.Count(), "It looks like a method was added or removed from the controller.");
             #endregion Assert
         }
 
@@ -639,6 +646,28 @@ namespace HelpRequest.Tests.Controllers
 
             #region Assert
             Assert.AreEqual(1, expectedAttribute.Count(), "AuthorizeAttribute not found");
+            Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// #5
+        /// </summary>
+        [TestMethod]
+        public void TestControllerMethodResetCacheContainsExpectedAttributes()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            var controllerMethod = controllerClass.GetMethod("ResetCache");
+            #endregion Arrange
+
+            #region Act
+            var expectedAttribute = controllerMethod.GetCustomAttributes(true).OfType<AdminOnlyAttribute>();
+            var allAttributes = controllerMethod.GetCustomAttributes(true);
+            #endregion Act
+
+            #region Assert
+            Assert.AreEqual(1, expectedAttribute.Count(), "AdminOnlyAttribute not found");
             Assert.AreEqual(1, allAttributes.Count(), "More than expected custom attributes found.");
             #endregion Assert
         }

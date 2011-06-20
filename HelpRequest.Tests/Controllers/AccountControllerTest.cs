@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using HelpRequest.Controllers;
+using HelpRequest.Controllers.Helpers;
 using HelpRequest.Tests.Core.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcContrib.TestHelper;
@@ -58,10 +59,10 @@ namespace HelpRequest.Tests.Controllers
         #region Controller Class Tests
 
         /// <summary>
-        /// Tests the controller inherits from super controller.
+        /// Tests the controller inherits from application controller.
         /// </summary>
         [TestMethod]
-        public void TestControllerInheritsFromSuperController()
+        public void TestControllerInheritsFromApplicationrController()
         {
             #region Arrange
             var controllerClass = _controllerClass;
@@ -73,15 +74,15 @@ namespace HelpRequest.Tests.Controllers
             #endregion Act
 
             #region Assert
-            Assert.AreEqual("SuperController", result);
+            Assert.AreEqual("ApplicationController", result);
             #endregion Assert
         }
 
         /// <summary>
-        /// Tests the controller has only two attributes.
+        /// Tests the controller has three attributes.
         /// </summary>
         [TestMethod]
-        public void TestControllerHasOnlyTwoAttributes()
+        public void TestControllerHasThreeAttributes()
         {
             #region Arrange
             var controllerClass = _controllerClass;
@@ -92,7 +93,7 @@ namespace HelpRequest.Tests.Controllers
             #endregion Act
 
             #region Assert
-            Assert.AreEqual(2, result.Count());
+            Assert.AreEqual(3, result.Count());
             #endregion Assert
         }
 
@@ -131,6 +132,22 @@ namespace HelpRequest.Tests.Controllers
 
             #region Assert
             Assert.IsTrue(result.Count() > 0, "UseAntiForgeryTokenOnPostByDefault not found.");
+            #endregion Assert
+        }
+
+        [TestMethod]
+        public void TestControllerHasLocServiceMessageAttribute()
+        {
+            #region Arrange
+            var controllerClass = _controllerClass;
+            #endregion Arrange
+
+            #region Act
+            var result = controllerClass.GetCustomAttributes(true).OfType<LocServiceMessageAttribute>();
+            #endregion Act
+
+            #region Assert
+            Assert.IsTrue(result.Count() > 0, "LocServiceMessageAttribute not found.");
             #endregion Assert
         }
 
