@@ -3,10 +3,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <PostUpgradeAddToSCC>;C:\Projects\HelpRequest\DB\HelpRequest.DB.dbproj;C:\Projects\HelpRequest\DB\Connections.txt;C:\Projects\HelpRequest\DB\Scripts\Post-Deployment\Script.PostDeployment.sql;C:\Projects\HelpRequest\DB\Scripts\Pre-Deployment\Script.PreDeployment.sql</PostUpgradeAddToSCC>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>
+    </SccProvider>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProjectName>
+    </SccProjectName>
     <PreviousProjectVersion>4.0</PreviousProjectVersion>
     <UpgradedFromDBP>True</UpgradedFromDBP>
     <Name>dbpProjectName</Name>

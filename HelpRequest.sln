@@ -51,24 +51,6 @@ EndProject
 Project("{C8D11400-126E-41CD-887F-60BD40844F9E}") = "HelpRequest.DB", "DB\HelpRequest.DB.dbproj", "{67CBC824-A49E-4E9B-A947-360F3DFE65C3}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.caes.ucdavis.edu:8088/tfs/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = HelpRequest.Core\\HelpRequest.Core.csproj
-		SccProjectName1 = HelpRequest.Core
-		SccLocalPath1 = HelpRequest.Core
-		SccProjectUniqueName2 = HelpRequest.Tests\\HelpRequest.Tests.csproj
-		SccProjectName2 = HelpRequest.Tests
-		SccLocalPath2 = HelpRequest.Tests
-		SccProjectUniqueName3 = HelpRequest\\HelpRequest.csproj
-		SccProjectName3 = HelpRequest
-		SccLocalPath3 = HelpRequest
-		SccProjectUniqueName4 = DB\\HelpRequest.DB.dbproj
-		SccProjectName4 = DB
-		SccLocalPath4 = DB
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Prod|Any CPU = Prod|Any CPU
