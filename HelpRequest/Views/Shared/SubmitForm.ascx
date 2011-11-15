@@ -137,6 +137,9 @@
                 </li>
             </span>
             <span id="ForApplication" style="display: none">
+
+                <div style="width: 400px; padding-left: 250px; margin-top: -23px;">If the Application that you need help with is not listed below, choose <strong>Computer Support</strong> instead. Otherwise a response to your ticket may be delayed until your ticket can be routed to the correct department.</div>
+          
                 <li>
                     <label for="Ticket.ForApplication">For Application:</label>
                     <%--<%= Html.TextBox("Ticket.ForApplication", Model.AppName, new { style = "width: 500px" })%>--%>

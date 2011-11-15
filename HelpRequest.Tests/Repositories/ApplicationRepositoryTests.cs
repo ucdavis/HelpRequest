@@ -537,6 +537,57 @@ namespace HelpRequest.Tests.Repositories
 
         #endregion HideOtherFaq Tests
 
+        #region HideFromList Tests
+
+        /// <summary>
+        /// Tests the HideFromList is false saves.
+        /// </summary>
+        [TestMethod]
+        public void TestHideFromListIsFalseSaves()
+        {
+            #region Arrange
+            Application application = GetValid(9);
+            application.HideFromList = false;
+            #endregion Arrange
+
+            #region Act
+            ApplicationRepository.DbContext.BeginTransaction();
+            ApplicationRepository.EnsurePersistent(application);
+            ApplicationRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsFalse(application.HideFromList);
+            Assert.IsFalse(application.IsTransient());
+            Assert.IsTrue(application.IsValid());
+            #endregion Assert
+        }
+
+        /// <summary>
+        /// Tests the HideFromList is true saves.
+        /// </summary>
+        [TestMethod]
+        public void TestHideFromListIsTrueSaves()
+        {
+            #region Arrange
+            var application = GetValid(9);
+            application.HideFromList = true;
+            #endregion Arrange
+
+            #region Act
+            ApplicationRepository.DbContext.BeginTransaction();
+            ApplicationRepository.EnsurePersistent(application);
+            ApplicationRepository.DbContext.CommitTransaction();
+            #endregion Act
+
+            #region Assert
+            Assert.IsTrue(application.HideFromList);
+            Assert.IsFalse(application.IsTransient());
+            Assert.IsTrue(application.IsValid());
+            #endregion Assert
+        }
+
+        #endregion HideFromList Tests
 
 
         #region FluentMapping Tests
@@ -599,6 +650,7 @@ namespace HelpRequest.Tests.Repositories
                  "[NHibernate.Validator.Constraints.LengthAttribute((Int32)50)]", 
                  "[UCDArch.Core.NHibernateValidator.Extensions.RequiredAttribute()]"
             }));
+            expectedFields.Add(new NameAndType("HideFromList", "System.Boolean", new List<string>()));
             expectedFields.Add(new NameAndType("HideOtherFaq", "System.Boolean", new List<string>()));
             expectedFields.Add(new NameAndType("Id", "System.Int32", new List<string>
             {
