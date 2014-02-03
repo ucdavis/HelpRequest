@@ -51,21 +51,36 @@
 	        $("input#Ticket_LocationOfProblem").bt('The location of the problem in case we need to physically investigate', {positions: 'right' });
 	        $("input#uploadAttachment").bt('The maximum attachment size is 4 Meg.');
             
-	        if ($("select#Ticket_SupportDepartment").val() == "Web Site Support") {
-	            $("input#Ticket_ForWebSite").addClass("required");
-	            $("span#ForWebSite").show();
-	            $("input#Ticket_YourPhoneNumber").removeClass("required");
-	        }
-	        if ($("select#Ticket_SupportDepartment").val() == "Programming Support") {
-	            $("span#ForApplication").show();
-	            $("input#Ticket_ForWebSite").removeClass("required");
-	            $("input#Ticket_YourPhoneNumber").removeClass("required");
-	        }
-	        if ($("select#Ticket_SupportDepartment").val() == "Computer Support") {
-	        	$("input#Ticket_YourPhoneNumber").addClass("required");
-	        	$("span#ForComputerSupport").show();
-	        	$("input#Ticket_ForWebSite").removeClass("required");
-	        }
+	            switch ($("select#Ticket_SupportDepartment").val()) {
+	            case "Web Site Support":
+	                $("span#ForApplication").hide();
+	                $("span#ForComputerSupport").hide();
+	                $("span#ForWebSite").show();
+	                $("input#Ticket_ForWebSite").addClass("required");
+	                $("input#Ticket_YourPhoneNumber").removeClass("required");
+	                break;
+	            case "Programming Support":
+	                $("span#ForWebSite").hide();
+	                $("span#ForComputerSupport").hide();
+	                $("span#ForApplication").show();
+	                $("input#Ticket_ForWebSite").removeClass("required");
+	                $("input#Ticket_YourPhoneNumber").removeClass("required");
+	                break;
+	            case "Computer Support":
+	                $("span#ForWebSite").hide();
+	                $("span#ForApplication").hide();
+	                $("span#ForComputerSupport").show();
+	                $("input#Ticket_ForWebSite").removeClass("required");
+	                $("input#Ticket_YourPhoneNumber").addClass("required");
+	                break;
+	            default:
+	                $("span#ForWebSite").hide();
+	                $("span#ForApplication").hide();
+	                $("span#ForComputerSupport").hide();
+	                $("input#Ticket_ForWebSite").removeClass("required");
+	                $("input#Ticket_YourPhoneNumber").removeClass("required");
+	                break;	                
+	            }
 	        $("select#Ticket_SupportDepartment").change(function(event) {
 	            switch ($("select#Ticket_SupportDepartment").val()) {
 	            case "Web Site Support":
@@ -178,7 +193,7 @@
                  <li>
                     <label for="Ticket.Subject">Your Phone Number:</label>
                     <%=Html.TextBox("Ticket.YourPhoneNumber", Model != null && Model.Ticket != null ? Model.Ticket.YourPhoneNumber : string.Empty)%>
-                    <%= Html.ValidationMessage("Ticket.YourPhoneNumber")%>
+                    <%= Html.ValidationMessage("Ticket.ForComputerSupport")%>
                 </li>
                  <li>
                     <label for="Ticket.Subject">Location:</label>

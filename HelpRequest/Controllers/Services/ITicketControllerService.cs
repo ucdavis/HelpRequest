@@ -105,6 +105,13 @@ namespace HelpRequest.Controllers.Services
                     modelState.AddModelError("Ticket.ForApplication", "For Programming Support you must pick the program from the list.");
                 }
             }
+            else if (ticket.SupportDepartment == StaticValues.STR_ComputerSupport)
+            {
+                if (string.IsNullOrWhiteSpace(ticket.YourPhoneNumber))
+                {
+                    modelState.AddModelError("Ticket.ForComputerSupport", "For Computer Support you must enter a phone number.");
+                }
+            }
 
             if (!string.IsNullOrEmpty(availableDatesInput))
             {

@@ -32,9 +32,10 @@
             <% Html.RenderPartial("~/Views/Shared/SubmitForm.ascx"); %>
             </ul>
             </div>
-            <p>
+            <fieldset>
+                <legend>If you don't see a recaptcha field here, you may need to enable it <br/>for your browser or use your Kerberous login instead.</legend>
                 <%= Html.GenerateCaptcha() %>
-            </p>
+            </fieldset>
             <p>
                 <input type="submit" value="Send Ticket" />
             </p>
