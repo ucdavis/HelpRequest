@@ -14,7 +14,7 @@
 	            $("input#availableDatesInput").val("");
 	        });
 
-	        $("input#availableDatesInput").bt('You must click the plus button to add more dates. Double click the added item to remove it.', {positions: 'top' });
+	        $("input#availableDatesInput").bt('You must click the plus button to add more dates. Double click the added item to remove it.', {positions: 'top' });	        
 	        $("input#avDates").click(function(event) {
 	            $(this).remove();
 	        });
@@ -47,32 +47,57 @@
                 <%}%>
 	        <%}%>
 	        $("input#Ticket_ForWebSite").bt('You need the http:// or https:// at the start for a valid URL. For example: http://www.ucdavis.edu/index.html');
+	        $("input#Ticket_YourPhoneNumber").bt('Call back phone number so we can contact you directly.', {positions: 'right' });
+	        $("input#Ticket_LocationOfProblem").bt('The location of the problem in case we need to physically investigate', {positions: 'right' });
 	        $("input#uploadAttachment").bt('The maximum attachment size is 4 Meg.');
             
 	        if ($("select#Ticket_SupportDepartment").val() == "Web Site Support") {
 	            $("input#Ticket_ForWebSite").addClass("required");
 	            $("span#ForWebSite").show();
+	            $("input#Ticket_YourPhoneNumber").removeClass("required");
 	        }
 	        if ($("select#Ticket_SupportDepartment").val() == "Programming Support") {
 	            $("span#ForApplication").show();
 	            $("input#Ticket_ForWebSite").removeClass("required");
+	            $("input#Ticket_YourPhoneNumber").removeClass("required");
+	        }
+	        if ($("select#Ticket_SupportDepartment").val() == "Computer Support") {
+	        	$("input#Ticket_YourPhoneNumber").addClass("required");
+	        	$("span#ForComputerSupport").show();
+	        	$("input#Ticket_ForWebSite").removeClass("required");
 	        }
 	        $("select#Ticket_SupportDepartment").change(function(event) {
-	            if ($("select#Ticket_SupportDepartment").val() == "Web Site Support") {
+	            switch ($("select#Ticket_SupportDepartment").val()) {
+	            case "Web Site Support":
+	                $("span#ForApplication").hide();
+	                $("span#ForComputerSupport").hide();
 	                $("span#ForWebSite").show();
 	                $("input#Ticket_ForWebSite").addClass("required");
-	            }
-	            else {
+	                $("input#Ticket_YourPhoneNumber").removeClass("required");
+	                break;
+	            case "Programming Support":
 	                $("span#ForWebSite").hide();
-	                $("input#Ticket_ForWebSite").removeClass("required");
-	            }
-	            if ($("select#Ticket_SupportDepartment").val() == "Programming Support") {
+	                $("span#ForComputerSupport").hide();
 	                $("span#ForApplication").show();
 	                $("input#Ticket_ForWebSite").removeClass("required");
+	                $("input#Ticket_YourPhoneNumber").removeClass("required");
+	                break;
+	            case "Computer Support":
+	                $("span#ForWebSite").hide();
+	                $("span#ForApplication").hide();
+	                $("span#ForComputerSupport").show();
+	                $("input#Ticket_ForWebSite").removeClass("required");
+	                $("input#Ticket_YourPhoneNumber").addClass("required");
+	                break;
+	            default:
+	                $("span#ForWebSite").hide();
+	                $("span#ForApplication").hide();
+	                $("span#ForComputerSupport").hide();
+	                $("input#Ticket_ForWebSite").removeClass("required");
+	                $("input#Ticket_YourPhoneNumber").removeClass("required");
+	                break;	                
 	            }
-	            else {
-	                $("span#ForApplication").hide();	                
-	            }
+	            	            
 	        });
 	        
             // do some client side validation on the dynamic fields
@@ -148,6 +173,20 @@
                     <%= Html.ValidationMessage("Ticket.ForApplication")%>
                 </li>
             </span>
+            
+            <span id="ForComputerSupport" style="display: none">
+                 <li>
+                    <label for="Ticket.Subject">Your Phone Number:</label>
+                    <%=Html.TextBox("Ticket.YourPhoneNumber", Model != null && Model.Ticket != null ? Model.Ticket.YourPhoneNumber : string.Empty)%>
+                    <%= Html.ValidationMessage("Ticket.YourPhoneNumber")%>
+                </li>
+                 <li>
+                    <label for="Ticket.Subject">Location:</label>
+                    <%=Html.TextBox("Ticket.LocationOfProblem", Model != null && Model.Ticket != null ? Model.Ticket.LocationOfProblem : string.Empty, new {style = "width: 500px"})%>
+                    <%= Html.ValidationMessage("Ticket.LocationOfProblem")%>
+                </li>
+            </span>
+
             <li>
             <label for="availableDatesInput">Your Available Dates and Times:</label>            
             <input type="text" id="availableDatesInput" name="availableDatesInput"/>  <img id="availableDatesAddButton" src="<%= Url.Content("~/Images/plus.png") %>" style="height:15px; width: 15px" />
@@ -163,11 +202,7 @@
             
             </div>
             </li>
-            <li>
-                <label for="Ticket.Subject">Your Phone Number:</label>
-                <%=Html.TextBox("Ticket.YourPhoneNumber", Model != null && Model.Ticket != null ? Model.Ticket.Subject : string.Empty)%>
-                <%= Html.ValidationMessage("Ticket.YourPhoneNumber")%>
-            </li>
+
 
             <li>
             <label for="emailCCsInput">Carbon Copies:</label>            

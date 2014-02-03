@@ -34,8 +34,8 @@ namespace HelpRequest.Core.Domain
         public virtual string ForApplication { get; set; }
         public virtual string ForWebSite { get; set; }
 
-        [Required(Message = "You must enter your Phone Number")]
         public virtual string YourPhoneNumber { get; set; }
+        public virtual string LocationOfProblem { get; set; }
         
         [Required(Message = "You must enter the Subject.")]
         //[DisplayName("Subject:")]
@@ -67,6 +67,7 @@ namespace HelpRequest.Core.Domain
             Map(x => x.ForWebSite);
             Map(x => x.EmailCCs);
             Map(x => x.YourPhoneNumber);
+            Map(x => x.LocationOfProblem);
 
             References(x => x.User).Column("UserId").Cascade.None();
             HasMany(x => x.Attachments).Table("AttachmentDoesNotExist").Cascade.AllDeleteOrphan();

@@ -105,6 +105,7 @@ namespace HelpRequest.Controllers.Services
                     modelState.AddModelError("Ticket.ForApplication", "For Programming Support you must pick the program from the list.");
                 }
             }
+
             if (!string.IsNullOrEmpty(availableDatesInput))
             {
                 ticket.Availability.Add(availableDatesInput);
@@ -268,7 +269,14 @@ namespace HelpRequest.Controllers.Services
                     bodyBuilder.AppendLine("   " + availableDate);
                 }
             }
-            bodyBuilder.AppendLine(string.Format("Contact Phone Number : {0}", ticket.YourPhoneNumber));
+            if(!string.IsNullOrWhiteSpace(ticket.YourPhoneNumber) && ticket.SupportDepartment == StaticValues.STR_ComputerSupport)
+            {
+                bodyBuilder.AppendLine(string.Format("Contact Phone Number : {0}", ticket.YourPhoneNumber));
+            }
+            if (!string.IsNullOrWhiteSpace(ticket.LocationOfProblem) && ticket.SupportDepartment == StaticValues.STR_ComputerSupport)
+            {
+                bodyBuilder.AppendLine(string.Format("Location             : {0}", ticket.LocationOfProblem));
+            }
             bodyBuilder.AppendLine("");
             bodyBuilder.AppendLine("");
             bodyBuilder.AppendLine("Supplied Message Body :");
