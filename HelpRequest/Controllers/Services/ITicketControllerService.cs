@@ -268,6 +268,7 @@ namespace HelpRequest.Controllers.Services
                     bodyBuilder.AppendLine("   " + availableDate);
                 }
             }
+            bodyBuilder.AppendLine(string.Format("Contact Phone Number : {0}", ticket.YourPhoneNumber));
             bodyBuilder.AppendLine("");
             bodyBuilder.AppendLine("");
             bodyBuilder.AppendLine("Supplied Message Body :");

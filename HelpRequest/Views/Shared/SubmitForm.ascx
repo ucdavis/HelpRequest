@@ -164,6 +164,12 @@
             </div>
             </li>
             <li>
+                <label for="Ticket.Subject">Your Phone Number:</label>
+                <%=Html.TextBox("Ticket.YourPhoneNumber", Model != null && Model.Ticket != null ? Model.Ticket.Subject : string.Empty)%>
+                <%= Html.ValidationMessage("Ticket.YourPhoneNumber")%>
+            </li>
+
+            <li>
             <label for="emailCCsInput">Carbon Copies:</label>            
             <input type="text" id="emailCCsInput" name="emailCCsInput" style = "width: 300px"/>  <img id="emailCCsInputAddButton" src="<%= Url.Content("~/Images/plus.png") %>" style="height:15px; width: 15px" />
             </li>
