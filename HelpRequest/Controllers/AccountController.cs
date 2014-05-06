@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 using System.Web.Security;
-using UCDArch.Web.Authentication;
+using HelpRequest.Controllers.Helpers;
 using UCDArch.Web.Controller;
 
 namespace HelpRequest.Controllers
