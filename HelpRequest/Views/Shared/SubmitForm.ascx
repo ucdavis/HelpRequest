@@ -156,7 +156,7 @@
             <%= Html.HiddenFor(a => a.AppName) %>
 	        <li>
                 <label for="Ticket.UrgencyLevel">Urgency Level:</label>  
-                <%= this.Select("Ticket.UrgencyLevel").Options(Model.Urgency).FirstOption("--Select a Urgency Level--")
+                <%= this.Select("Ticket.UrgencyLevel").Options(Model.Urgency)
                         .Selected(Model.Ticket != null ? Model.Ticket.UrgencyLevel : string.Empty)%>
                 <%= Html.ValidationMessage("Ticket.UrgencyLevel")%>
             </li>
