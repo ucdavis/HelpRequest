@@ -37,10 +37,10 @@
 
 	        $("select#Ticket_UrgencyLevel").bt('<b>Non-Critical Issue:</b> Annoyances or other low priority requests.<br/><b>Scheduled Requests:</b> Heads up for future action.<br/><b>Workaround Available:</b> Alternative solutions exist to technical problem.<br/><b>Work Stoppages:</b> A technical problem preventing you from getting your job done.<br/><b>Critical:</b> A work stoppage for more than one person. ', { width: '550px' });
 	        <%if(string.IsNullOrEmpty(Model.AppName)) {%>
-	            $("select#Ticket_SupportDepartment").bt('<b>Computer Support:</b> (Tom Pomroy, Shuka Smith, Uwe Rossbach, Student Assistants)<br/><b>Web Site Support:</b> (Tyler Randles and Trish Ang)<br/><b>Programming Support:</b> (Scott Kirkland, Alan Lai, Ken Taylor, Jason Sylvestre)', { width: '550px' });
+	            $("select#Ticket_SupportDepartment").bt('<b>Computer Support:</b> (Tom Pomroy, Shuka Smith, Uwe Rossbach, Student Assistants)<br/><b>Web Site Support:</b> (Calvin Doval and Trish Ang)<br/><b>Programming Support:</b> (Scott Kirkland, John Knoll, Ken Taylor, Jason Sylvestre)', { width: '550px' });
 	        <%} %>
             <%else{%>
-	            $("select#Ticket_SupportDepartment").bt('<b>Programming Support:</b> (Scott Kirkland, Alan Lai, Ken Taylor, Jason Sylvestre)', { width: '550px' });
+	            $("select#Ticket_SupportDepartment").bt('<b>Programming Support:</b> (Scott Kirkland, John Knoll, Ken Taylor, Jason Sylvestre)', { width: '550px' });
                 $("input#Ticket_ForApplication").attr('readonly', true).addClass("ReadOnly");
                 <%if(!string.IsNullOrWhiteSpace(Model.PassedSubject)) {%>                    
                     $("input#Ticket_Subject").attr('readonly', true).addClass("ReadOnly");
