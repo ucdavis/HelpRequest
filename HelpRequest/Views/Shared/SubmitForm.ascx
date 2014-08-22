@@ -37,10 +37,10 @@
 
 	        $("select#Ticket_UrgencyLevel").bt('<b>Non-Critical Issue:</b> Annoyances or other low priority requests.<br/><b>Scheduled Requests:</b> Heads up for future action.<br/><b>Workaround Available:</b> Alternative solutions exist to technical problem.<br/><b>Work Stoppages:</b> A technical problem preventing you from getting your job done.<br/><b>Critical:</b> A work stoppage for more than one person. ', { width: '550px' });
 	        <%if(string.IsNullOrEmpty(Model.AppName)) {%>
-	            $("select#Ticket_SupportDepartment").bt('<b>Computer Support:</b> (Tom Pomroy, Shuka Smith, Uwe Rossbach, Student Assistants)<br/><b>Web Site Support:</b> (Tyler Randles and Trish Ang)<br/><b>Programming Support:</b> (Scott Kirkland, Alan Lai, Ken Taylor, Jason Sylvestre)', { width: '550px' });
+	            $("select#Ticket_SupportDepartment").bt('<b>Computer Support:</b> (Tom Pomroy, Shuka Smith, Uwe Rossbach, Student Assistants)<br/><b>Web Site Support:</b> (Calvin Doval and Trish Ang)<br/><b>Programming Support:</b> (Scott Kirkland, John Knoll, Ken Taylor, Jason Sylvestre)', { width: '550px' });
 	        <%} %>
             <%else{%>
-	            $("select#Ticket_SupportDepartment").bt('<b>Programming Support:</b> (Scott Kirkland, Alan Lai, Ken Taylor, Jason Sylvestre)', { width: '550px' });
+	            $("select#Ticket_SupportDepartment").bt('<b>Programming Support:</b> (Scott Kirkland, John Knoll, Ken Taylor, Jason Sylvestre)', { width: '550px' });
                 $("input#Ticket_ForApplication").attr('readonly', true).addClass("ReadOnly");
                 <%if(!string.IsNullOrWhiteSpace(Model.PassedSubject)) {%>                    
                     $("input#Ticket_Subject").attr('readonly', true).addClass("ReadOnly");
@@ -58,6 +58,7 @@
 	                $("span#ForWebSite").show();
 	                $("input#Ticket_ForWebSite").addClass("required");
 	                $("input#Ticket_YourPhoneNumber").removeClass("required");
+	                $("span#available-dates-container").show();
 	                break;
 	            case "Programming Support":
 	                $("span#ForWebSite").hide();
@@ -65,6 +66,7 @@
 	                $("span#ForApplication").show();
 	                $("input#Ticket_ForWebSite").removeClass("required");
 	                $("input#Ticket_YourPhoneNumber").removeClass("required");
+	                $("span#available-dates-container").hide();
 	                break;
 	            case "Computer Support":
 	                $("span#ForWebSite").hide();
@@ -72,6 +74,7 @@
 	                $("span#ForComputerSupport").show();
 	                $("input#Ticket_ForWebSite").removeClass("required");
 	                $("input#Ticket_YourPhoneNumber").addClass("required");
+	                $("span#available-dates-container").show();
 	                break;
 	            default:
 	                $("span#ForWebSite").hide();
@@ -79,6 +82,7 @@
 	                $("span#ForComputerSupport").hide();
 	                $("input#Ticket_ForWebSite").removeClass("required");
 	                $("input#Ticket_YourPhoneNumber").removeClass("required");
+	                $("span#available-dates-container").show();
 	                break;	                
 	            }
 	        $("select#Ticket_SupportDepartment").change(function(event) {
@@ -89,6 +93,7 @@
 	                $("span#ForWebSite").show();
 	                $("input#Ticket_ForWebSite").addClass("required");
 	                $("input#Ticket_YourPhoneNumber").removeClass("required");
+	                $("span#available-dates-container").show();
 	                break;
 	            case "Programming Support":
 	                $("span#ForWebSite").hide();
@@ -96,6 +101,7 @@
 	                $("span#ForApplication").show();
 	                $("input#Ticket_ForWebSite").removeClass("required");
 	                $("input#Ticket_YourPhoneNumber").removeClass("required");
+	                $("span#available-dates-container").hide();
 	                break;
 	            case "Computer Support":
 	                $("span#ForWebSite").hide();
@@ -103,6 +109,7 @@
 	                $("span#ForComputerSupport").show();
 	                $("input#Ticket_ForWebSite").removeClass("required");
 	                $("input#Ticket_YourPhoneNumber").addClass("required");
+	                $("span#available-dates-container").show();
 	                break;
 	            default:
 	                $("span#ForWebSite").hide();
@@ -110,6 +117,7 @@
 	                $("span#ForComputerSupport").hide();
 	                $("input#Ticket_ForWebSite").removeClass("required");
 	                $("input#Ticket_YourPhoneNumber").removeClass("required");
+	                $("span#available-dates-container").show();
 	                break;	                
 	            }
 	            	            
@@ -148,7 +156,7 @@
             <%= Html.HiddenFor(a => a.AppName) %>
 	        <li>
                 <label for="Ticket.UrgencyLevel">Urgency Level:</label>  
-                <%= this.Select("Ticket.UrgencyLevel").Options(Model.Urgency).FirstOption("--Select a Urgency Level--")
+                <%= this.Select("Ticket.UrgencyLevel").Options(Model.Urgency)
                         .Selected(Model.Ticket != null ? Model.Ticket.UrgencyLevel : string.Empty)%>
                 <%= Html.ValidationMessage("Ticket.UrgencyLevel")%>
             </li>
@@ -201,7 +209,8 @@
                     <%= Html.ValidationMessage("Ticket.LocationOfProblem")%>
                 </li>
             </span>
-
+            
+            <span id="available-dates-container">
             <li>
             <label for="availableDatesInput">Your Available Dates and Times:</label>            
             <input type="text" id="availableDatesInput" name="availableDatesInput"/>  <img id="availableDatesAddButton" src="<%= Url.Content("~/Images/plus.png") %>" style="height:15px; width: 15px" />
@@ -217,7 +226,7 @@
             
             </div>
             </li>
-
+            </span>
 
             <li>
             <label for="emailCCsInput">Carbon Copies:</label>            
