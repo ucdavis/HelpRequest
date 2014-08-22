@@ -58,6 +58,7 @@
 	                $("span#ForWebSite").show();
 	                $("input#Ticket_ForWebSite").addClass("required");
 	                $("input#Ticket_YourPhoneNumber").removeClass("required");
+	                $("span#available-dates-container").show();
 	                break;
 	            case "Programming Support":
 	                $("span#ForWebSite").hide();
@@ -65,6 +66,7 @@
 	                $("span#ForApplication").show();
 	                $("input#Ticket_ForWebSite").removeClass("required");
 	                $("input#Ticket_YourPhoneNumber").removeClass("required");
+	                $("span#available-dates-container").hide();
 	                break;
 	            case "Computer Support":
 	                $("span#ForWebSite").hide();
@@ -72,6 +74,7 @@
 	                $("span#ForComputerSupport").show();
 	                $("input#Ticket_ForWebSite").removeClass("required");
 	                $("input#Ticket_YourPhoneNumber").addClass("required");
+	                $("span#available-dates-container").show();
 	                break;
 	            default:
 	                $("span#ForWebSite").hide();
@@ -79,6 +82,7 @@
 	                $("span#ForComputerSupport").hide();
 	                $("input#Ticket_ForWebSite").removeClass("required");
 	                $("input#Ticket_YourPhoneNumber").removeClass("required");
+	                $("span#available-dates-container").show();
 	                break;	                
 	            }
 	        $("select#Ticket_SupportDepartment").change(function(event) {
@@ -89,6 +93,7 @@
 	                $("span#ForWebSite").show();
 	                $("input#Ticket_ForWebSite").addClass("required");
 	                $("input#Ticket_YourPhoneNumber").removeClass("required");
+	                $("span#available-dates-container").show();
 	                break;
 	            case "Programming Support":
 	                $("span#ForWebSite").hide();
@@ -96,6 +101,7 @@
 	                $("span#ForApplication").show();
 	                $("input#Ticket_ForWebSite").removeClass("required");
 	                $("input#Ticket_YourPhoneNumber").removeClass("required");
+	                $("span#available-dates-container").hide();
 	                break;
 	            case "Computer Support":
 	                $("span#ForWebSite").hide();
@@ -103,6 +109,7 @@
 	                $("span#ForComputerSupport").show();
 	                $("input#Ticket_ForWebSite").removeClass("required");
 	                $("input#Ticket_YourPhoneNumber").addClass("required");
+	                $("span#available-dates-container").show();
 	                break;
 	            default:
 	                $("span#ForWebSite").hide();
@@ -110,6 +117,7 @@
 	                $("span#ForComputerSupport").hide();
 	                $("input#Ticket_ForWebSite").removeClass("required");
 	                $("input#Ticket_YourPhoneNumber").removeClass("required");
+	                $("span#available-dates-container").show();
 	                break;	                
 	            }
 	            	            
@@ -201,7 +209,8 @@
                     <%= Html.ValidationMessage("Ticket.LocationOfProblem")%>
                 </li>
             </span>
-
+            
+            <span id="available-dates-container">
             <li>
             <label for="availableDatesInput">Your Available Dates and Times:</label>            
             <input type="text" id="availableDatesInput" name="availableDatesInput"/>  <img id="availableDatesAddButton" src="<%= Url.Content("~/Images/plus.png") %>" style="height:15px; width: 15px" />
@@ -217,7 +226,7 @@
             
             </div>
             </li>
-
+            </span>
 
             <li>
             <label for="emailCCsInput">Carbon Copies:</label>            
