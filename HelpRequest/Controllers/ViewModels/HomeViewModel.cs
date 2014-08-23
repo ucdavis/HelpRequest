@@ -16,14 +16,28 @@ namespace HelpRequest.Controllers.ViewModels
             viewModel.PassedSubject = subject;
             if(!string.IsNullOrEmpty(appName))
             {
-                var catbertApps = catbertApplications.GetAll().ToList();
-                foreach (var catbertApplication in catbertApps)
+                if (appName.ToLower().StartsWith("opp") || appName.ToLower().StartsWith("ace"))
                 {
-                    if (catbertApplication.Abbr != null && catbertApplication.Abbr.ToLower() == appName.ToLower() && !string.IsNullOrEmpty(catbertApplication.Location))
+                    if (appName.ToLower().StartsWith("opp"))
                     {
-                        viewModel.ReturnUrl = catbertApplication.Location;
-                        viewModel.ReturnAppName = catbertApplication.Name;
-                        break;
+                        viewModel.AppName = "PrePurchasing";
+                    }
+                    if (appName.ToLower().StartsWith("ace"))
+                    {
+                        viewModel.AppName = "Ace";
+                    }
+                }
+                else
+                {
+                    var catbertApps = catbertApplications.GetAll().ToList();
+                    foreach (var catbertApplication in catbertApps)
+                    {
+                        if (catbertApplication.Abbr != null && catbertApplication.Abbr.ToLower() == appName.ToLower() && !string.IsNullOrEmpty(catbertApplication.Location))
+                        {
+                            viewModel.ReturnUrl = catbertApplication.Location;
+                            viewModel.ReturnAppName = catbertApplication.Name;
+                            break;
+                        }
                     }
                 }
             }

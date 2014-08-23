@@ -33,7 +33,22 @@ namespace HelpRequest.Controllers
             }
             else
             {
-                ViewData["Message"] = string.Format("Welcome to the Help Request submission form home page for {0}.", appName);
+                if (appName.ToLower().StartsWith("opp"))
+                {
+                    ViewData["Message"] = string.Format("Welcome to the Help Request submission form home page for {0}.", "PrePurchasing"); 
+                }
+                else
+                {
+                    if (appName.ToLower().StartsWith("ace") )
+                    {
+                        ViewData["Message"] = string.Format("Welcome to the Help Request submission form home page for {0}.", "PrePurchasing");
+                    }
+                    else
+                    {
+                        ViewData["Message"] = string.Format("Welcome to the Help Request submission form home page for {0}.", appName);
+                    }
+                }
+                
             }
             return View(HomeViewModel.Create(CatbertApplicationRepository, appName, subject));
         }
