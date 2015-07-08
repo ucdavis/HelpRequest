@@ -107,10 +107,11 @@ namespace HelpRequest.Controllers.Services
             }
             else if (ticket.SupportDepartment == StaticValues.STR_ComputerSupport)
             {
-                if (string.IsNullOrWhiteSpace(ticket.YourPhoneNumber))
-                {
-                    modelState.AddModelError("Ticket.ForComputerSupport", "For Computer Support you must enter a phone number.");
-                }
+                //Was causing problems for some users
+                //if (string.IsNullOrWhiteSpace(ticket.YourPhoneNumber))
+                //{
+                //    modelState.AddModelError("Ticket.ForComputerSupport", "For Computer Support you must enter a phone number.");
+                //}
             }
 
             if (!string.IsNullOrEmpty(availableDatesInput))

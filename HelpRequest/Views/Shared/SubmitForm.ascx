@@ -73,7 +73,7 @@
 	                $("span#ForApplication").hide();
 	                $("span#ForComputerSupport").show();
 	                $("input#Ticket_ForWebSite").removeClass("required");
-	                $("input#Ticket_YourPhoneNumber").addClass("required");
+	                //$("input#Ticket_YourPhoneNumber").addClass("required");
 	                $("span#available-dates-container").show();
 	                break;
 	            default:
@@ -108,7 +108,7 @@
 	                $("span#ForApplication").hide();
 	                $("span#ForComputerSupport").show();
 	                $("input#Ticket_ForWebSite").removeClass("required");
-	                $("input#Ticket_YourPhoneNumber").addClass("required");
+	                //$("input#Ticket_YourPhoneNumber").addClass("required");
 	                $("span#available-dates-container").show();
 	                break;
 	            default:
