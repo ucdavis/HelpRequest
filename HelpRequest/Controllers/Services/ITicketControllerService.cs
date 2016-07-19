@@ -309,11 +309,6 @@ namespace HelpRequest.Controllers.Services
             cruEmail.Add("ssmith@ucdavis.edu".ToLower());
             cruEmail.Add("ssmith@caes.ucdavis.edu".ToLower());
             #endregion Shuka
-            #region Uwe
-            cruEmail.Add("urossbach@ucdavis.edu".ToLower());
-            cruEmail.Add("hi@caes.ucdavis.edu".ToLower());
-            cruEmail.Add("rossbach@caes.ucdavis.edu".ToLower());
-            #endregion Uwe
             if (cruEmail.Contains(emailCc.ToLower()))
             {
                 return true;
