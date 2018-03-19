@@ -34,7 +34,10 @@
             </div>
             <fieldset>
                 <legend>If you don't see a recaptcha field here, you may need to enable it <br/>for your browser or use your Kerberous login instead.</legend>
-                <%= Html.GenerateCaptcha() %>
+
+                    <div class="form-group">
+                        <div class="g-recaptcha" data-sitekey='<%=ConfigurationManager.AppSettings["NewRecaptchaPublicKey"] %>'></div>
+                    </div>
             </fieldset>
             <p>
                 <input type="submit" value="Send Ticket" />
@@ -63,6 +66,7 @@
             });
 	    });
 	</script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
 </asp:Content>
 
 
