@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using System.Net;
 using HelpRequest.Controllers.Filters;
 using HelpRequest.Controllers.Services;
 using HelpRequest.Controllers.ViewModels;
@@ -12,6 +13,7 @@ using HelpRequest.Core.Resources;
 using MvcContrib;
 using UCDArch.Web.Controller;
 using UCDArch.Web.Validator;
+using System.Configuration;
 
 namespace HelpRequest.Controllers
 {
@@ -248,11 +250,19 @@ namespace HelpRequest.Controllers
         /// <param name="availableDatesInput">Non-Array available dates as strings.</param>
         /// <param name="emailCCsInput">Non-Array email Carbon Copy</param>
         /// <returns></returns>
-        [CaptchaValidator]
+        //[CaptchaValidator]
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult PublicSubmit(Ticket ticket, string[] avDates, string[] emailCCs, HttpPostedFileBase uploadAttachment, bool captchaValid, string appName, string passedSubject, string availableDatesInput, string emailCCsInput)
+        public ActionResult PublicSubmit(Ticket ticket, string[] avDates, string[] emailCCs, HttpPostedFileBase uploadAttachment, string appName, string passedSubject, string availableDatesInput, string emailCCsInput)
         {
+            var captchaValid = false;
+            var response = Request.Form["g-Recaptcha-Response"];
+            using (var client = new WebClient())
+            {
+                var text = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", ConfigurationManager.AppSettings["NewRecaptchaPrivateKey"], response));
+                captchaValid = text.Contains("\"success\": true");
+            }
+
             if(!captchaValid)
             {
                 ModelState.AddModelError("Captcha", "Captcha values are not valid.");
