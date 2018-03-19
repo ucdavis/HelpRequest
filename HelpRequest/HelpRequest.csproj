@@ -161,7 +161,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
-    <Compile Include="Controllers\Filters\Recaptcha.cs" />
     <Compile Include="Controllers\Filters\RoleFilter.cs" />
     <Compile Include="Controllers\Filters\VersionAttribute.cs" />
     <Compile Include="Controllers\HelpController.cs" />

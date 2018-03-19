@@ -255,18 +255,13 @@ namespace HelpRequest.Controllers
         [ValidateInput(false)]
         public ActionResult PublicSubmit(Ticket ticket, string[] avDates, string[] emailCCs, HttpPostedFileBase uploadAttachment, string appName, string passedSubject, string availableDatesInput, string emailCCsInput)
         {
-            //HttpWebRequest http = (HttpWebRequest)WebRequest.Create(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", ConfigurationManager.AppSettings["NewRecaptchaPrivateKey"]));
-            //WebResponse response = http.GetResponse();
-
-            //MemoryStream stream = response.GetResponseStream();
-            //StreamReader sr = new StreamReader(stream);
-            //string content = sr.ReadToEnd();
             var captchaValid = false;
             var response = Request.Form["g-Recaptcha-Response"];
-            var client = new WebClient();
-            var text = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", ConfigurationManager.AppSettings["NewRecaptchaPrivateKey"], response));
-            captchaValid = text.Contains("\"success\": true");
-
+            using (var client = new WebClient())
+            {
+                var text = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", ConfigurationManager.AppSettings["NewRecaptchaPrivateKey"], response));
+                captchaValid = text.Contains("\"success\": true");
+            }
 
             if(!captchaValid)
             {
